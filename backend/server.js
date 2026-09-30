@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://viprotech-digital10-1.onrender.com"
+    "https://vprotech-digital.onrender.com"
   ],
   credentials: true,
 }));
