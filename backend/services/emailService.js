@@ -1,4 +1,3 @@
-import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -7,12 +6,12 @@ dotenv.config();
 // ENVIRONMENT CHECK
 // ============================================
 
-if (!process.env.EMAIL_USER) {
-  console.error("❌ EMAIL_USER is missing in .env");
+if (!process.env.RESEND_API_KEY) {
+  console.error("❌ RESEND_API_KEY is missing in .env");
 }
 
-if (!process.env.EMAIL_PASSWORD) {
-  console.error("❌ EMAIL_PASSWORD is missing in .env");
+if (!process.env.EMAIL_FROM) {
+  console.error("❌ EMAIL_FROM is missing in .env");
 }
 
 if (!process.env.CLIENT_URL) {
@@ -20,37 +19,18 @@ if (!process.env.CLIENT_URL) {
 }
 
 // ============================================
-// SMTP TRANSPORTER
+// RESEND HTTPS EMAIL API
+// ============================================
+//
+// Resend uses HTTPS instead of SMTP.
+// This works with Render Free because it does
+// not connect to SMTP ports 25/465/587.
+//
+// Example:
+// EMAIL_FROM="VProTech Digital <hello@yourdomain.com>"
 // ============================================
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT) || 587,
-  secure: false,
-  family: 4,
-
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 60000,
-});
-
-// ============================================
-// VERIFY SMTP CONNECTION
-// ============================================
-
-transporter.verify((error) => {
-  if (error) {
-    console.error("❌ SMTP connection failed:");
-    console.error(error.message);
-  } else {
-    console.log("✅ SMTP server is ready to send emails");
-  }
-});
+const RESEND_API_URL = "https://api.resend.com/emails";
 
 // ============================================
 // COMMON SEND EMAIL FUNCTION
@@ -70,20 +50,57 @@ export const sendEmail = async (to, subject, html) => {
       throw new Error("Email HTML content is required");
     }
 
-    const info = await transporter.sendMail({
-      from: `"VProTech Digital" <${process.env.EMAIL_USER}>`,
-      to,
-      subject,
-      html,
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY is not configured");
+    }
+
+    if (!process.env.EMAIL_FROM) {
+      throw new Error("EMAIL_FROM is not configured");
+    }
+
+    console.log(`📧 Sending email to: ${to}`);
+    console.log(`📧 Subject: ${subject}`);
+
+    const response = await fetch(RESEND_API_URL, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      },
+
+      body: JSON.stringify({
+        from: process.env.EMAIL_FROM,
+        to: [to],
+        subject,
+        html,
+      }),
     });
+
+    let result;
+
+    try {
+      result = await response.json();
+    } catch {
+      result = {};
+    }
+
+    if (!response.ok) {
+      const errorMessage =
+        result?.message ||
+        result?.error ||
+        `Resend API returned HTTP ${response.status}`;
+
+      throw new Error(errorMessage);
+    }
 
     console.log(`✅ Email sent successfully to: ${to}`);
     console.log(`📧 Subject: ${subject}`);
-    console.log(`📧 Message ID: ${info.messageId}`);
+    console.log(`📧 Resend Message ID: ${result?.id || "N/A"}`);
 
     return {
       success: true,
-      messageId: info.messageId,
+      messageId: result?.id || null,
     };
   } catch (error) {
     console.error(`❌ Email sending failed to: ${to}`);
