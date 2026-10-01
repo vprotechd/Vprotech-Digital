@@ -13,7 +13,7 @@ import DomainsCourses from "./DomainsCourses";
 
 import img1 from "../assets/img4.jpg";
 import img3 from "../assets/img7.jpg";
-import img6 from "../assets/img6.jpeg";
+import img6 from "../assets/img6.jpg";
 
 import "./CoursesPage.css";
 

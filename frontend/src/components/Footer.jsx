@@ -194,20 +194,7 @@ export default function Footer() {
           All Rights Reserved.
         </p>
 
-        <div className="footer-bottom-links">
-
-          <Link to="/privacy-policy">
-            Privacy Policy
-          </Link>
-
-          <span>|</span>
-
-          <Link to="/terms">
-            Terms &amp; Conditions
-          </Link>
-
-        </div>
-
+     
       </div>
 
     </footer>

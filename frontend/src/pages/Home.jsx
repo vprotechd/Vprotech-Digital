@@ -12,6 +12,7 @@ import WhyChooseUsSection from "../components/sections/WhyChooseUsSection";
 import IndustriesSection from "../components/sections/IndustriesSection";
 import HomeCTASection from "../components/sections/HomeCTASection";
 import OffersPopup from "../components/OffersPopup";
+import JourneySection from "../components/sections/JourneySection";
 
 // CSS
 import "./Home.css";
@@ -90,6 +91,10 @@ export default function Home() {
       ===================================================== */}
 
       <LogoSliderSection />
+
+
+
+      <JourneySection />
 
 
       {/* =====================================================

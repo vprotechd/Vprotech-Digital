@@ -1,35 +1,35 @@
-/* =========================================================
-   VPROTECH DIGITAL
-   PROFESSIONAL & MODERN FOOTER
-   ========================================================= */
+/* =====================================================
+   FOOTER
+===================================================== */
 
 .footer {
-  width: 100%;
+  position: relative;
   background: #07111f;
   color: #ffffff;
-  font-family: Arial, Helvetica, sans-serif;
-  box-sizing: border-box;
-  position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* =========================================================
-   SUBTLE BACKGROUND DESIGN
-   ========================================================= */
+
+/* =====================================================
+   SUBTLE BACKGROUND EFFECT
+===================================================== */
 
 .footer::before {
   content: "";
   position: absolute;
 
-  width: 450px;
-  height: 450px;
+  width: 420px;
+  height: 420px;
 
-  top: -280px;
-  right: -160px;
+  top: -220px;
+  left: -180px;
 
-  border-radius: 50%;
-
-  background: rgba(37, 99, 235, 0.07);
+  background: radial-gradient(
+    circle,
+    rgba(37, 99, 235, 0.13),
+    transparent 70%
+  );
 
   pointer-events: none;
 }
@@ -38,103 +38,107 @@
   content: "";
   position: absolute;
 
-  width: 350px;
-  height: 350px;
+  width: 400px;
+  height: 400px;
 
-  bottom: -250px;
-  left: -150px;
+  bottom: -230px;
+  right: -150px;
 
-  border-radius: 50%;
-
-  background: rgba(37, 99, 235, 0.05);
+  background: radial-gradient(
+    circle,
+    rgba(37, 99, 235, 0.09),
+    transparent 70%
+  );
 
   pointer-events: none;
 }
 
 
-/* =========================================================
-   MAIN FOOTER CONTAINER
-   ========================================================= */
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
 
 .footer-container {
-  width: 100%;
-  max-width: 1440px;
-
-  margin: 0 auto;
-
-  padding: 78px 7% 65px;
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(300px, 1.8fr)
-    minmax(180px, 1fr)
-    minmax(260px, 1.3fr);
-
-  gap: 70px;
-
-  box-sizing: border-box;
-
   position: relative;
   z-index: 1;
+
+  width: min(1180px, calc(100% - 50px));
+  margin: 0 auto;
+
+  padding: 65px 0;
+
+  display: grid;
+  grid-template-columns: 1.7fr 1fr 1.4fr;
+
+  gap: 70px;
 }
 
 
-/* =========================================================
-   BRAND SECTION
-   ========================================================= */
+/* =====================================================
+   BRAND
+===================================================== */
 
 .footer-brand {
-  max-width: 450px;
+  max-width: 390px;
 }
 
 
-/* =========================================================
+/* =====================================================
    LOGO
-   ========================================================= */
+===================================================== */
 
 .footer-logo {
-  width: 180px;
-  height: 72px;
+  width: 175px;
+  max-width: 100%;
+  height: auto;
 
   display: block;
 
   object-fit: contain;
-  object-position: left center;
 
-  margin-bottom: 20px;
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.footer-logo:hover {
+  transform: translateY(-4px) scale(1.03);
+
+  filter:
+    drop-shadow(
+      0 8px 18px rgba(37, 99, 235, 0.28)
+    );
 }
 
 
-/* =========================================================
+/* =====================================================
    DESCRIPTION
-   ========================================================= */
+===================================================== */
 
 .footer-description {
-  margin: 0;
+  margin: 22px 0 25px;
 
-  max-width: 410px;
+  color: #a8b3c3;
 
-  color: #9ba9bb;
+  font-size: 14px;
+  line-height: 1.8;
 
-  font-size: 14.5px;
-  line-height: 1.85;
+  transition: color 0.3s ease;
+}
 
-  font-weight: 400;
+.footer-description:hover {
+  color: #d6deea;
 }
 
 
-/* =========================================================
+/* =====================================================
    SOCIAL MEDIA
-   ========================================================= */
+===================================================== */
 
 .footer-socials {
   display: flex;
   align-items: center;
-
   gap: 11px;
-
-  margin-top: 28px;
 }
 
 
@@ -146,105 +150,148 @@
   align-items: center;
   justify-content: center;
 
-  background: #0c1829;
+  border: 1px solid rgba(255, 255, 255, 0.13);
 
-  border: 1px solid #243348;
+  border-radius: 12px;
 
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
 
-  color: #aebaca;
+  color: #b8c3d2;
+
+  font-size: 18px;
 
   text-decoration: none;
 
-  font-size: 17px;
-
   transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 
-.social-icon:hover {
-  background: #2563eb;
+/* LinkedIn */
 
-  border-color: #2563eb;
+.social-icon:nth-child(1):hover {
+  background: #0a66c2;
+  border-color: #0a66c2;
+  color: #ffffff;
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 8px 20px rgba(10, 102, 194, 0.28);
+}
+
+
+/* Facebook */
+
+.social-icon:nth-child(2):hover {
+  background: #1877f2;
+  border-color: #1877f2;
+  color: #ffffff;
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 8px 20px rgba(24, 119, 242, 0.28);
+}
+
+
+/* Instagram */
+
+.social-icon:nth-child(3):hover {
+  background: linear-gradient(
+    135deg,
+    #833ab4,
+    #fd1d1d,
+    #fcb045
+  );
+
+  border-color: transparent;
 
   color: #ffffff;
 
-  transform: translateY(-4px);
+  transform: translateY(-5px);
 
   box-shadow:
-    0 8px 20px rgba(37, 99, 235, 0.22);
+    0 8px 22px rgba(225, 48, 108, 0.25);
 }
 
 
-/* =========================================================
+.social-icon:active {
+  transform: translateY(-2px) scale(0.96);
+}
+
+
+/* =====================================================
    FOOTER COLUMNS
-   ========================================================= */
+===================================================== */
 
 .footer-column {
   min-width: 0;
 }
 
 
-/* =========================================================
-   COLUMN HEADINGS
-   ========================================================= */
-
 .footer-column h3 {
-  margin: 5px 0 26px;
+  position: relative;
+
+  margin: 0 0 25px;
 
   color: #ffffff;
 
   font-size: 16px;
-
-  font-weight: 600;
-
-  letter-spacing: 0.2px;
-
-  position: relative;
+  font-weight: 700;
 }
 
 
-/* Professional heading underline */
+/* Small animated line under heading */
 
 .footer-column h3::after {
   content: "";
 
   display: block;
 
-  width: 30px;
+  width: 28px;
   height: 2px;
 
-  margin-top: 10px;
-
-  background: #2563eb;
+  margin-top: 9px;
 
   border-radius: 10px;
+
+  background: #3b82f6;
+
+  transition:
+    width 0.3s ease;
+}
+
+.footer-column:hover h3::after {
+  width: 52px;
 }
 
 
-/* =========================================================
+/* =====================================================
    QUICK LINKS
-   ========================================================= */
+===================================================== */
 
 .footer-link {
-  width: 175px;
+  position: relative;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  color: #9ba9bb;
+  width: 175px;
+
+  margin-bottom: 15px;
+
+  color: #9eabbc;
 
   text-decoration: none;
 
   font-size: 14px;
-
-  margin-bottom: 17px;
+  font-weight: 500;
 
   transition:
     color 0.25s ease,
@@ -252,21 +299,47 @@
 }
 
 
+/* Animated underline */
+
+.footer-link::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -4px;
+
+  width: 0;
+  height: 1px;
+
+  background: #3b82f6;
+
+  transition: width 0.3s ease;
+}
+
+
 .footer-link:hover {
   color: #ffffff;
 
-  transform: translateX(4px);
+  transform: translateX(6px);
+}
+
+
+.footer-link:hover::before {
+  width: calc(100% - 25px);
 }
 
 
 /* Arrow */
 
 .footer-link svg {
-  font-size: 13px;
-
   opacity: 0;
 
-  transform: translate(-4px, 4px);
+  transform: translate(-6px, 5px);
+
+  color: #60a5fa;
+
+  font-size: 15px;
 
   transition:
     opacity 0.25s ease,
@@ -281,405 +354,196 @@
 }
 
 
-/* =========================================================
-   CONTACT SECTION
-   ========================================================= */
+/* =====================================================
+   CONTACT ITEMS
+===================================================== */
 
 .contact-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 
-  gap: 12px;
+  gap: 13px;
 
-  color: #9ba9bb;
+  margin-bottom: 17px;
+
+  color: #a8b3c3;
 
   text-decoration: none;
 
-  font-size: 13.5px;
+  font-size: 14px;
+  line-height: 1.5;
 
-  line-height: 1.6;
-
-  margin-bottom: 18px;
-
-  transition: color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
 
 .contact-item:hover {
   color: #ffffff;
+
+  transform: translateX(5px);
 }
 
 
-/* =========================================================
+/* =====================================================
    CONTACT ICON
-   ========================================================= */
+===================================================== */
 
 .contact-icon {
-  flex: 0 0 34px;
+  flex-shrink: 0;
 
-  width: 34px;
-  height: 34px;
+  width: 39px;
+  height: 39px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #0c1829;
+  border-radius: 11px;
 
-  border: 1px solid #243348;
+  background: rgba(37, 99, 235, 0.08);
 
-  border-radius: 9px;
+  border: 1px solid rgba(59, 130, 246, 0.14);
 
-  color: #6ea0ff;
+  color: #60a5fa;
 
-  font-size: 14px;
+  font-size: 16px;
 
   transition:
-    background 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease;
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 
 .contact-item:hover .contact-icon {
   background: #2563eb;
 
-  border-color: #2563eb;
-
   color: #ffffff;
 
-  transform: translateY(-2px);
+  transform: scale(1.08);
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.25);
 }
 
 
-/* =========================================================
+/* =====================================================
    BOTTOM FOOTER
-   ========================================================= */
+===================================================== */
 
 .footer-bottom {
-  width: 86%;
-  max-width: 1440px;
+  position: relative;
+  z-index: 1;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.footer-bottom p {
+  width: min(1180px, calc(100% - 50px));
 
   margin: 0 auto;
 
-  padding: 23px 0 27px;
-
-  border-top: 1px solid #1d2b3d;
+  min-height: 70px;
 
   display: flex;
-
   align-items: center;
-
-  justify-content: space-between;
-
-  gap: 20px;
-
-  flex-wrap: wrap;
-
-  position: relative;
-  z-index: 1;
-}
-
-
-/* =========================================================
-   COPYRIGHT
-   ========================================================= */
-
-.footer-bottom p {
-  margin: 0;
+  justify-content: center;
 
   color: #718096;
 
-  font-size: 12.5px;
+  font-size: 12px;
 
-  line-height: 1.6;
+  transition: color 0.3s ease;
 }
 
 
-/* =========================================================
-   BOTTOM LINKS
-   ========================================================= */
-
-.footer-bottom-links {
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
+.footer-bottom p:hover {
+  color: #aeb9c9;
 }
 
 
-.footer-bottom-links a {
-  color: #7f8da0;
-
-  text-decoration: none;
-
-  font-size: 12.5px;
-
-  transition: color 0.25s ease;
-}
-
-
-.footer-bottom-links a:hover {
-  color: #ffffff;
-}
-
-
-.footer-bottom-links span {
-  color: #334155;
-}
-
-
-/* =========================================================
-   LARGE DESKTOP
-   ========================================================= */
-
-@media (min-width: 1500px) {
-  .footer-container {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .footer-bottom {
-    width: 100%;
-  }
-}
-
-
-/* =========================================================
-   LAPTOP
-   ========================================================= */
-
-@media (max-width: 1200px) {
-  .footer-container {
-    grid-template-columns:
-      1.7fr
-      1fr
-      1.2fr;
-
-    gap: 45px;
-
-    padding-left: 5%;
-    padding-right: 5%;
-  }
-
-  .footer-bottom {
-    width: 90%;
-  }
-}
-
-
-/* =========================================================
-   TABLET
-   ========================================================= */
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media (max-width: 900px) {
+
   .footer-container {
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns:
+      1.5fr
+      1fr;
 
-    gap: 45px 35px;
-
-    padding: 60px 6% 50px;
+    gap: 45px;
   }
 
   .footer-brand {
-    grid-column: 1 / -1;
-
-    max-width: 650px;
-  }
-
-  .footer-description {
+    grid-column: span 2;
     max-width: 600px;
   }
 
-  .footer-bottom {
-    width: 88%;
-  }
 }
 
 
-/* =========================================================
-   SMALL TABLET
-   ========================================================= */
+@media (max-width: 650px) {
 
-@media (max-width: 700px) {
   .footer-container {
+    width: calc(100% - 35px);
+
+    padding: 50px 0;
+
     grid-template-columns: 1fr;
 
-    gap: 35px;
-
-    padding: 52px 6% 45px;
+    gap: 38px;
   }
 
   .footer-brand {
     grid-column: auto;
-  }
 
-  .footer-column {
-    width: 100%;
-  }
-
-  .footer-column h3 {
-    margin-bottom: 22px;
-  }
-
-  .footer-bottom {
-    width: 88%;
-
-    align-items: flex-start;
-  }
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-  .footer-container {
-    padding: 48px 6% 40px;
-
-    gap: 34px;
-  }
-
-  .footer-logo {
-    width: 165px;
-    height: 66px;
-
-    margin-bottom: 18px;
-  }
-
-  .footer-description {
-    font-size: 14px;
-
-    line-height: 1.75;
-  }
-
-  .footer-socials {
-    margin-top: 23px;
-  }
-
-  .social-icon {
-    width: 40px;
-    height: 40px;
-
-    border-radius: 9px;
-
-    font-size: 16px;
+    max-width: 100%;
   }
 
   .footer-column h3 {
-    font-size: 15.5px;
-
-    margin-bottom: 21px;
+    margin-bottom: 20px;
   }
 
   .footer-link {
     width: 190px;
-
-    font-size: 14px;
-
-    margin-bottom: 15px;
   }
 
-  .contact-item {
-    font-size: 13.5px;
+  .footer-bottom p {
+    width: calc(100% - 35px);
 
-    margin-bottom: 15px;
+    min-height: 65px;
+
+    text-align: center;
+
+    line-height: 1.6;
   }
 
-  .contact-icon {
-    width: 32px;
-    height: 32px;
-
-    flex-basis: 32px;
-  }
-
-  .footer-bottom {
-    width: 88%;
-
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 14px;
-
-    padding: 20px 0 22px;
-  }
-
-  .footer-bottom-links {
-    flex-wrap: wrap;
-
-    gap: 9px;
-  }
 }
 
 
-/* =========================================================
-   SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 420px) {
-  .footer-container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+@media (max-width: 400px) {
 
   .footer-logo {
     width: 150px;
-    height: 62px;
   }
 
   .footer-description {
-    font-size: 13.5px;
+    font-size: 13px;
   }
 
-  .footer-column h3 {
-    font-size: 15px;
-  }
-
-  .footer-link {
-    font-size: 13.5px;
+  .social-icon {
+    width: 39px;
+    height: 39px;
   }
 
   .contact-item {
     font-size: 13px;
   }
 
-  .footer-bottom {
-    width: calc(100% - 40px);
-  }
-
-  .footer-bottom p,
-  .footer-bottom-links a {
-    font-size: 12px;
-  }
-}
-
-
-/* =========================================================
-   ACCESSIBILITY
-   ========================================================= */
-
-.footer a:focus-visible {
-  outline: 2px solid #60a5fa;
-
-  outline-offset: 3px;
-
-  border-radius: 4px;
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .footer *,
-  .footer *::before,
-  .footer *::after {
-    transition: none !important;
-    animation: none !important;
-  }
 }
