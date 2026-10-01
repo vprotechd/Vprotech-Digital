@@ -1,0 +1,349 @@
+.offers-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, 0.68);
+
+  backdrop-filter: blur(7px);
+
+  animation: offerOverlayIn 0.3s ease;
+}
+
+.offers-popup {
+  position: relative;
+
+  width: min(900px, 100%);
+
+  display: grid;
+  grid-template-columns: 45% 55%;
+
+  overflow: hidden;
+
+  background: white;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.3);
+
+  animation: offerPopupIn 0.4s ease;
+}
+
+.offers-popup-close {
+  position: absolute;
+
+  top: 15px;
+  right: 15px;
+
+  z-index: 5;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  color: #111;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.offers-popup-close:hover {
+  transform: scale(1.05);
+}
+
+.offers-popup-image {
+  position: relative;
+
+  min-height: 440px;
+
+  overflow: hidden;
+}
+
+.offers-popup-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.offers-popup-placeholder {
+  width: 100%;
+  height: 100%;
+
+  min-height: 440px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #111827;
+
+  color: white;
+}
+
+.offers-popup-discount {
+  position: absolute;
+
+  top: 20px;
+  left: 20px;
+
+  padding: 9px 14px;
+
+  background: #ef4444;
+
+  color: white;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.offers-popup-content {
+  padding: 55px 45px 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.offers-popup-label {
+  display: inline-flex;
+
+  width: fit-content;
+
+  padding: 7px 12px;
+
+  border-radius: 20px;
+
+  background: #f3f4f6;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.7px;
+
+  margin-bottom: 15px;
+}
+
+.offers-popup-content h2 {
+  margin: 0 0 8px;
+
+  font-size: 34px;
+
+  line-height: 1.15;
+}
+
+.offers-popup-content h3 {
+  margin: 0 0 16px;
+
+  font-size: 20px;
+
+  font-weight: 700;
+}
+
+.offers-popup-content p {
+  margin: 0 0 22px;
+
+  color: #666;
+
+  line-height: 1.7;
+
+  font-size: 15px;
+}
+
+.offers-popup-price {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 25px;
+}
+
+.old-price {
+  color: #999;
+
+  font-size: 18px;
+
+  text-decoration: line-through;
+}
+
+.new-price {
+  font-size: 32px;
+
+  font-weight: 900;
+}
+
+.offers-popup-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  width: fit-content;
+
+  padding: 13px 22px;
+
+  border-radius: 10px;
+
+  background: #111827;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-weight: 700;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.offers-popup-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.offers-popup-navigation {
+  position: absolute;
+
+  bottom: 18px;
+  right: 30px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.offers-popup-navigation > button {
+  width: 32px;
+  height: 32px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #f1f1f1;
+
+  cursor: pointer;
+
+  font-size: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.offer-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.offer-dots button {
+  width: 7px;
+  height: 7px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #ccc;
+
+  cursor: pointer;
+}
+
+.offer-dots button.active {
+  width: 20px;
+
+  border-radius: 10px;
+
+  background: #111827;
+}
+
+@keyframes offerOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes offerPopupIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 700px) {
+  .offers-popup {
+    grid-template-columns: 1fr;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+  }
+
+  .offers-popup-image {
+    min-height: 200px;
+
+    height: 200px;
+  }
+
+  .offers-popup-placeholder {
+    min-height: 200px;
+  }
+
+  .offers-popup-content {
+    padding: 30px 25px 55px;
+  }
+
+  .offers-popup-content h2 {
+    font-size: 26px;
+  }
+
+  .offers-popup-content h3 {
+    font-size: 18px;
+  }
+
+  .new-price {
+    font-size: 27px;
+  }
+
+  .offers-popup-navigation {
+    bottom: 12px;
+    right: 20px;
+  }
+}

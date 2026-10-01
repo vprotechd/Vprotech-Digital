@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { userService, contactAdminService } from "../services/api";
 import { teamService } from "../services/api";
 import ConfirmDialog from "../components/common/ConfirmDialog"; 
+import AdminOffers from "./admin/AdminOffers";
+
 // Add these to your existing imports
 import { 
   Briefcase as JobIcon, 
@@ -47,7 +49,8 @@ import {
   Clock,
   UserPlus,
   Search,
-  Filter 
+  Filter ,
+    Tag,
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom"
@@ -177,6 +180,8 @@ const fetchBlogs = async () => {
     setBlogsLoading(false);
   }
 };
+
+
 
 
 // ===== JOB APPLICATIONS FUNCTIONS =====
@@ -575,6 +580,14 @@ const filteredApplications = applications.filter(app => {
             <span>Blogs</span>
           </button>
 
+
+<button
+  onClick={() => navigate("/admin/offers")}
+  className={location.pathname === "/admin/offers" ? "active" : ""}
+>
+  <Tag size={20} />
+  <span>Offers</span>
+</button>
 
           <button 
   className={`nav-item ${activeTab === "applications" ? "active" : ""}`}

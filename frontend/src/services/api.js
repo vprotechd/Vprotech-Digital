@@ -65,7 +65,22 @@ export const authService = {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   },
+
+  verifyEmail: async (token) => {
+  const response = await api.get(`/auth/verify-email/${token}`);
+  return response.data;
+},
+
+resendVerification: async (email) => {
+  const response = await api.post("/auth/resend-verification", {
+    email: email.trim().toLowerCase(),
+  });
+  return response.data;
+},
 };
+
+
+
 
 // ============ USER SERVICES (ADMIN) ============
 export const userService = {
@@ -460,6 +475,43 @@ export const jobService = {
   // Toggle job status (admin only)
   toggleJobStatus: async (id) => {
     const response = await api.put(`/jobs/${id}/toggle-status`);
+    return response.data;
+  },
+};
+
+export const offerService = {
+  getPopupOffers: async () => {
+    const response = await api.get("/offers/popup");
+    return response.data;
+  },
+
+  getAdminOffers: async () => {
+    const response = await api.get("/offers/admin/all");
+    return response.data;
+  },
+
+  createOffer: async (data) => {
+    const response = await api.post("/offers", data);
+    return response.data;
+  },
+
+  updateOffer: async (id, data) => {
+    const response = await api.put(`/offers/${id}`, data);
+    return response.data;
+  },
+
+  deleteOffer: async (id) => {
+    const response = await api.delete(`/offers/${id}`);
+    return response.data;
+  },
+
+  toggleStatus: async (id) => {
+    const response = await api.patch(`/offers/${id}/toggle`);
+    return response.data;
+  },
+
+  togglePopup: async (id) => {
+    const response = await api.patch(`/offers/${id}/toggle-popup`);
     return response.data;
   },
 };

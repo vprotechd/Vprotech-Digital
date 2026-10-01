@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from "../services/api";
+import { authService } from "../services/api";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
@@ -136,35 +137,33 @@ export default function Register() {
     }
   };
 
-  const resendVerification = async () => {
-    try {
-      const response = await fetch(
-        `${API_URL}/auth/resend-verification`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: registeredEmail,
-          }),
-        }
+ const resendVerification = async () => {
+  if (!registeredEmail) {
+    toast.error("No registered email found");
+    return;
+  }
+
+  try {
+    const response = await authService.resendVerification(
+      registeredEmail
+    );
+
+    if (response.success) {
+      toast.success(
+        "Verification email resent! Please check your inbox."
       );
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success("Verification email resent!");
-      } else {
-        toast.error(
-          data.message || "Failed to resend verification email"
-        );
-      }
-    } catch (error) {
-      toast.error("Network error. Please try again.");
+    } else {
+      toast.error(
+        response.message || "Failed to resend verification email"
+      );
     }
-  };
-
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+        "Failed to resend verification email"
+    );
+  }
+};
   /* =========================================================
      VERIFICATION SCREEN
   ========================================================= */

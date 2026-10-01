@@ -193,23 +193,6 @@ export default function Navbar() {
             )}
 
 
-            {/* =================================================
-                REGISTER INTERNSHIP
-                ================================================= */}
-
-            <li>
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  `nav-link internship-link ${
-                    isActive ? "active" : ""
-                  }`
-                }
-                onClick={closeMenu}
-              >
-                Register For Internship
-              </NavLink>
-            </li>
 
 
             {/* =================================================
@@ -263,6 +246,8 @@ export default function Navbar() {
                 Courses
               </NavLink>
             </li>
+
+            
 
 
             {/* =================================================
@@ -356,11 +341,11 @@ export default function Navbar() {
               </button>
 
               <Link
-                to="/contact"
+                to="/register"
                 className="mobile-start-button"
                 onClick={closeMenu}
               >
-                <span>Get Started</span>
+                <span>Register For Internship</span>
                 <ArrowUpRight size={17} />
               </Link>
 
@@ -399,10 +384,10 @@ export default function Navbar() {
             {/* GET STARTED */}
 
             <Link
-              to="/contact"
+              to="/register"
               className="get-started-button"
             >
-              <span>Get Started</span>
+              <span>Register For Internship</span>
 
               <ArrowUpRight size={17} />
             </Link>

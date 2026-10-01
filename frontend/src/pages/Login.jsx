@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import { authService } from "../services/api";
 import {
   Mail,
   Lock,
@@ -51,19 +52,9 @@ export default function Login() {
     setResending(true);
 
     try {
-      const response = await fetch(
-        `${API_URL}/auth/resend-verification`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: unverifiedEmail,
-          }),
-        }
-      );
-
+  const response = await authService.resendVerification(
+  unverifiedEmail
+);
       const data = await response.json();
 
       if (data.success) {

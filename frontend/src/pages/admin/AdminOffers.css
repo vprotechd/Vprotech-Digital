@@ -1,0 +1,655 @@
+/* ================================
+   ADMIN OFFERS PAGE
+================================ */
+
+.admin-offers {
+  min-height: calc(100vh - 90px);
+  padding: 110px 36px 50px;
+  background: #f7f9fc;
+  box-sizing: border-box;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.admin-offers-header {
+  max-width: 1280px;
+  margin: 0 auto 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 16px;
+  border: 1px solid #e8edf5;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+.admin-offers-header h2 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #17233d;
+}
+
+.admin-offers-header p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Add Offer */
+
+.offer-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.offer-add-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.22);
+}
+
+/* ================================
+   FORM
+================================ */
+
+.offer-form-card {
+  max-width: 1280px;
+  margin: 0 auto 28px;
+
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 16px;
+
+  padding: 28px;
+
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+.offer-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+
+  border-bottom: 1px solid #edf0f5;
+}
+
+.offer-form-header h3 {
+  margin: 0;
+  color: #17233d;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.offer-close-btn {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #f3f4f6;
+  color: #4b5563;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.offer-close-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ================================
+   FORM GRID
+================================ */
+
+.offer-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.offer-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.offer-field.full {
+  grid-column: 1 / -1;
+}
+
+.offer-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.offer-field input,
+.offer-field select,
+.offer-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 11px 13px;
+
+  border: 1px solid #d9e0ea;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #17233d;
+
+  font-size: 14px;
+  font-family: inherit;
+
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.offer-field input,
+.offer-field select {
+  height: 44px;
+}
+
+.offer-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.offer-field input:focus,
+.offer-field select:focus,
+.offer-field textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+}
+
+.offer-field input::placeholder,
+.offer-field textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* ================================
+   CHECKBOXES
+================================ */
+
+.offer-checkboxes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+
+  margin-top: 24px;
+  padding: 16px;
+
+  background: #f8fafc;
+  border: 1px solid #e8edf5;
+  border-radius: 10px;
+}
+
+.offer-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+
+  cursor: pointer;
+}
+
+.offer-checkboxes input {
+  width: 17px;
+  height: 17px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* ================================
+   FORM BUTTONS
+================================ */
+
+.offer-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 24px;
+  padding-top: 20px;
+
+  border-top: 1px solid #edf0f5;
+}
+
+.offer-cancel-btn,
+.offer-save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 42px;
+  padding: 10px 18px;
+
+  border-radius: 9px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.offer-cancel-btn {
+  border: 1px solid #d8dee8;
+  background: #ffffff;
+  color: #4b5563;
+}
+
+.offer-cancel-btn:hover {
+  background: #f3f4f6;
+}
+
+.offer-save-btn {
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.offer-save-btn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 5px 14px rgba(37, 99, 235, 0.2);
+}
+
+/* ================================
+   OFFER LIST
+================================ */
+
+.offer-list {
+  max-width: 1280px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* ================================
+   EMPTY / LOADING
+================================ */
+
+.offer-empty {
+  grid-column: 1 / -1;
+
+  min-height: 280px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  padding: 40px;
+
+  background: #ffffff;
+  border: 1px solid #e8edf5;
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+.offer-empty h3 {
+  margin: 0 0 8px;
+
+  font-size: 20px;
+  color: #17233d;
+}
+
+.offer-empty p {
+  margin: 0;
+  color: #6b7280;
+}
+
+/* ================================
+   OFFER CARD
+================================ */
+
+.offer-admin-card {
+  display: flex;
+  min-height: 245px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 15px;
+
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+
+  transition: all 0.25s ease;
+}
+
+.offer-admin-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.09);
+}
+
+/* ================================
+   OFFER IMAGE
+================================ */
+
+.offer-admin-image {
+  position: relative;
+
+  width: 220px;
+  min-width: 220px;
+
+  overflow: hidden;
+  background: #eef2f7;
+}
+
+.offer-admin-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.offer-no-image {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1e40af
+  );
+
+  color: #ffffff;
+
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.offer-discount {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+
+  padding: 6px 9px;
+
+  border-radius: 6px;
+
+  background: #ef4444;
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ================================
+   OFFER CONTENT
+================================ */
+
+.offer-admin-content {
+  flex: 1;
+  min-width: 0;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-admin-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.offer-admin-top h3 {
+  margin: 0;
+
+  color: #17233d;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.offer-admin-top p {
+  margin: 5px 0 0;
+
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status {
+  flex-shrink: 0;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status.inactive {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.offer-admin-description {
+  margin: 14px 0 10px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+  line-height: 1.55;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+/* ================================
+   PRICES
+================================ */
+
+.offer-prices {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: auto;
+  margin-bottom: 14px;
+}
+
+.offer-prices .original {
+  color: #9ca3af;
+
+  font-size: 13px;
+  text-decoration: line-through;
+}
+
+.offer-prices .offer-price {
+  color: #17233d;
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* ================================
+   CARD ACTIONS
+================================ */
+
+.offer-admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.offer-admin-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  padding: 7px 10px;
+
+  border: 1px solid #dce2ea;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #374151;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.offer-admin-actions button:hover {
+  background: #f3f6fa;
+  border-color: #cbd5e1;
+}
+
+.offer-admin-actions button.delete {
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.offer-admin-actions button.delete:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+  .offer-list {
+    grid-template-columns: 1fr;
+  }
+
+  .offer-admin-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-offers {
+    padding: 100px 18px 35px;
+  }
+
+  .admin-offers-header {
+    padding: 20px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .offer-add-btn {
+    width: 100%;
+  }
+
+  .offer-form-card {
+    padding: 20px;
+  }
+
+  .offer-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .offer-field.full {
+    grid-column: auto;
+  }
+
+  .offer-admin-card {
+    flex-direction: column;
+  }
+
+  .offer-admin-image {
+    width: 100%;
+    height: 190px;
+  }
+
+  .offer-admin-content {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-offers {
+    padding: 95px 12px 25px;
+  }
+
+  .admin-offers-header h2 {
+    font-size: 23px;
+  }
+
+  .offer-form-actions {
+    flex-direction: column;
+  }
+
+  .offer-cancel-btn,
+  .offer-save-btn {
+    width: 100%;
+  }
+
+  .offer-checkboxes {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .offer-admin-actions button {
+    flex: 1;
+  }
+}

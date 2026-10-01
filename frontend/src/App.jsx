@@ -42,6 +42,8 @@ import Innovation from "./pages/Innovation";
 import SmartStrategy from "./pages/SmartStrategy";
 import TrustedTechnology from "./pages/TrustedTechnology";
 import CoursesPage from "./pages/CoursesPage";
+import AdminOffers from "./pages/admin/AdminOffers";
+import OffersPopup from "./components/OffersPopup";
 
 function App() {
  const [loading, setLoading] = useState(true);
@@ -101,7 +103,7 @@ function App() {
             },
           }}
         />
-
+  <OffersPopup />
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
@@ -209,6 +211,15 @@ function App() {
       <AdminJobs />
     </ProtectedRoute>
   } 
+/>
+
+<Route
+  path="/admin/offers"
+  element={
+    <ProtectedRoute adminOnly>
+      <AdminOffers />
+    </ProtectedRoute>
+  }
 />
 
 <Route 
