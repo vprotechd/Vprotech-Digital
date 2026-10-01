@@ -46,47 +46,24 @@ import roboticsImage from "../assets/images/courses/robotics.jpg";
 
 const courseImages = {
   "c-cpp": cCppImage,
-
   "web-designing": webDesigningImage,
-
   "digital-marketing": digitalMarketingImage,
-
   "java-python": javaPythonImage,
-
   javascript: javascriptImage,
-
   "machine-learning": machineLearningImage,
-
   iot: iotImage,
-
   networking: networkingImage,
-
   "data-science": dataScienceImage,
-
-  "artificial-intelligence":
-    artificialIntelligenceImage,
-
-  "autocad-mechanical":
-    autocadMechanicalImage,
-
-  "autocad-civil":
-    autocadCivilImage,
-
+  "artificial-intelligence": artificialIntelligenceImage,
+  "autocad-mechanical": autocadMechanicalImage,
+  "autocad-civil": autocadCivilImage,
   solidworks: solidworksImage,
-
   catia: catiaImage,
-
   creo: creoImage,
-
   "staad-pro": staadProImage,
-
   revit: revitImage,
-
   matlab: matlabImage,
-
-  "embedded-system":
-    embeddedSystemImage,
-
+  "embedded-system": embeddedSystemImage,
   robotics: roboticsImage,
 };
 
@@ -100,25 +77,14 @@ const getCourseImage = (offer) => {
   }
 
   const image = offer.image || "";
+  const slug = offer.courseSlug || "";
 
-  const slug =
-    offer.courseSlug ||
-    "";
-
-  // ----------------------------------------------------
-  // If database contains old Vite /src path
-  // use imported image instead.
-  // ----------------------------------------------------
-
+  // Old Vite source path
   if (image.startsWith("/src/")) {
     return courseImages[slug] || "";
   }
 
-  // ----------------------------------------------------
-  // If image doesn't exist but courseSlug exists
-  // use local imported image.
-  // ----------------------------------------------------
-
+  // No image but course slug exists
   if (!image && slug) {
     return courseImages[slug] || "";
   }
@@ -132,69 +98,69 @@ const getCourseImage = (offer) => {
 
 const OffersPopup = () => {
   const [offers, setOffers] = useState([]);
-
-  const [currentIndex, setCurrentIndex] =
-    useState(0);
-
-  const [visible, setVisible] =
-    useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   // ====================================================
-  // TIMER REF
+  // TIMER REFERENCES
   // ====================================================
 
-  const repeatTimerRef =
-    useRef(null);
+  const repeatTimerRef = useRef(null);
+  const firstPopupTimerRef = useRef(null);
 
   // ====================================================
   // LOAD OFFERS
   // ====================================================
 
   useEffect(() => {
-    let firstPopupTimer;
+    let cancelled = false;
 
     const loadOffers = async () => {
       try {
         const response =
           await offerService.getPopupOffers();
 
+        // Prevent old async request from updating
+        // component after cleanup
+        if (cancelled) {
+          return;
+        }
+
         const activeOffers =
           Array.isArray(response.data)
             ? response.data
             : [];
 
-        // ------------------------------------------------
-        // No active offers
-        // ------------------------------------------------
-
         if (activeOffers.length === 0) {
           return;
         }
 
-        // ------------------------------------------------
-        // Store offers
-        // ------------------------------------------------
-
+        // Store all offers
         setOffers(activeOffers);
 
-        // ------------------------------------------------
-        // ALWAYS SHOW FIRST POPUP AFTER 5 SECONDS
-        //
-        // No sessionStorage is used.
-        // Therefore refresh = popup again.
-        // ------------------------------------------------
+        // Start from first offer
+        setCurrentIndex(0);
 
-        firstPopupTimer =
+        // =================================================
+        // SHOW POPUP AFTER 5 SECONDS
+        // =================================================
+
+        firstPopupTimerRef.current =
           setTimeout(() => {
-            setCurrentIndex(0);
+            if (cancelled) {
+              return;
+            }
 
+            setCurrentIndex(0);
             setVisible(true);
           }, 5000);
       } catch (error) {
-        console.error(
-          "Failed to load offers:",
-          error
-        );
+        if (!cancelled) {
+          console.error(
+            "Failed to load offers:",
+            error
+          );
+        }
       }
     };
 
@@ -205,19 +171,56 @@ const OffersPopup = () => {
     // ====================================================
 
     return () => {
-      if (firstPopupTimer) {
+      cancelled = true;
+
+      if (firstPopupTimerRef.current) {
         clearTimeout(
-          firstPopupTimer
+          firstPopupTimerRef.current
         );
+
+        firstPopupTimerRef.current = null;
       }
 
       if (repeatTimerRef.current) {
         clearTimeout(
           repeatTimerRef.current
         );
+
+        repeatTimerRef.current = null;
       }
     };
   }, []);
+
+  // ====================================================
+  // AUTO SLIDE THROUGH ALL OFFERS
+  // ====================================================
+
+  useEffect(() => {
+    // Do nothing when popup is hidden
+    if (!visible) {
+      return;
+    }
+
+    // Do nothing if there is only one offer
+    if (offers.length <= 1) {
+      return;
+    }
+
+    // Change offer every 3 seconds
+    const autoSlideTimer = setInterval(() => {
+      setCurrentIndex((previous) => {
+        return (
+          (previous + 1) %
+          offers.length
+        );
+      });
+    }, 3000);
+
+    // Cleanup interval
+    return () => {
+      clearInterval(autoSlideTimer);
+    };
+  }, [visible, offers.length]);
 
   // ====================================================
   // CLOSE POPUP
@@ -227,21 +230,22 @@ const OffersPopup = () => {
     // Hide popup
     setVisible(false);
 
-    // Clear any previous repeat timer
+    // Clear previous repeat timer
     if (repeatTimerRef.current) {
       clearTimeout(
         repeatTimerRef.current
       );
+
+      repeatTimerRef.current = null;
     }
 
     // ==================================================
-    // SHOW POPUP AGAIN AFTER 10 SECONDS
+    // SHOW AGAIN AFTER 10 SECONDS
     // ==================================================
 
     repeatTimerRef.current =
       setTimeout(() => {
         setCurrentIndex(0);
-
         setVisible(true);
       }, 10000);
   };
@@ -333,10 +337,6 @@ const OffersPopup = () => {
                 "Course offer"
               }
               onError={(event) => {
-                // ----------------------------------------
-                // FALLBACK IMAGE
-                // ----------------------------------------
-
                 const fallback =
                   courseImages[
                     offer.courseSlug
@@ -344,8 +344,8 @@ const OffersPopup = () => {
 
                 if (
                   fallback &&
-                  event.currentTarget
-                    .src !== fallback
+                  event.currentTarget.src !==
+                    fallback
                 ) {
                   event.currentTarget.src =
                     fallback;
@@ -358,17 +358,13 @@ const OffersPopup = () => {
             </div>
           )}
 
-          {/* =================================================
-              DISCOUNT
-          ================================================== */}
+          {/* DISCOUNT */}
 
-          {offer.discountPercentage >
-            0 && (
+          {Number(
+            offer.discountPercentage
+          ) > 0 && (
             <div className="offers-popup-discount">
-              {
-                offer.discountPercentage
-              }
-              % OFF
+              {offer.discountPercentage}% OFF
             </div>
           )}
 
@@ -438,9 +434,7 @@ const OffersPopup = () => {
 
           <div className="offers-popup-buttons">
 
-            {/* ------------------------------------------------
-                VIEW COURSE
-            ------------------------------------------------- */}
+            {/* VIEW COURSE */}
 
             <a
               href={
@@ -452,23 +446,16 @@ const OffersPopup = () => {
               {offer.buttonText ||
                 "View Course"}
 
-              <ArrowRight
-                size={18}
-              />
+              <ArrowRight size={18} />
             </a>
 
-            {/* ------------------------------------------------
-                REGISTER NOW
-            ------------------------------------------------- */}
+            {/* REGISTER NOW */}
 
             <a
               href="/register"
               className="offers-popup-register-button"
             >
-              <UserPlus
-                size={18}
-              />
-
+              <UserPlus size={18} />
               Register Now
             </a>
 
