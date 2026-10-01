@@ -42,7 +42,10 @@ export const AuthProvider = ({ children }) => {
   // In AuthContext.jsx, update the login function
 const login = async (email, password) => {
   try {
-    const response = await authService.login({ email, password });
+   const response = await authService.login({
+  email: email.trim().toLowerCase(),
+  password,
+});
     if (response.success) {
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));

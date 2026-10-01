@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { API_URL } from "../services/api";
+
 import { authService } from "../services/api";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
@@ -33,6 +33,7 @@ export default function Register() {
   const { register } = useAuth();
 
   const [loading, setLoading] = useState(false);
+
   const [showVerificationMessage, setShowVerificationMessage] =
     useState(false);
 
@@ -50,6 +51,10 @@ export default function Register() {
     confirmPassword: "",
   });
 
+  // ============================================
+  // LEARNING DOMAINS
+  // ============================================
+
   const domains = [
     "Web Development",
     "Mobile App Development",
@@ -65,6 +70,10 @@ export default function Register() {
     "Other",
   ];
 
+  // ============================================
+  // HANDLE INPUT CHANGE
+  // ============================================
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -72,13 +81,18 @@ export default function Register() {
     });
   };
 
+  // ============================================
+  // HANDLE REGISTRATION
+  // ============================================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate required fields
     if (
-      !formData.name ||
-      !formData.email ||
-      !formData.phone ||
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.phone.trim() ||
       !formData.domain ||
       !formData.password
     ) {
@@ -86,11 +100,13 @@ export default function Register() {
       return;
     }
 
+    // Validate password length
     if (formData.password.length < 6) {
       toast.error("Password must be at least 6 characters");
       return;
     }
 
+    // Validate password confirmation
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -98,27 +114,32 @@ export default function Register() {
 
     setLoading(true);
 
+    // Remove confirmPassword before sending to backend
     const { confirmPassword, ...registerData } = formData;
 
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(registerData),
+      const result = await register({
+        ...registerData,
+        name: registerData.name.trim(),
+        email: registerData.email.trim().toLowerCase(),
+        phone: registerData.phone.trim(),
       });
 
-      const data = await response.json();
+      // ============================================
+      // REGISTRATION SUCCESS
+      // ============================================
 
-      if (data.success) {
-        setRegisteredEmail(formData.email);
+      if (result.success) {
+        const email = registerData.email.trim().toLowerCase();
+
+        setRegisteredEmail(email);
         setShowVerificationMessage(true);
 
         toast.success(
           "Registration successful! Please check your email."
         );
 
+        // Clear form
         setFormData({
           name: "",
           email: "",
@@ -128,45 +149,61 @@ export default function Register() {
           confirmPassword: "",
         });
       } else {
-        toast.error(data.message || "Registration failed");
+        // ============================================
+        // REGISTRATION FAILED
+        // ============================================
+
+        toast.error(result.error || "Registration failed");
       }
     } catch (error) {
-      toast.error("Network error. Please try again.");
+      console.error("Registration error:", error);
+
+      toast.error(
+        error.response?.data?.message ||
+          "Registration failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
- const resendVerification = async () => {
-  if (!registeredEmail) {
-    toast.error("No registered email found");
-    return;
-  }
+  // ============================================
+  // RESEND VERIFICATION EMAIL
+  // ============================================
 
-  try {
-    const response = await authService.resendVerification(
-      registeredEmail
-    );
+  const resendVerification = async () => {
+    if (!registeredEmail) {
+      toast.error("No registered email found");
+      return;
+    }
 
-    if (response.success) {
-      toast.success(
-        "Verification email resent! Please check your inbox."
-      );
-    } else {
+    try {
+      const email = registeredEmail.trim().toLowerCase();
+
+      const response = await authService.resendVerification(email);
+
+      if (response.success) {
+        toast.success(
+          "Verification email resent! Please check your inbox."
+        );
+      } else {
+        toast.error(
+          response.message || "Failed to resend verification email"
+        );
+      }
+    } catch (error) {
+      console.error("Resend verification error:", error);
+
       toast.error(
-        response.message || "Failed to resend verification email"
+        error.response?.data?.message ||
+          "Failed to resend verification email"
       );
     }
-  } catch (error) {
-    toast.error(
-      error.response?.data?.message ||
-        "Failed to resend verification email"
-    );
-  }
-};
-  /* =========================================================
-     VERIFICATION SCREEN
-  ========================================================= */
+  };
+
+  // ============================================
+  // VERIFICATION SCREEN
+  // ============================================
 
   if (showVerificationMessage) {
     return (
@@ -175,7 +212,9 @@ export default function Register() {
 
         <div className="register-background">
           <div className="register-gradient-orb register-gradient-one"></div>
+
           <div className="register-gradient-orb register-gradient-two"></div>
+
           <div className="register-grid-pattern"></div>
         </div>
 
@@ -222,6 +261,7 @@ export default function Register() {
 
           <div className="register-verification-actions">
             <button
+              type="button"
               onClick={resendVerification}
               className="register-resend-btn"
             >
@@ -242,9 +282,9 @@ export default function Register() {
     );
   }
 
-  /* =========================================================
-     REGISTER PAGE
-  ========================================================= */
+  // ============================================
+  // REGISTER PAGE
+  // ============================================
 
   return (
     <div className="register-page">
@@ -261,9 +301,9 @@ export default function Register() {
 
       <div className="register-layout">
 
-        {/* =====================================================
+        {/* ==========================================
             LEFT SHOWCASE
-        ===================================================== */}
+        ========================================== */}
 
         <motion.aside
           className="register-showcase"
@@ -292,6 +332,7 @@ export default function Register() {
 
             <div className="register-showcase-features">
 
+              {/* Feature 1 */}
               <div className="register-showcase-feature">
                 <div className="register-showcase-feature-icon">
                   <GraduationCap size={20} />
@@ -299,12 +340,14 @@ export default function Register() {
 
                 <div>
                   <strong>Learn Practical Skills</strong>
+
                   <span>
                     Learn technologies used in real projects
                   </span>
                 </div>
               </div>
 
+              {/* Feature 2 */}
               <div className="register-showcase-feature">
                 <div className="register-showcase-feature-icon">
                   <Briefcase size={20} />
@@ -312,12 +355,14 @@ export default function Register() {
 
                 <div>
                   <strong>Become Industry Ready</strong>
+
                   <span>
                     Build knowledge for your professional journey
                   </span>
                 </div>
               </div>
 
+              {/* Feature 3 */}
               <div className="register-showcase-feature">
                 <div className="register-showcase-feature-icon">
                   <Code2 size={20} />
@@ -325,6 +370,7 @@ export default function Register() {
 
                 <div>
                   <strong>Choose Your Domain</strong>
+
                   <span>
                     Select the technology you want to explore
                   </span>
@@ -340,9 +386,9 @@ export default function Register() {
           </div>
         </motion.aside>
 
-        {/* =====================================================
+        {/* ==========================================
             RIGHT REGISTER PANEL
-        ===================================================== */}
+        ========================================== */}
 
         <motion.main
           className="register-panel"
@@ -623,7 +669,7 @@ export default function Register() {
 
               </div>
 
-              {/* Security note */}
+              {/* Security Note */}
 
               <div className="register-security-note">
 

@@ -52,12 +52,10 @@ export default function Login() {
     setResending(true);
 
     try {
-  const response = await authService.resendVerification(
-  unverifiedEmail
+const data = await authService.resendVerification(
+  unverifiedEmail.trim().toLowerCase()
 );
-      const data = await response.json();
-
-      if (data.success) {
+if (data.success) {
         toast.success(
           "Verification email resent! Please check your inbox."
         );

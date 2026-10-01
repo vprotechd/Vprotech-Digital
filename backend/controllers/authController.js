@@ -2,8 +2,15 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import crypto from "node:crypto";
 import generateToken from "../utils/generateToken.js";
+
+import {
+  sendVerificationEmail,
+  sendVerificationSuccessEmail,
+  sendPasswordResetEmail,
+  sendPasswordResetConfirmation,
+} from "../services/emailService.js";
 
 
 // ============ REGISTER WITH AUTO-VERIFICATION ============
@@ -134,19 +141,21 @@ const register = asyncHandler(async (req, res) => {
 });
 
 // controllers/authController.js - Fix verifyEmail
+// ============ VERIFY EMAIL ============
 
 const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.params;
 
-  console.log("🔍 Verifying email with token:", token);
-  console.log("🔍 Token length:", token.length);
-
+  // Check token
   if (!token) {
     res.status(400);
     throw new Error("No verification token provided");
   }
 
-  // Hash the token to compare with stored hash
+  console.log("🔍 Verifying email with token:", token);
+  console.log("🔍 Token length:", token.length);
+
+  // Hash the token to compare with the stored hash
   const verificationTokenHash = crypto
     .createHash("sha256")
     .update(token)
@@ -154,53 +163,83 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
   console.log("🔍 Hashed token:", verificationTokenHash);
 
-  // Find user with matching token and not expired
+  // Find user with matching token and valid expiry
   const user = await User.findOne({
     verificationToken: verificationTokenHash,
     verificationTokenExpires: { $gt: Date.now() },
   });
 
+  // Token not found or expired
   if (!user) {
-    console.log("❌ No user found with this token");
-    
-    // Check if token exists but expired
+    console.log("❌ No valid user found with this token");
+
+    // Check whether the token exists but has expired
     const expiredUser = await User.findOne({
       verificationToken: verificationTokenHash,
     });
-    
+
     if (expiredUser) {
-      console.log("⚠️ Token found but expired:", expiredUser.email);
+      console.log(
+        "⚠️ Verification token expired:",
+        expiredUser.email
+      );
+
       res.status(400);
-      throw new Error("Verification link has expired. Please request a new one.");
+      throw new Error(
+        "Verification link has expired. Please request a new one."
+      );
     }
-    
+
     res.status(400);
     throw new Error("Invalid verification token");
   }
 
   console.log("✅ User found:", user.email);
 
-  // Update user
+  // Mark account as verified and active
   user.isVerified = true;
   user.isActive = true;
+
+  // Remove verification token after successful verification
   user.verificationToken = undefined;
   user.verificationTokenExpires = undefined;
+
+  // Store verification date
   user.verifiedAt = new Date();
+
   await user.save();
 
-  console.log("✅ Email verified for:", user.email);
+  console.log("✅ Email verified successfully:", user.email);
 
-  // Send verification success email
-  await sendVerificationSuccessEmail(user.email, user.name);
+  // Send confirmation email
+  // IMPORTANT:
+  // If this email fails, the account remains verified.
+  const successEmailResult = await sendVerificationSuccessEmail(
+    user.email,
+    user.name
+  );
 
-  res.json({
+  if (!successEmailResult?.success) {
+    console.warn(
+      "⚠️ Account verified, but confirmation email failed:",
+      successEmailResult?.error || "Unknown email error"
+    );
+  } else {
+    console.log(
+      "📧 Verification success email sent to:",
+      user.email
+    );
+  }
+
+  return res.status(200).json({
     success: true,
     message: "Email verified successfully! You can now login.",
   });
 });
+// ============ RESEND VERIFICATION EMAIL ============
+// ============ RESEND VERIFICATION EMAIL ============
+// ============ RESEND VERIFICATION EMAIL ============
 
-// ============ RESEND VERIFICATION EMAIL ============
-// ============ RESEND VERIFICATION EMAIL ============
 const resendVerificationEmail = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
@@ -213,7 +252,10 @@ const resendVerificationEmail = asyncHandler(async (req, res) => {
 
   const normalizedEmail = email.trim().toLowerCase();
 
-  console.log("📧 Resend verification requested:", normalizedEmail);
+  console.log(
+    "📧 Resend verification requested:",
+    normalizedEmail
+  );
 
   const user = await User.findOne({
     email: normalizedEmail,
@@ -234,34 +276,40 @@ const resendVerificationEmail = asyncHandler(async (req, res) => {
   }
 
   // Generate a new verification token
-  const verificationToken = crypto.randomBytes(32).toString("hex");
+  const verificationToken = crypto
+    .randomBytes(32)
+    .toString("hex");
 
-  // Hash token before storing it
+  // Store only hashed token
   const verificationTokenHash = crypto
     .createHash("sha256")
     .update(verificationToken)
     .digest("hex");
 
   user.verificationToken = verificationTokenHash;
+
   user.verificationTokenExpires =
     Date.now() + 24 * 60 * 60 * 1000;
 
   await user.save();
 
-  // Create new verification URL
+  // Create verification URL
   const verificationUrl =
     `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
 
-  console.log("🔗 New verification URL generated for:", normalizedEmail);
+  console.log(
+    "🔗 New verification URL generated for:",
+    normalizedEmail
+  );
 
-  // Send email
+  // Send verification email
   const emailResult = await sendVerificationEmail(
     normalizedEmail,
     verificationUrl,
     user.name
   );
 
-  if (!emailResult || !emailResult.success) {
+  if (!emailResult?.success) {
     console.error(
       "❌ Resend verification email failed:",
       emailResult?.error || "Unknown email error"
