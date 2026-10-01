@@ -11,7 +11,7 @@ import ProcessSection from "../components/sections/ProcessSection";
 import WhyChooseUsSection from "../components/sections/WhyChooseUsSection";
 import IndustriesSection from "../components/sections/IndustriesSection";
 import HomeCTASection from "../components/sections/HomeCTASection";
-import OffersPopup from "../components/OffersPopup";
+
 
 // CSS
 import "./Home.css";
@@ -46,7 +46,7 @@ export default function Home() {
     <main className="home-page">
 
 
-      <OffersPopup />
+    
 
 
       {/* =====================================================
