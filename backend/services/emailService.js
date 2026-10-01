@@ -24,18 +24,21 @@ if (!process.env.CLIENT_URL) {
 // ============================================
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: process.env.SMTP_HOST,
   port: 465,
   secure: true,
 
+  // Force IPv4
+  family: 4,
+
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 
   connectionTimeout: 30000,
   greetingTimeout: 30000,
-  socketTimeout: 30000,
+  socketTimeout: 60000,
 });
 
 // ============================================
