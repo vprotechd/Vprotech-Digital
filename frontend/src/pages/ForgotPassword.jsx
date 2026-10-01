@@ -145,15 +145,7 @@ export default function ForgotPassword() {
 
           <div className="forgot-showcase-top">
 
-            <div className="forgot-showcase-label">
-
-              <Sparkles size={15} />
-
-              <span>
-                VPROTECH DIGITAL
-              </span>
-
-            </div>
+            
 
 
             <h1>

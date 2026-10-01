@@ -148,10 +148,7 @@ if (data.success) {
 
           <div className="showcase-top">
 
-            <div className="showcase-label">
-              <Sparkles size={15} />
-              <span>WELCOME TO VPROTECH DIGITAL</span>
-            </div>
+           
 
             <h1>
               Build.

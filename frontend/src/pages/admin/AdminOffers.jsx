@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import {
   Plus,
   Pencil,
@@ -10,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { offerService } from "../../services/api";
+import { toast, Toaster } from "react-hot-toast";
 
 // ============================================
 // COURSE IMAGES
@@ -469,37 +469,85 @@ const AdminOffers = () => {
   // ==========================================
   // DELETE OFFER
   // ==========================================
+const handleDelete = async (id) => {
+  toast(
+    (t) => (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          minWidth: "280px",
+        }}
+      >
+        <strong>
+          Are you sure you want to delete this offer?
+        </strong>
 
-  const handleDelete = async (id) => {
-    const confirmed =
-      window.confirm(
-        "Are you sure you want to delete this offer?"
-      );
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            justifyContent: "flex-end",
+          }}
+        >
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            style={{
+              padding: "7px 14px",
+              border: "1px solid #ddd",
+              borderRadius: "6px",
+              background: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            Cancel
+          </button>
 
-    if (!confirmed) {
-      return;
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+
+              try {
+                await offerService.deleteOffer(id);
+
+                toast.success(
+                  "Offer deleted successfully"
+                );
+
+                await fetchOffers();
+              } catch (error) {
+                console.error(
+                  "Failed to delete offer:",
+                  error
+                );
+
+                toast.error(
+                  error.response?.data?.message ||
+                    "Failed to delete offer"
+                );
+              }
+            }}
+            style={{
+              padding: "7px 14px",
+              border: "none",
+              borderRadius: "6px",
+              background: "#ef4444",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ),
+    {
+      duration: Infinity,
+      position: "top-right",
     }
-
-    try {
-      await offerService.deleteOffer(id);
-
-      toast.success(
-        "Offer deleted successfully"
-      );
-
-      await fetchOffers();
-    } catch (error) {
-      console.error(
-        "Failed to delete offer:",
-        error
-      );
-
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to delete offer"
-      );
-    }
-  };
+  );
+};
 
   // ==========================================
   // TOGGLE ACTIVE STATUS
@@ -559,6 +607,12 @@ const AdminOffers = () => {
 
   return (
     <div className="admin-offers">
+      <Toaster
+  position="top-right"
+  toastOptions={{
+    duration: 3000,
+  }}
+/>
 
       {/* =====================================
           HEADER

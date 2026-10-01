@@ -313,10 +313,7 @@ export default function Register() {
         >
           <div className="register-showcase-top">
 
-            <div className="register-showcase-label">
-              <Sparkles size={13} />
-              CREATE YOUR ACCOUNT
-            </div>
+            
 
             <h1>
               Build your
