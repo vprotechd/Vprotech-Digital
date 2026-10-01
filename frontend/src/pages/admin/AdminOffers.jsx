@@ -10,7 +10,37 @@ import {
 } from "lucide-react";
 
 import { offerService } from "../../services/api";
+
+// ============================================
+// COURSE IMAGES
+// ============================================
+
+import cCppImage from "../../assets/images/courses/c-cpp.jpg";
+import webDesigningImage from "../../assets/images/courses/web-designing.jpg";
+import digitalMarketingImage from "../../assets/images/courses/digital-marketing.jpg";
+import javaPythonImage from "../../assets/images/courses/java-python.jpg";
+import javascriptImage from "../../assets/images/courses/javascript.jpg";
+import machineLearningImage from "../../assets/images/courses/machine-learning.jpg";
+import iotImage from "../../assets/images/courses/iot.jpg";
+import networkingImage from "../../assets/images/courses/networking.jpg";
+import dataScienceImage from "../../assets/images/courses/data-science.jpg";
+import artificialIntelligenceImage from "../../assets/images/courses/artificial-intelligence.jpg";
+import autocadMechanicalImage from "../../assets/images/courses/autocad-mechanical.jpg";
+import autocadCivilImage from "../../assets/images/courses/autocad-civil.jpg";
+import solidworksImage from "../../assets/images/courses/solidworks.jpg";
+import catiaImage from "../../assets/images/courses/catia.jpg";
+import creoImage from "../../assets/images/courses/creo.jpg";
+import staadProImage from "../../assets/images/courses/staad-pro.jpg";
+import revitImage from "../../assets/images/courses/revit.jpg";
+import matlabImage from "../../assets/images/courses/matlab.jpg";
+import embeddedSystemImage from "../../assets/images/courses/embedded-system.jpg";
+import roboticsImage from "../../assets/images/courses/robotics.jpg";
+
 import "./AdminOffers.css";
+
+// ============================================
+// EMPTY FORM
+// ============================================
 
 const emptyForm = {
   title: "",
@@ -30,108 +60,156 @@ const emptyForm = {
   priority: 0,
 };
 
+// ============================================
+// COURSES
+// IMPORTANT:
+// Do NOT use "/src/assets/..." here.
+// Vite imported image variables are used instead.
+// ============================================
+
 const courses = [
   {
     name: "C/C++",
     slug: "c-cpp",
-    image: "/src/assets/images/courses/c-cpp.jpg",
+    image: cCppImage,
   },
   {
     name: "Web Designing",
     slug: "web-designing",
-    image: "/src/assets/images/courses/web-designing.jpg",
+    image: webDesigningImage,
   },
   {
     name: "Digital Marketing",
     slug: "digital-marketing",
-    image: "/src/assets/images/courses/digital-marketing.jpg",
+    image: digitalMarketingImage,
   },
   {
     name: "Java & Python",
     slug: "java-python",
-    image: "/src/assets/images/courses/java-python.jpg",
+    image: javaPythonImage,
   },
   {
     name: "JavaScript",
     slug: "javascript",
-    image: "/src/assets/images/courses/javascript.jpg",
+    image: javascriptImage,
   },
   {
     name: "Machine Learning",
     slug: "machine-learning",
-    image: "/src/assets/images/courses/machine-learning.jpg",
+    image: machineLearningImage,
   },
   {
     name: "IoT",
     slug: "iot",
-    image: "/src/assets/images/courses/iot.jpg",
+    image: iotImage,
   },
   {
     name: "Networking",
     slug: "networking",
-    image: "/src/assets/images/courses/networking.jpg",
+    image: networkingImage,
   },
   {
     name: "Data Science",
     slug: "data-science",
-    image: "/src/assets/images/courses/data-science.jpg",
+    image: dataScienceImage,
   },
   {
     name: "Artificial Intelligence",
     slug: "artificial-intelligence",
-    image: "/src/assets/images/courses/artificial-intelligence.jpg",
+    image: artificialIntelligenceImage,
   },
   {
     name: "AutoCAD Mechanical",
     slug: "autocad-mechanical",
-    image: "/src/assets/images/courses/autocad-mechanical.jpg",
+    image: autocadMechanicalImage,
   },
   {
     name: "AutoCAD Civil",
     slug: "autocad-civil",
-    image: "/src/assets/images/courses/autocad-civil.jpg",
+    image: autocadCivilImage,
   },
   {
     name: "SolidWorks",
     slug: "solidworks",
-    image: "/src/assets/images/courses/solidworks.jpg",
+    image: solidworksImage,
   },
   {
     name: "CATIA",
     slug: "catia",
-    image: "/src/assets/images/courses/catia.jpg",
+    image: catiaImage,
   },
   {
     name: "Creo",
     slug: "creo",
-    image: "/src/assets/images/courses/creo.jpg",
+    image: creoImage,
   },
   {
     name: "STAAD Pro",
     slug: "staad-pro",
-    image: "/src/assets/images/courses/staad-pro.jpg",
+    image: staadProImage,
   },
   {
     name: "Revit",
     slug: "revit",
-    image: "/src/assets/images/courses/revit.jpg",
+    image: revitImage,
   },
   {
     name: "MATLAB",
     slug: "matlab",
-    image: "/src/assets/images/courses/matlab.jpg",
+    image: matlabImage,
   },
   {
     name: "Embedded System",
     slug: "embedded-system",
-    image: "/src/assets/images/courses/embedded-system.jpg",
+    image: embeddedSystemImage,
   },
   {
     name: "Robotics",
     slug: "robotics",
-    image: "/src/assets/images/courses/robotics.jpg",
+    image: roboticsImage,
   },
 ];
+
+// ============================================
+// COURSE IMAGE MAP
+// ============================================
+
+const courseImageMap = courses.reduce((map, course) => {
+  map[course.slug] = course.image;
+  return map;
+}, {});
+
+// ============================================
+// GET CORRECT IMAGE
+// Handles both:
+// 1. New Vite-generated image paths
+// 2. Old broken "/src/..." database values
+// ============================================
+
+const getCourseImage = (offer) => {
+  if (!offer) {
+    return "";
+  }
+
+  const image = offer.image || "";
+  const slug = offer.courseSlug || "";
+
+  // If the old broken source path was saved
+  if (image.startsWith("/src/")) {
+    return courseImageMap[slug] || "";
+  }
+
+  // If there is no image but course slug exists
+  if (!image && slug) {
+    return courseImageMap[slug] || "";
+  }
+
+  return image;
+};
+
+// ============================================
+// COMPONENT
+// ============================================
 
 const AdminOffers = () => {
   const [offers, setOffers] = useState([]);
@@ -143,16 +221,19 @@ const AdminOffers = () => {
 
   const [form, setForm] = useState(emptyForm);
 
+  // ==========================================
+  // FETCH OFFERS
+  // ==========================================
+
   const fetchOffers = async () => {
     try {
       setLoading(true);
 
-      const response =
-        await offerService.getAdminOffers();
+      const response = await offerService.getAdminOffers();
 
       setOffers(response.data || []);
     } catch (error) {
-      console.error(error);
+      console.error("Failed to load offers:", error);
 
       toast.error(
         error.response?.data?.message ||
@@ -163,13 +244,25 @@ const AdminOffers = () => {
     }
   };
 
+  // ==========================================
+  // INITIAL LOAD
+  // ==========================================
+
   useEffect(() => {
     fetchOffers();
   }, []);
 
+  // ==========================================
+  // HANDLE NORMAL INPUT CHANGE
+  // ==========================================
+
   const handleChange = (e) => {
-    const { name, value, type, checked } =
-      e.target;
+    const {
+      name,
+      value,
+      type,
+      checked,
+    } = e.target;
 
     setForm((previous) => ({
       ...previous,
@@ -179,6 +272,14 @@ const AdminOffers = () => {
           : value,
     }));
   };
+
+  // ==========================================
+  // HANDLE COURSE CHANGE
+  // Automatically fills:
+  // - courseName
+  // - courseSlug
+  // - image
+  // ==========================================
 
   const handleCourseChange = (e) => {
     const selectedName = e.target.value;
@@ -191,7 +292,8 @@ const AdminOffers = () => {
     setForm((previous) => ({
       ...previous,
 
-      courseName: selectedCourse?.name || "",
+      courseName:
+        selectedCourse?.name || "",
 
       courseSlug:
         selectedCourse?.slug || "",
@@ -201,11 +303,22 @@ const AdminOffers = () => {
     }));
   };
 
+  // ==========================================
+  // RESET FORM
+  // ==========================================
+
   const resetForm = () => {
-    setForm(emptyForm);
+    setForm({
+      ...emptyForm,
+    });
+
     setEditingId(null);
     setShowForm(false);
   };
+
+  // ==========================================
+  // SUBMIT OFFER
+  // ==========================================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -229,8 +342,14 @@ const AdminOffers = () => {
               )
             : undefined,
 
-        priority: Number(form.priority || 0),
+        priority: Number(
+          form.priority || 0
+        ),
       };
+
+      // ======================================
+      // UPDATE
+      // ======================================
 
       if (editingId) {
         await offerService.updateOffer(
@@ -241,7 +360,13 @@ const AdminOffers = () => {
         toast.success(
           "Offer updated successfully"
         );
-      } else {
+      }
+
+      // ======================================
+      // CREATE
+      // ======================================
+
+      else {
         await offerService.createOffer(
           payload
         );
@@ -252,9 +377,13 @@ const AdminOffers = () => {
       }
 
       resetForm();
-      fetchOffers();
+
+      await fetchOffers();
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Failed to save offer:",
+        error
+      );
 
       toast.error(
         error.response?.data?.message ||
@@ -263,47 +392,93 @@ const AdminOffers = () => {
     }
   };
 
+  // ==========================================
+  // EDIT OFFER
+  // ==========================================
+
   const handleEdit = (offer) => {
     setEditingId(offer._id);
 
+    /*
+     * IMPORTANT:
+     * If old database data contains:
+     *
+     * /src/assets/images/...
+     *
+     * use the imported Vite image instead.
+     */
+
+    const correctImage =
+      getCourseImage(offer);
+
     setForm({
       title: offer.title || "",
-      courseName: offer.courseName || "",
-      courseSlug: offer.courseSlug || "",
-      description: offer.description || "",
-      image: offer.image || "",
+
+      courseName:
+        offer.courseName || "",
+
+      courseSlug:
+        offer.courseSlug || "",
+
+      description:
+        offer.description || "",
+
+      image:
+        correctImage || "",
+
       originalPrice:
         offer.originalPrice || "",
+
       offerPrice:
         offer.offerPrice || "",
+
       discountPercentage:
         offer.discountPercentage || "",
+
       buttonText:
-        offer.buttonText || "View Course",
+        offer.buttonText ||
+        "View Course",
+
       buttonLink:
-        offer.buttonLink || "/courses",
+        offer.buttonLink ||
+        "/courses",
+
       isActive:
         offer.isActive ?? true,
+
       showPopup:
         offer.showPopup ?? true,
-      startDate: offer.startDate
-        ? offer.startDate.slice(0, 10)
-        : "",
-      endDate: offer.endDate
-        ? offer.endDate.slice(0, 10)
-        : "",
-      priority: offer.priority || 0,
+
+      startDate:
+        offer.startDate
+          ? offer.startDate.slice(0, 10)
+          : "",
+
+      endDate:
+        offer.endDate
+          ? offer.endDate.slice(0, 10)
+          : "",
+
+      priority:
+        offer.priority || 0,
     });
 
     setShowForm(true);
   };
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this offer?"
-    );
+  // ==========================================
+  // DELETE OFFER
+  // ==========================================
 
-    if (!confirmed) return;
+  const handleDelete = async (id) => {
+    const confirmed =
+      window.confirm(
+        "Are you sure you want to delete this offer?"
+      );
+
+    if (!confirmed) {
+      return;
+    }
 
     try {
       await offerService.deleteOffer(id);
@@ -312,14 +487,23 @@ const AdminOffers = () => {
         "Offer deleted successfully"
       );
 
-      fetchOffers();
+      await fetchOffers();
     } catch (error) {
+      console.error(
+        "Failed to delete offer:",
+        error
+      );
+
       toast.error(
         error.response?.data?.message ||
           "Failed to delete offer"
       );
     }
   };
+
+  // ==========================================
+  // TOGGLE ACTIVE STATUS
+  // ==========================================
 
   const handleToggle = async (id) => {
     try {
@@ -329,14 +513,23 @@ const AdminOffers = () => {
         "Offer status updated"
       );
 
-      fetchOffers();
+      await fetchOffers();
     } catch (error) {
+      console.error(
+        "Failed to update status:",
+        error
+      );
+
       toast.error(
         error.response?.data?.message ||
           "Failed to update status"
       );
     }
   };
+
+  // ==========================================
+  // TOGGLE POPUP
+  // ==========================================
 
   const handleTogglePopup = async (id) => {
     try {
@@ -346,8 +539,13 @@ const AdminOffers = () => {
         "Popup visibility updated"
       );
 
-      fetchOffers();
+      await fetchOffers();
     } catch (error) {
+      console.error(
+        "Failed to update popup:",
+        error
+      );
+
       toast.error(
         error.response?.data?.message ||
           "Failed to update popup"
@@ -355,12 +553,23 @@ const AdminOffers = () => {
     }
   };
 
+  // ==========================================
+  // RENDER
+  // ==========================================
+
   return (
     <div className="admin-offers">
 
+      {/* =====================================
+          HEADER
+      ====================================== */}
+
       <div className="admin-offers-header">
+
         <div>
-          <h2>Course Offers</h2>
+          <h2>
+            Course Offers
+          </h2>
 
           <p>
             Manage promotional offers shown
@@ -371,18 +580,29 @@ const AdminOffers = () => {
         <button
           className="offer-add-btn"
           onClick={() => {
-            setForm(emptyForm);
+            setForm({
+              ...emptyForm,
+            });
+
             setEditingId(null);
             setShowForm(true);
           }}
         >
           <Plus size={18} />
+
           Add Offer
         </button>
+
       </div>
+
+      {/* =====================================
+          FORM
+      ====================================== */}
 
       {showForm && (
         <div className="offer-form-card">
+
+          {/* FORM HEADER */}
 
           <div className="offer-form-header">
 
@@ -393,6 +613,7 @@ const AdminOffers = () => {
             </h3>
 
             <button
+              type="button"
               className="offer-close-btn"
               onClick={resetForm}
             >
@@ -401,11 +622,16 @@ const AdminOffers = () => {
 
           </div>
 
+          {/* FORM */}
+
           <form onSubmit={handleSubmit}>
 
             <div className="offer-form-grid">
 
+              {/* TITLE */}
+
               <div className="offer-field full">
+
                 <label>
                   Offer Title
                 </label>
@@ -418,18 +644,25 @@ const AdminOffers = () => {
                   placeholder="Special Web Development Offer"
                   required
                 />
+
               </div>
 
+              {/* COURSE */}
+
               <div className="offer-field">
+
                 <label>
                   Course
                 </label>
 
                 <select
                   value={form.courseName}
-                  onChange={handleCourseChange}
+                  onChange={
+                    handleCourseChange
+                  }
                   required
                 >
+
                   <option value="">
                     Select Course
                   </option>
@@ -444,10 +677,15 @@ const AdminOffers = () => {
                       </option>
                     )
                   )}
+
                 </select>
+
               </div>
 
+              {/* COURSE SLUG */}
+
               <div className="offer-field">
+
                 <label>
                   Course Slug
                 </label>
@@ -460,9 +698,13 @@ const AdminOffers = () => {
                   placeholder="web-designing"
                   required
                 />
+
               </div>
 
+              {/* ORIGINAL PRICE */}
+
               <div className="offer-field">
+
                 <label>
                   Original Price
                 </label>
@@ -470,15 +712,21 @@ const AdminOffers = () => {
                 <input
                   type="number"
                   name="originalPrice"
-                  value={form.originalPrice}
+                  value={
+                    form.originalPrice
+                  }
                   onChange={handleChange}
                   placeholder="20000"
                   min="0"
                   required
                 />
+
               </div>
 
+              {/* OFFER PRICE */}
+
               <div className="offer-field">
+
                 <label>
                   Offer Price
                 </label>
@@ -486,15 +734,21 @@ const AdminOffers = () => {
                 <input
                   type="number"
                   name="offerPrice"
-                  value={form.offerPrice}
+                  value={
+                    form.offerPrice
+                  }
                   onChange={handleChange}
                   placeholder="9999"
                   min="0"
                   required
                 />
+
               </div>
 
+              {/* DISCOUNT */}
+
               <div className="offer-field">
+
                 <label>
                   Discount %
                 </label>
@@ -510,9 +764,13 @@ const AdminOffers = () => {
                   min="0"
                   max="100"
                 />
+
               </div>
 
+              {/* PRIORITY */}
+
               <div className="offer-field">
+
                 <label>
                   Priority
                 </label>
@@ -524,23 +782,33 @@ const AdminOffers = () => {
                   onChange={handleChange}
                   min="0"
                 />
+
               </div>
 
+              {/* DESCRIPTION */}
+
               <div className="offer-field full">
+
                 <label>
                   Description
                 </label>
 
                 <textarea
                   name="description"
-                  value={form.description}
+                  value={
+                    form.description
+                  }
                   onChange={handleChange}
                   placeholder="Learn modern web development..."
                   rows="4"
                 />
+
               </div>
 
+              {/* IMAGE */}
+
               <div className="offer-field full">
+
                 <label>
                   Image URL
                 </label>
@@ -552,9 +820,52 @@ const AdminOffers = () => {
                   onChange={handleChange}
                   placeholder="/assets/course-image.jpg"
                 />
+
+                {form.image && (
+                  <div
+                    style={{
+                      marginTop: "10px",
+                      borderRadius: "10px",
+                      overflow: "hidden",
+                      maxWidth: "220px",
+                    }}
+                  >
+                    <img
+                      src={form.image}
+                      alt={
+                        form.courseName ||
+                        "Course"
+                      }
+                      style={{
+                        width: "100%",
+                        display: "block",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        const fallback =
+                          courseImageMap[
+                            form.courseSlug
+                          ];
+
+                        if (
+                          fallback &&
+                          e.currentTarget
+                            .src !== fallback
+                        ) {
+                          e.currentTarget.src =
+                            fallback;
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+
               </div>
 
+              {/* BUTTON TEXT */}
+
               <div className="offer-field">
+
                 <label>
                   Button Text
                 </label>
@@ -562,12 +873,19 @@ const AdminOffers = () => {
                 <input
                   type="text"
                   name="buttonText"
-                  value={form.buttonText}
+                  value={
+                    form.buttonText
+                  }
                   onChange={handleChange}
+                  placeholder="View Course"
                 />
+
               </div>
 
+              {/* BUTTON LINK */}
+
               <div className="offer-field">
+
                 <label>
                   Button Link
                 </label>
@@ -575,12 +893,19 @@ const AdminOffers = () => {
                 <input
                   type="text"
                   name="buttonLink"
-                  value={form.buttonLink}
+                  value={
+                    form.buttonLink
+                  }
                   onChange={handleChange}
+                  placeholder="/courses"
                 />
+
               </div>
 
+              {/* START DATE */}
+
               <div className="offer-field">
+
                 <label>
                   Start Date
                 </label>
@@ -588,12 +913,18 @@ const AdminOffers = () => {
                 <input
                   type="date"
                   name="startDate"
-                  value={form.startDate}
+                  value={
+                    form.startDate
+                  }
                   onChange={handleChange}
                 />
+
               </div>
 
+              {/* END DATE */}
+
               <div className="offer-field">
+
                 <label>
                   End Date
                 </label>
@@ -601,38 +932,61 @@ const AdminOffers = () => {
                 <input
                   type="date"
                   name="endDate"
-                  value={form.endDate}
+                  value={
+                    form.endDate
+                  }
                   onChange={handleChange}
                 />
+
               </div>
 
             </div>
 
+            {/* =================================
+                CHECKBOXES
+            ================================== */}
+
             <div className="offer-checkboxes">
 
               <label>
+
                 <input
                   type="checkbox"
                   name="isActive"
-                  checked={form.isActive}
-                  onChange={handleChange}
+                  checked={
+                    form.isActive
+                  }
+                  onChange={
+                    handleChange
+                  }
                 />
 
                 Active Offer
+
               </label>
 
               <label>
+
                 <input
                   type="checkbox"
                   name="showPopup"
-                  checked={form.showPopup}
-                  onChange={handleChange}
+                  checked={
+                    form.showPopup
+                  }
+                  onChange={
+                    handleChange
+                  }
                 />
 
                 Show on Homepage Popup
+
               </label>
 
             </div>
+
+            {/* =================================
+                FORM ACTIONS
+            ================================== */}
 
             <div className="offer-form-actions">
 
@@ -662,14 +1016,28 @@ const AdminOffers = () => {
         </div>
       )}
 
+      {/* =====================================
+          OFFER LIST
+      ====================================== */}
+
       <div className="offer-list">
+
+        {/* LOADING */}
 
         {loading ? (
           <div className="offer-empty">
+
             Loading offers...
+
           </div>
-        ) : offers.length === 0 ? (
+        )
+
+        /* NO OFFERS */
+
+        : offers.length === 0 ? (
+
           <div className="offer-empty">
+
             <h3>
               No offers created yet
             </h3>
@@ -678,141 +1046,231 @@ const AdminOffers = () => {
               Click "Add Offer" to create
               your first course offer.
             </p>
+
           </div>
-        ) : (
-          offers.map((offer) => (
-            <div
-              className="offer-admin-card"
-              key={offer._id}
-            >
 
-              <div className="offer-admin-image">
+        )
 
-                {offer.image ? (
-                  <img
-                    src={offer.image}
-                    alt={offer.courseName}
-                  />
-                ) : (
-                  <div className="offer-no-image">
-                    OFFER
+        /* OFFERS */
+
+        : (
+
+          offers.map((offer) => {
+
+            const imageUrl =
+              getCourseImage(offer);
+
+            return (
+              <div
+                className="offer-admin-card"
+                key={offer._id}
+              >
+
+                {/* =================================
+                    IMAGE
+                ================================== */}
+
+                <div className="offer-admin-image">
+
+                  {imageUrl ? (
+
+                    <img
+                      src={imageUrl}
+                      alt={
+                        offer.courseName ||
+                        "Course offer"
+                      }
+                      onError={(e) => {
+
+                        /*
+                         * If the database contains
+                         * an old/broken image path,
+                         * automatically try the
+                         * correct imported image.
+                         */
+
+                        const fallback =
+                          courseImageMap[
+                            offer.courseSlug
+                          ];
+
+                        if (
+                          fallback &&
+                          e.currentTarget
+                            .src !== fallback
+                        ) {
+                          e.currentTarget.src =
+                            fallback;
+                        } else {
+                          e.currentTarget.style.display =
+                            "none";
+                        }
+                      }}
+                    />
+
+                  ) : (
+
+                    <div className="offer-no-image">
+                      OFFER
+                    </div>
+
+                  )}
+
+                  {offer.discountPercentage >
+                    0 && (
+
+                    <span className="offer-discount">
+
+                      {offer.discountPercentage}
+                      % OFF
+
+                    </span>
+
+                  )}
+
+                </div>
+
+                {/* =================================
+                    CONTENT
+                ================================== */}
+
+                <div className="offer-admin-content">
+
+                  {/* TOP */}
+
+                  <div className="offer-admin-top">
+
+                    <div>
+
+                      <h3>
+                        {offer.title}
+                      </h3>
+
+                      <p>
+                        {offer.courseName}
+                      </p>
+
+                    </div>
+
+                    <span
+                      className={
+                        offer.isActive
+                          ? "status active"
+                          : "status inactive"
+                      }
+                    >
+                      {offer.isActive
+                        ? "Active"
+                        : "Inactive"}
+                    </span>
+
                   </div>
-                )}
 
-                {offer.discountPercentage >
-                  0 && (
-                  <span className="offer-discount">
-                    {offer.discountPercentage}% OFF
-                  </span>
-                )}
+                  {/* DESCRIPTION */}
+
+                  <p className="offer-admin-description">
+                    {offer.description}
+                  </p>
+
+                  {/* PRICES */}
+
+                  <div className="offer-prices">
+
+                    <span className="original">
+                      ₹
+                      {Number(
+                        offer.originalPrice
+                      ).toLocaleString(
+                        "en-IN"
+                      )}
+                    </span>
+
+                    <span className="offer-price">
+                      ₹
+                      {Number(
+                        offer.offerPrice
+                      ).toLocaleString(
+                        "en-IN"
+                      )}
+                    </span>
+
+                  </div>
+
+                  {/* ACTIONS */}
+
+                  <div className="offer-admin-actions">
+
+                    {/* ACTIVE / INACTIVE */}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleToggle(
+                          offer._id
+                        )
+                      }
+                    >
+                      <Power size={16} />
+
+                      {offer.isActive
+                        ? "Disable"
+                        : "Enable"}
+                    </button>
+
+                    {/* POPUP */}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleTogglePopup(
+                          offer._id
+                        )
+                      }
+                    >
+                      {offer.showPopup
+                        ? "Hide Popup"
+                        : "Show Popup"}
+                    </button>
+
+                    {/* EDIT */}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleEdit(
+                          offer
+                        )
+                      }
+                    >
+                      <Pencil size={16} />
+
+                      Edit
+                    </button>
+
+                    {/* DELETE */}
+
+                    <button
+                      type="button"
+                      className="delete"
+                      onClick={() =>
+                        handleDelete(
+                          offer._id
+                        )
+                      }
+                    >
+                      <Trash2 size={16} />
+
+                      Delete
+                    </button>
+
+                  </div>
+
+                </div>
 
               </div>
+            );
+          })
 
-              <div className="offer-admin-content">
-
-                <div className="offer-admin-top">
-
-                  <div>
-                    <h3>
-                      {offer.title}
-                    </h3>
-
-                    <p>
-                      {offer.courseName}
-                    </p>
-                  </div>
-
-                  <span
-                    className={
-                      offer.isActive
-                        ? "status active"
-                        : "status inactive"
-                    }
-                  >
-                    {offer.isActive
-                      ? "Active"
-                      : "Inactive"}
-                  </span>
-
-                </div>
-
-                <p className="offer-admin-description">
-                  {offer.description}
-                </p>
-
-                <div className="offer-prices">
-
-                  <span className="original">
-                    ₹
-                    {Number(
-                      offer.originalPrice
-                    ).toLocaleString("en-IN")}
-                  </span>
-
-                  <span className="offer-price">
-                    ₹
-                    {Number(
-                      offer.offerPrice
-                    ).toLocaleString("en-IN")}
-                  </span>
-
-                </div>
-
-                <div className="offer-admin-actions">
-
-                  <button
-                    onClick={() =>
-                      handleToggle(
-                        offer._id
-                      )
-                    }
-                  >
-                    <Power size={16} />
-
-                    {offer.isActive
-                      ? "Disable"
-                      : "Enable"}
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      handleTogglePopup(
-                        offer._id
-                      )
-                    }
-                  >
-                    {offer.showPopup
-                      ? "Hide Popup"
-                      : "Show Popup"}
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      handleEdit(offer)
-                    }
-                  >
-                    <Pencil size={16} />
-                    Edit
-                  </button>
-
-                  <button
-                    className="delete"
-                    onClick={() =>
-                      handleDelete(
-                        offer._id
-                      )
-                    }
-                  >
-                    <Trash2 size={16} />
-                    Delete
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
-          ))
         )}
 
       </div>
