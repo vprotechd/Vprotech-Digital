@@ -11,6 +11,8 @@ import {
   toggleOfferPopup,
 } from "../controllers/offerController.js";
 
+import { protect, admin } from "../middleware/auth.js";
+
 const router = express.Router();
 
 // =====================================
@@ -23,18 +25,28 @@ router.get("/popup", getPopupOffers);
 // ADMIN
 // =====================================
 
-router.get("/admin/all", getAdminOffers);
+router.get("/admin/all", protect, admin, getAdminOffers);
 
-router.get("/:id", getOfferById);
+router.get("/:id", protect, admin, getOfferById);
 
-router.post("/", createOffer);
+router.post("/", protect, admin, createOffer);
 
-router.put("/:id", updateOffer);
+router.put("/:id", protect, admin, updateOffer);
 
-router.delete("/:id", deleteOffer);
+router.delete("/:id", protect, admin, deleteOffer);
 
-router.patch("/:id/toggle", toggleOfferStatus);
+router.patch(
+  "/:id/toggle",
+  protect,
+  admin,
+  toggleOfferStatus
+);
 
-router.patch("/:id/toggle-popup", toggleOfferPopup);
+router.patch(
+  "/:id/toggle-popup",
+  protect,
+  admin,
+  toggleOfferPopup
+);
 
 export default router;
