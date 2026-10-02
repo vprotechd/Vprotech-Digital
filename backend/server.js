@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 
 import authRoutes from "./routes/authRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
@@ -13,11 +14,23 @@ import { parseFormData } from "./middleware/parseFormData.js";
 import jobRoutes from './routes/jobRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
 import offerRoutes from "./routes/offerRoutes.js";
+import internshipRoutes from "./routes/internshipRoutes.js";
+import testRoutes from "./routes/testRoutes.js";
+import questionRoutes from "./routes/questionRoutes.js";
+import testAttemptRoutes from "./routes/testAttemptRoutes.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+
+app.use(
+  "/uploads",
+  express.static(
+    path.join(process.cwd(), "uploads")
+  )
+);
 
 // Middleware
 app.use(cors({
@@ -41,6 +54,10 @@ app.use("/api/team", teamRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use("/api/offers", offerRoutes);
+app.use("/api/internship", internshipRoutes);
+app.use("/api/tests", testRoutes);
+app.use("/api", questionRoutes);
+app.use("/api/test-attempts", testAttemptRoutes);
 
 // Test route
 app.get("/api/test", (req, res) => {

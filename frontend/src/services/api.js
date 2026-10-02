@@ -9,7 +9,7 @@ const LOCAL_API = "http://localhost:5000/api";
 const PRODUCTION_API = "https://vprotech-digital1.onrender.com/api";
 
 // ✅ Toggle between local and production (change this to switch)
-const USE_LOCAL = false; // 👈 Set to true for local, false for production
+const USE_LOCAL = true; // 👈 Set to true for local, false for production
 
 // ✅ The actual URL being used
 const API_URL = USE_LOCAL ? LOCAL_API : PRODUCTION_API;
@@ -18,11 +18,16 @@ console.log(`🔗 API URL: ${API_URL}`); // ✅ Shows which URL is active
 
 export { API_URL }; 
 // Create axios instance
+
+// const api = axios.create({
+//   baseURL: API_URL,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+
 const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Add token to requests if it exists

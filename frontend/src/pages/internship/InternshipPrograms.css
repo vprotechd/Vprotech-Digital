@@ -1,0 +1,489 @@
+/* =========================================================
+   INTERNSHIP PROGRAMS PAGE
+   ========================================================= */
+
+.internship-programs-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 110px 20px 80px;
+  background: #f8fafc;
+  box-sizing: border-box;
+}
+
+.internship-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.internship-page-header {
+  max-width: 850px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.internship-label {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 8px 18px;
+  border-radius: 50px;
+  background: #fff3e8;
+  color: #f47b20;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.internship-page-header h1 {
+  margin: 0;
+  color: #102a43;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.internship-page-header p {
+  max-width: 720px;
+  margin: 18px auto 0;
+  color: #64748b;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   PROGRAM GRID
+   ========================================================= */
+
+.internship-programs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* =========================================================
+   INTERNSHIP CARD
+   ========================================================= */
+
+.internship-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e8edf3;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(15, 42, 67, 0.07);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.internship-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(244, 123, 32, 0.3);
+  box-shadow: 0 18px 45px rgba(15, 42, 67, 0.13);
+}
+
+/* =========================================================
+   CARD IMAGE
+   ========================================================= */
+
+.internship-card-image {
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  background: #eef2f6;
+}
+
+.internship-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.internship-card:hover .internship-card-image img {
+  transform: scale(1.05);
+}
+
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
+
+.internship-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.internship-card-content h2 {
+  margin: 0 0 12px;
+  color: #102a43;
+  font-size: 22px;
+  line-height: 1.35;
+  font-weight: 750;
+}
+
+.internship-card-content p {
+  margin: 0 0 20px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.65;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* =========================================================
+   CARD INFORMATION
+   ========================================================= */
+
+.internship-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.internship-card-info span {
+  color: #52657a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.internship-card-info strong {
+  color: #102a43;
+  font-weight: 700;
+}
+
+/* =========================================================
+   SKILLS
+   ========================================================= */
+
+.internship-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.internship-skills span {
+  padding: 6px 11px;
+  border: 1px solid #e6ebf1;
+  border-radius: 50px;
+  background: #ffffff;
+  color: #52657a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.internship-view-btn {
+  width: 100%;
+  margin-top: auto;
+  padding: 13px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #f47b20;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.internship-view-btn:hover {
+  background: #dd6812;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(244, 123, 32, 0.25);
+}
+
+.internship-view-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   LOADING / ERROR / EMPTY STATES
+   ========================================================= */
+
+.internship-state {
+  width: 100%;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.internship-state h3 {
+  margin: 0 0 10px;
+  color: #102a43;
+  font-size: 23px;
+}
+
+.internship-state p {
+  max-width: 550px;
+  margin: 0 0 20px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.internship-error {
+  padding: 50px 20px;
+  border: 1px solid #fee2e2;
+  border-radius: 18px;
+  background: #fffafa;
+}
+
+.internship-error h3 {
+  color: #b42318;
+}
+
+.internship-error button {
+  padding: 11px 24px;
+  border: none;
+  border-radius: 9px;
+  background: #f47b20;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.internship-error button:hover {
+  background: #dd6812;
+}
+
+.internship-empty {
+  padding: 50px 20px;
+  border: 1px solid #e5eaf0;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+/* =========================================================
+   LOADER
+   ========================================================= */
+
+.internship-loader {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 18px;
+  border: 4px solid #e8edf3;
+  border-top-color: #f47b20;
+  border-radius: 50%;
+  animation: internshipSpin 0.8s linear infinite;
+}
+
+@keyframes internshipSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   LARGE TABLETS
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .internship-programs-page {
+    padding-top: 100px;
+  }
+
+  .internship-programs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .internship-card-image {
+    height: 200px;
+  }
+}
+
+/* =========================================================
+   TABLETS
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .internship-programs-page {
+    padding: 90px 18px 60px;
+  }
+
+  .internship-page-header {
+    margin-bottom: 40px;
+  }
+
+  .internship-page-header h1 {
+    font-size: 34px;
+  }
+
+  .internship-page-header p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .internship-programs-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    margin: 0 auto;
+    gap: 22px;
+  }
+
+  .internship-card-image {
+    height: 220px;
+  }
+
+  .internship-card-content {
+    padding: 22px;
+  }
+}
+
+/* =========================================================
+   MOBILE PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .internship-programs-page {
+    padding: 80px 14px 45px;
+  }
+
+  .internship-page-header {
+    margin-bottom: 32px;
+  }
+
+  .internship-label {
+    margin-bottom: 11px;
+    padding: 7px 14px;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+
+  .internship-page-header h1 {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .internship-page-header p {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .internship-programs-grid {
+    gap: 18px;
+  }
+
+  .internship-card {
+    border-radius: 16px;
+  }
+
+  .internship-card-image {
+    height: 185px;
+  }
+
+  .internship-card-content {
+    padding: 18px;
+  }
+
+  .internship-card-content h2 {
+    margin-bottom: 9px;
+    font-size: 20px;
+  }
+
+  .internship-card-content p {
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+
+  .internship-card-info {
+    margin-bottom: 16px;
+    padding: 13px;
+  }
+
+  .internship-card-info span {
+    font-size: 13px;
+  }
+
+  .internship-skills {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .internship-skills span {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  .internship-view-btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .internship-state {
+    min-height: 220px;
+    padding: 30px 15px;
+  }
+
+  .internship-state h3 {
+    font-size: 20px;
+  }
+
+  .internship-state p {
+    font-size: 14px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+  .internship-programs-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .internship-page-header h1 {
+    font-size: 25px;
+  }
+
+  .internship-page-header p {
+    font-size: 13px;
+  }
+
+  .internship-card-image {
+    height: 165px;
+  }
+
+  .internship-card-content {
+    padding: 16px;
+  }
+
+  .internship-card-content h2 {
+    font-size: 18px;
+  }
+}

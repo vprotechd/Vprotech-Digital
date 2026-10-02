@@ -44,6 +44,10 @@ import TrustedTechnology from "./pages/TrustedTechnology";
 import CoursesPage from "./pages/CoursesPage";
 import AdminOffers from "./pages/admin/AdminOffers";
 
+import InternshipPrograms from "./pages/internship/InternshipPrograms";
+import InternshipDetails from "./pages/internship/InternshipDetails";
+import InternshipTest from "./pages/internship/InternshipTest";
+
 
 function App() {
  const [loading, setLoading] = useState(true);
@@ -127,7 +131,14 @@ function App() {
           <Route path="/apply/:id" element={<ApplyJob />} />
           <Route path="/services" element={<Services />} />
 
+          <Route path="/internship" element={<InternshipPrograms />} />
+          <Route path="/internship/:id" element={<InternshipDetails />} />
           <Route
+            path="/internship/:id/test"
+            element={<InternshipTest />}
+          />
+
+                    <Route
   path="/digital-growth"
   element={<DigitalGrowth />}
 />

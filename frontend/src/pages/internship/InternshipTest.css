@@ -1,0 +1,479 @@
+/* =====================================================
+   PAGE
+===================================================== */
+
+.internship-test-page {
+  min-height: 100vh;
+  padding: 40px 20px 70px;
+  background: #f7f9fc;
+}
+
+.internship-test-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+.internship-test-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 25px;
+  padding: 8px 0;
+}
+
+.internship-test-back-btn:hover {
+  color: #2563eb;
+}
+
+
+/* =====================================================
+   START TEST CARD
+===================================================== */
+
+.internship-test-start-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 45px;
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+
+.internship-test-start-icon {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.internship-test-start-card h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.internship-test-description {
+  max-width: 700px;
+  margin: 15px auto 0;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+
+/* =====================================================
+   TEST SUMMARY
+===================================================== */
+
+.internship-test-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 35px 0;
+}
+
+.internship-test-summary > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 75px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #2563eb;
+}
+
+.internship-test-summary span {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.internship-test-summary strong {
+  color: #0f172a;
+  font-size: 17px;
+  margin-top: 3px;
+}
+
+
+/* =====================================================
+   INSTRUCTIONS
+===================================================== */
+
+.internship-test-instructions {
+  text-align: left;
+  margin-top: 20px;
+  padding: 25px;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.internship-test-instructions h3 {
+  margin: 0 0 15px;
+  color: #0f172a;
+  font-size: 18px;
+}
+
+.internship-test-instructions ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.internship-test-instructions li {
+  margin-bottom: 9px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   START BUTTON
+===================================================== */
+
+.internship-test-start-btn,
+.internship-test-submit-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.internship-test-start-btn {
+  margin-top: 30px;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.internship-test-start-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.internship-test-start-btn:disabled,
+.internship-test-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* =====================================================
+   TEST HEADER
+===================================================== */
+
+.internship-test-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 25px;
+  margin-bottom: 25px;
+
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+}
+
+.internship-test-header span {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.internship-test-header h1 {
+  margin: 4px 0 0;
+  color: #0f172a;
+  font-size: 23px;
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+.internship-test-timer {
+  min-width: 115px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 11px 17px;
+
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #2563eb;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.internship-test-timer.danger {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
+
+.internship-test-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.internship-question-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 27px;
+  box-shadow: 0 6px 25px rgba(15, 23, 42, 0.06);
+}
+
+.internship-question-number {
+  display: inline-block;
+  margin-bottom: 13px;
+  padding: 6px 11px;
+  border-radius: 7px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.internship-question-card h2 {
+  margin: 0 0 20px;
+  color: #0f172a;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   OPTIONS
+===================================================== */
+
+.internship-question-options {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.internship-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.internship-option:hover {
+  border-color: #93c5fd;
+  background: #f8fbff;
+}
+
+.internship-option.selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.internship-option input {
+  width: 17px;
+  height: 17px;
+  accent-color: #2563eb;
+}
+
+.internship-option span {
+  color: #334155;
+  font-size: 15px;
+}
+
+.internship-question-card > small {
+  display: block;
+  margin-top: 18px;
+  color: #64748b;
+}
+
+
+/* =====================================================
+   SUBMIT SECTION
+===================================================== */
+
+.internship-test-submit-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 25px;
+  padding: 22px 25px;
+
+  background: #ffffff;
+  border-radius: 15px;
+
+  box-shadow: 0 6px 25px rgba(15, 23, 42, 0.07);
+}
+
+.internship-test-submit-section p {
+  margin: 0;
+  color: #64748b;
+}
+
+.internship-test-submit-section strong {
+  color: #0f172a;
+}
+
+.internship-test-submit-btn {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.internship-test-submit-btn:hover {
+  background: #1d4ed8;
+}
+
+
+/* =====================================================
+   LOADING / ERROR
+===================================================== */
+
+.internship-test-state {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  color: #64748b;
+}
+
+.internship-test-state h2 {
+  margin: 15px 0 8px;
+  color: #0f172a;
+}
+
+.internship-test-state p {
+  margin: 0 0 20px;
+}
+
+.internship-test-state button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+  border-radius: 9px;
+  padding: 12px 20px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.internship-test-loader {
+  width: 38px;
+  height: 38px;
+
+  border: 4px solid #dbeafe;
+  border-top-color: #2563eb;
+
+  border-radius: 50%;
+
+  animation: internshipTestSpin 0.8s linear infinite;
+}
+
+@keyframes internshipTestSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+  .internship-test-page {
+    padding: 25px 14px 50px;
+  }
+
+  .internship-test-start-card {
+    padding: 30px 20px;
+  }
+
+  .internship-test-start-card h1 {
+    font-size: 25px;
+  }
+
+  .internship-test-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .internship-test-header {
+    padding: 17px;
+    gap: 15px;
+  }
+
+  .internship-test-header h1 {
+    font-size: 18px;
+  }
+
+  .internship-test-timer {
+    min-width: 95px;
+    padding: 9px 12px;
+    font-size: 16px;
+  }
+
+  .internship-question-card {
+    padding: 20px;
+  }
+
+  .internship-test-submit-section {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .internship-test-submit-btn {
+    width: 100%;
+  }
+}

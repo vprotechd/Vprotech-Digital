@@ -326,6 +326,10 @@ export default function Navbar() {
             </li>
 
 
+<Link to="/internship">
+  Internships
+</Link>
+
             {/* =================================================
                 MOBILE ONLY BUTTONS
                 ================================================= */}

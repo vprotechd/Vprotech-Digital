@@ -3,11 +3,19 @@
 import React, { useState, useEffect } from "react";
 import { API_URL } from "../services/api";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { userService, contactAdminService } from "../services/api";
 import { teamService } from "../services/api";
 import ConfirmDialog from "../components/common/ConfirmDialog"; 
 import AdminOffers from "./admin/AdminOffers";
+import {
+  getAdminInternshipPrograms,
+  createInternshipProgram,
+  updateInternshipProgram,
+  deleteInternshipProgram,
+  getInternshipApplications,
+  updateInternshipApplicationStatus,
+} from "../services/internshipAdminService";
 
 // Add these to your existing imports
 import { 
@@ -57,8 +65,9 @@ import { Link } from "react-router-dom"
 import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+const { user, logout } = useAuth();
+const navigate = useNavigate();
+const location = useLocation();
   const [users, setUsers] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [stats, setStats] = useState(null);
@@ -79,6 +88,9 @@ export default function AdminDashboard() {
   const [showDeleteDialog, setShowDeleteDialog] = useState({ open: false, id: null });
   const [showToggleDialog, setShowToggleDialog] = useState({ open: false, id: null });
   const [teamStats, setTeamStats] = useState(null);
+  const [selectedInternship, setSelectedInternship] = useState(null);
+const [selectedInternshipApplication, setSelectedInternshipApplication] =
+  useState(null);
 
 
 // ===== JOB APPLICATIONS STATES =====
@@ -96,6 +108,276 @@ const [appStats, setAppStats] = useState({
   rejected: 0,
   hired: 0
 });
+
+
+
+// ===== INTERNSHIP MANAGEMENT STATES =====
+const [internshipPrograms, setInternshipPrograms] = useState([]);
+const [internshipLoading, setInternshipLoading] = useState(false);
+const [showInternshipForm, setShowInternshipForm] = useState(false);
+const [editingInternship, setEditingInternship] = useState(null);
+const [internshipApplications, setInternshipApplications] = useState([]);
+
+
+const [internshipApplicationsLoading, setInternshipApplicationsLoading] =
+  useState(false);
+const [updatingInternshipApplicationId, setUpdatingInternshipApplicationId] =
+  useState(null);
+
+
+const [internshipForm, setInternshipForm] = useState({
+  title: "",
+  domain: "",
+  duration: "",
+  description: "",
+  eligibility: "",
+  status: "draft",
+});
+
+
+
+
+const fetchInternshipApplications = async () => {
+  try {
+   setInternshipApplicationsLoading(true);
+
+    const data = await getInternshipApplications();
+
+    setInternshipApplications(
+      data?.applications || []
+    );
+  } catch (error) {
+    console.error(
+      "❌ Failed to fetch internship applications:",
+      error
+    );
+
+    toast.error(
+      error?.response?.data?.message ||
+        "Failed to load internship applications"
+    );
+  } finally {
+   setInternshipApplicationsLoading(false);
+  }
+};
+
+
+const handleInternshipApplicationStatus = async (
+  applicationId,
+  status
+) => {
+  try {
+    setUpdatingInternshipApplicationId(applicationId);
+
+    const data =
+      await updateInternshipApplicationStatus(
+        applicationId,
+        status
+      );
+
+    if (!data?.success || !data.application?.status) {
+      throw new Error(
+        data?.message || "The server did not confirm the status update."
+      );
+    }
+
+    const updatedStatus = data.application.status;
+    toast.success("Application status updated.");
+
+    setInternshipApplications((prev) =>
+      prev.map((application) =>
+        application._id === applicationId
+          ? {
+              ...application,
+              status: updatedStatus,
+            }
+          : application
+      )
+    );
+
+    setSelectedInternshipApplication((application) =>
+      application?._id === applicationId
+        ? { ...application, status: updatedStatus }
+        : application
+    );
+  } catch (error) {
+    const errorDetails = error?.response?.data;
+    console.error(
+      `❌ Internship status update failed for "${status}": ${
+        errorDetails
+          ? JSON.stringify(errorDetails)
+          : error?.message || "Unknown error"
+      }`
+    );
+
+    toast.error(
+      errorDetails?.message ||
+        "Failed to update application status."
+    );
+  } finally {
+    setUpdatingInternshipApplicationId(null);
+  }
+};
+
+
+// ===== INTERNSHIP MANAGEMENT =====
+
+const fetchInternshipPrograms = async () => {
+  try {
+    setInternshipLoading(true);
+
+    const data = await getAdminInternshipPrograms();
+
+    if (data.success) {
+      setInternshipPrograms(data.programs || []);
+    } else {
+      setInternshipPrograms([]);
+    }
+  } catch (error) {
+    console.error("Failed to fetch internship programs:", error);
+    toast.error(
+      error?.response?.data?.message ||
+      "Failed to load internship programs"
+    );
+  } finally {
+    setInternshipLoading(false);
+  }
+};
+
+const handleInternshipInputChange = (e) => {
+  const { name, value } = e.target;
+
+  setInternshipForm((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+
+const resetInternshipForm = () => {
+  setInternshipForm({
+    title: "",
+    domain: "",
+    duration: "",
+    description: "",
+    eligibility: "",
+    status: "draft",
+  });
+
+  setEditingInternship(null);
+  setShowInternshipForm(false);
+};
+
+const handleCreateInternship = async (e) => {
+  e.preventDefault();
+
+  try {
+    if (
+      !internshipForm.title.trim() ||
+      !internshipForm.domain.trim() ||
+      !internshipForm.duration.trim() ||
+      !internshipForm.description.trim()
+    ) {
+      toast.error(
+        "Title, domain, duration and description are required"
+      );
+      return;
+    }
+
+    const data = await createInternshipProgram(internshipForm);
+
+    if (data.success) {
+      toast.success("Internship program created successfully");
+
+      resetInternshipForm();
+      fetchInternshipPrograms();
+    }
+  } catch (error) {
+    console.error("Create internship error:", error);
+
+    toast.error(
+      error?.response?.data?.message ||
+      "Failed to create internship program"
+    );
+  }
+};
+
+const handleEditInternship = (program) => {
+  setEditingInternship(program);
+
+  setInternshipForm({
+    title: program.title || "",
+    domain: program.domain || "",
+    duration: program.duration || "",
+    description: program.description || "",
+    eligibility: program.eligibility || "",
+    status: program.status || "draft",
+  });
+
+  setShowInternshipForm(true);
+};
+
+const handleUpdateInternship = async (e) => {
+  e.preventDefault();
+
+  if (!editingInternship) return;
+
+  try {
+    if (
+      !internshipForm.title.trim() ||
+      !internshipForm.domain.trim() ||
+      !internshipForm.duration.trim() ||
+      !internshipForm.description.trim()
+    ) {
+      toast.error(
+        "Title, domain, duration and description are required"
+      );
+      return;
+    }
+
+    const data = await updateInternshipProgram(
+      editingInternship._id,
+      internshipForm
+    );
+
+    if (data.success) {
+      toast.success("Internship program updated successfully");
+
+      resetInternshipForm();
+      fetchInternshipPrograms();
+    }
+  } catch (error) {
+    console.error("Update internship error:", error);
+
+    toast.error(
+      error?.response?.data?.message ||
+      "Failed to update internship program"
+    );
+  }
+};
+
+const handleDeleteInternship = async (id) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this internship program?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const data = await deleteInternshipProgram(id);
+
+    if (data.success) {
+      toast.success("Internship program deleted successfully");
+      fetchInternshipPrograms();
+    }
+  } catch (error) {
+    console.error("Delete internship error:", error);
+
+    toast.error(
+      error?.response?.data?.message ||
+      "Failed to delete internship program"
+    );
+  }
+};
 
 
 // ===== BLOG MANAGEMENT STATES =====
@@ -209,17 +491,23 @@ const fetchApplications = async () => {
     setApplicationsLoading(false);
   }
 };
-
 const updateAppStats = (apps) => {
   setAppStats({
     total: apps.length,
-    pending: apps.filter(a => a.status === 'pending').length,
-    reviewed: apps.filter(a => a.status === 'reviewed').length,
-    shortlisted: apps.filter(a => a.status === 'shortlisted').length,
-    rejected: apps.filter(a => a.status === 'rejected').length,
-    hired: apps.filter(a => a.status === 'hired').length
+    pending: apps.filter(
+      (a) => a.status === "pending"
+    ).length,
+
+    approved: apps.filter(
+      (a) => a.status === "approved"
+    ).length,
+
+    rejected: apps.filter(
+      (a) => a.status === "rejected"
+    ).length,
   });
 };
+
 
 const updateApplicationStatus = async (id, newStatus) => {
   try {
@@ -258,6 +546,9 @@ const filteredApplications = applications.filter(app => {
     fetchTeamData();
      fetchApplications();
       fetchBlogs(); 
+      
+       fetchInternshipPrograms();
+       fetchInternshipApplications();
   }, []);
 
   const fetchData = async () => {
@@ -579,6 +870,17 @@ const filteredApplications = applications.filter(app => {
             <FileText size={20} />
             <span>Blogs</span>
           </button>
+
+
+          <button
+  className={`nav-item ${
+    activeTab === "internships" ? "active" : ""
+  }`}
+  onClick={() => setActiveTab("internships")}
+>
+  <GraduationCap size={20} />
+  <span>Internships</span>
+</button>
 
 
 <button
@@ -945,6 +1247,961 @@ const filteredApplications = applications.filter(app => {
             </div>
           </div>
         )}
+
+
+{activeTab === "internships" && (
+  <div className="admin-section internship-admin-section">
+
+    {/* =====================================================
+        ADD / EDIT INTERNSHIP MODAL
+    ====================================================== */}
+
+    {showInternshipForm && (
+      <div className="internship-modal-overlay">
+        <div className="internship-modal">
+
+          <div className="internship-modal-header">
+            <div>
+              <h2>
+                {editingInternship
+                  ? "Edit Internship Program"
+                  : "Add Internship Program"}
+              </h2>
+
+              <p>
+                Enter the internship program details below.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="internship-modal-close"
+              onClick={resetInternshipForm}
+            >
+              <XCircle size={24} />
+            </button>
+          </div>
+
+          <form
+            onSubmit={
+              editingInternship
+                ? handleUpdateInternship
+                : handleCreateInternship
+            }
+            className="internship-form"
+          >
+
+            {/* TITLE + DOMAIN */}
+            <div className="form-row">
+
+              <div className="form-group">
+                <label>Program Title *</label>
+
+                <input
+                  type="text"
+                  name="title"
+                  value={internshipForm.title}
+                  onChange={handleInternshipInputChange}
+                  placeholder="e.g. Full Stack Web Development"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Domain *</label>
+
+                <input
+                  type="text"
+                  name="domain"
+                  value={internshipForm.domain}
+                  onChange={handleInternshipInputChange}
+                  placeholder="e.g. Web Development"
+                  required
+                />
+              </div>
+
+            </div>
+
+            {/* DURATION + STATUS */}
+            <div className="form-row">
+
+              <div className="form-group">
+                <label>Duration *</label>
+
+                <input
+                  type="text"
+                  name="duration"
+                  value={internshipForm.duration}
+                  onChange={handleInternshipInputChange}
+                  placeholder="e.g. 6 Months"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Status *</label>
+
+                <select
+                  name="status"
+                  value={internshipForm.status}
+                  onChange={handleInternshipInputChange}
+                >
+                  <option value="draft">
+                    Draft
+                  </option>
+
+                  <option value="active">
+                    Active
+                  </option>
+
+                  <option value="inactive">
+                    Inactive
+                  </option>
+                </select>
+              </div>
+
+            </div>
+
+            {/* DESCRIPTION */}
+            <div className="form-group">
+              <label>Description *</label>
+
+              <textarea
+                name="description"
+                value={internshipForm.description}
+                onChange={handleInternshipInputChange}
+                placeholder="Describe the internship program..."
+                rows="5"
+                required
+              />
+            </div>
+
+            {/* ELIGIBILITY */}
+            <div className="form-group">
+              <label>Eligibility</label>
+
+              <textarea
+                name="eligibility"
+                value={internshipForm.eligibility}
+                onChange={handleInternshipInputChange}
+                placeholder="e.g. B.Tech, BCA, MCA, B.Com or relevant students"
+                rows="3"
+              />
+            </div>
+
+            {/* ACTIONS */}
+            <div className="internship-form-actions">
+
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={resetInternshipForm}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className="primary-btn"
+              >
+                {editingInternship ? (
+                  <>
+                    <Edit size={18} />
+                    Update Program
+                  </>
+                ) : (
+                  <>
+                    <PlusCircle size={18} />
+                    Create Program
+                  </>
+                )}
+              </button>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    )}
+
+    {/* =====================================================
+        INTERNSHIP PROGRAM HEADER
+    ====================================================== */}
+
+    <div className="section-header">
+
+      <div>
+        <h2>
+          Internship Programs
+        </h2>
+
+        <p>
+          Create and manage internship programs displayed
+          on the website.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        className="primary-btn"
+        onClick={() => {
+          setEditingInternship(null);
+
+          setInternshipForm({
+            title: "",
+            domain: "",
+            duration: "",
+            description: "",
+            eligibility: "",
+            status: "draft",
+          });
+
+          setShowInternshipForm(true);
+        }}
+      >
+        <PlusCircle size={18} />
+        Add Internship
+      </button>
+
+    </div>
+
+    {/* =====================================================
+        SELECTED INTERNSHIP DETAILS
+        NO POPUP
+    ====================================================== */}
+
+    {selectedInternship && (
+      <div className="admin-internship-details-section">
+
+        <div className="admin-section-header">
+
+          <div>
+            <span className="admin-section-label">
+              PROGRAM DETAILS
+            </span>
+
+            <h2>
+              {selectedInternship.title}
+            </h2>
+
+            <p>
+              Complete information about this internship
+              program.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="admin-refresh-btn"
+            onClick={() =>
+              setSelectedInternship(null)
+            }
+          >
+            Close Details
+          </button>
+
+        </div>
+
+        <div className="admin-internship-details-table-wrapper">
+
+          <table className="admin-internship-details-table">
+
+            <tbody>
+
+              <tr>
+                <th>Program Title</th>
+                <td>
+                  {selectedInternship.title || "N/A"}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Domain</th>
+                <td>
+                  {selectedInternship.domain || "N/A"}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Duration</th>
+                <td>
+                  {selectedInternship.duration || "N/A"}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Status</th>
+                <td>
+                  <span
+                    className={`internship-status ${
+                      selectedInternship.status
+                    }`}
+                  >
+                    {selectedInternship.status}
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <th>Description</th>
+                <td>
+                  {selectedInternship.description || "N/A"}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Eligibility</th>
+                <td>
+                  {selectedInternship.eligibility || "N/A"}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Created On</th>
+                <td>
+                  {selectedInternship.createdAt
+                    ? new Date(
+                        selectedInternship.createdAt
+                      ).toLocaleDateString(
+                        "en-IN",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      )
+                    : "N/A"}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Last Updated</th>
+                <td>
+                  {selectedInternship.updatedAt
+                    ? new Date(
+                        selectedInternship.updatedAt
+                      ).toLocaleDateString(
+                        "en-IN",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      )
+                    : "N/A"}
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+    )}
+
+    {/* =====================================================
+        INTERNSHIP PROGRAM LIST
+    ====================================================== */}
+
+    {internshipLoading ? (
+
+      <div className="internship-admin-loading">
+
+        <RefreshCw
+          size={24}
+          className="spin"
+        />
+
+        <p>
+          Loading internship programs...
+        </p>
+
+      </div>
+
+    ) : internshipPrograms.length === 0 ? (
+
+      <div className="internship-admin-empty">
+
+        <GraduationCap size={45} />
+
+        <h3>
+          No Internship Programs
+        </h3>
+
+        <p>
+          No internship programs have been created yet.
+        </p>
+
+        <button
+          type="button"
+          className="primary-btn"
+          onClick={() => {
+            setEditingInternship(null);
+
+            setInternshipForm({
+              title: "",
+              domain: "",
+              duration: "",
+              description: "",
+              eligibility: "",
+              status: "draft",
+            });
+
+            setShowInternshipForm(true);
+          }}
+        >
+          <PlusCircle size={18} />
+          Create First Program
+        </button>
+
+      </div>
+
+    ) : (
+
+      <div className="internship-admin-grid">
+
+        {internshipPrograms.map((program) => (
+
+          <div
+            className="internship-admin-card"
+            key={program._id}
+          >
+
+            {/* CARD TOP */}
+            <div className="internship-admin-card-top">
+
+              <div className="internship-admin-icon">
+                <GraduationCap size={25} />
+              </div>
+
+              <span
+                className={`internship-status ${
+                  program.status
+                }`}
+              >
+                {program.status}
+              </span>
+
+            </div>
+
+            {/* TITLE */}
+            <h3>
+              {program.title}
+            </h3>
+
+            {/* DOMAIN */}
+            <p className="internship-domain">
+              <strong>Domain:</strong>{" "}
+              {program.domain}
+            </p>
+
+            {/* DURATION */}
+            <p className="internship-duration">
+              <strong>Duration:</strong>{" "}
+              {program.duration}
+            </p>
+
+            {/* DESCRIPTION */}
+            <p className="internship-description">
+              {program.description}
+            </p>
+
+            {/* ELIGIBILITY */}
+            {program.eligibility && (
+              <p className="internship-eligibility">
+                <strong>Eligibility:</strong>{" "}
+                {program.eligibility}
+              </p>
+            )}
+
+            {/* ACTIONS */}
+            <div className="internship-card-actions">
+
+              {/* DETAILS */}
+              <button
+                type="button"
+                className="details-btn"
+                onClick={() => {
+                  setSelectedInternship(program);
+
+                  setTimeout(() => {
+                    document
+                      .querySelector(
+                        ".admin-internship-details-section"
+                      )
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                  }, 50);
+                }}
+              >
+                <Eye size={16} />
+                Details
+              </button>
+
+              {/* EDIT */}
+              <button
+                type="button"
+                className="edit-btn"
+                onClick={() =>
+                  handleEditInternship(program)
+                }
+              >
+                <Edit size={16} />
+                Edit
+              </button>
+
+              {/* DELETE */}
+              <button
+                type="button"
+                className="delete-btn"
+                onClick={() =>
+                  handleDeleteInternship(program._id)
+                }
+              >
+                <Trash2 size={16} />
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        ))}
+
+      </div>
+
+    )}
+
+    {/* =====================================================
+        INTERNSHIP APPLICATIONS
+    ====================================================== */}
+
+    <div className="admin-internship-applications">
+
+      <div className="admin-section-header">
+
+        <div>
+
+          <span className="admin-section-label">
+            APPLICATIONS
+          </span>
+
+          <h2>
+            Internship Applications
+          </h2>
+
+          <p>
+            Review applicants and manage application status.
+          </p>
+
+        </div>
+
+        <button
+          type="button"
+          className="admin-refresh-btn"
+          onClick={fetchInternshipApplications}
+          disabled={applicationsLoading}
+        >
+          {applicationsLoading
+            ? "Loading..."
+            : "Refresh Applications"}
+        </button>
+
+      </div>
+
+      {/* APPLICATION LOADING */}
+      {applicationsLoading ? (
+
+        <div className="admin-internship-empty">
+
+          <div className="admin-internship-spinner"></div>
+
+          <p>
+            Loading applications...
+          </p>
+
+        </div>
+
+      ) : internshipApplications.length === 0 ? (
+
+        /* NO APPLICATIONS */
+        <div className="admin-internship-empty">
+
+          <h3>
+            No Applications Yet
+          </h3>
+
+          <p>
+            Internship applications submitted by students
+            will appear here.
+          </p>
+
+        </div>
+
+      ) : (
+
+        <div className="admin-internship-table-wrapper">
+
+          <table className="admin-internship-table">
+
+            <thead>
+
+              <tr>
+                <th>Applicant</th>
+                <th>Internship</th>
+                <th>Contact</th>
+                <th>Education</th>
+                <th>Applied On</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {internshipApplications.map(
+                (application) => {
+
+                  const applicantName =
+                    application.name ||
+                    application.applicant?.name ||
+                    "N/A";
+
+                  const applicantEmail =
+                    application.email ||
+                    application.applicant?.email ||
+                    "N/A";
+
+                  return (
+
+                    <tr
+                      key={application._id}
+                    >
+
+                      {/* APPLICANT */}
+                      <td>
+
+                        <div className="admin-applicant-info">
+
+                          <strong>
+                            {applicantName}
+                          </strong>
+
+                          <span>
+                            {applicantEmail}
+                          </span>
+
+                        </div>
+
+                      </td>
+
+                      {/* INTERNSHIP */}
+                      <td>
+
+                        <div className="admin-internship-info">
+
+                          <strong>
+                            {application.program?.title ||
+                              "N/A"}
+                          </strong>
+
+                          <span>
+                            {application.program?.domain ||
+                              ""}
+                          </span>
+
+                        </div>
+
+                      </td>
+
+                      {/* PHONE */}
+                      <td>
+                        {application.phone || "N/A"}
+                      </td>
+
+                      {/* EDUCATION */}
+                      <td>
+                        {application.education || "N/A"}
+                      </td>
+
+                      {/* APPLIED DATE */}
+                      <td>
+
+                        {application.createdAt
+                          ? new Date(
+                              application.createdAt
+                            ).toLocaleDateString(
+                              "en-IN",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )
+                          : "N/A"}
+
+                      </td>
+
+                      {/* STATUS */}
+                      <td>
+<select
+  value={application.status || "pending"}
+  disabled={updatingInternshipApplicationId === application._id}
+  onChange={(e) =>
+    handleInternshipApplicationStatus(
+      application._id,
+      e.target.value
+    )
+  }
+  className={`admin-application-status status-${
+    application.status || "pending"
+  }`}
+>
+  <option value="pending">
+    Pending
+  </option>
+
+  <option value="reviewed">
+    Reviewed
+  </option>
+
+  <option value="shortlisted">
+    Approved / Test Unlocked
+  </option>
+
+  <option value="rejected">
+    Rejected
+  </option>
+
+  <option value="selected">
+    Selected
+  </option>
+</select>
+                      </td>
+
+                      {/* APPLICATION DETAILS */}
+                      <td>
+
+                        <button
+                          type="button"
+                          className="details-btn"
+                          onClick={() => {
+
+                            setSelectedInternshipApplication(
+                              application
+                            );
+
+                            setTimeout(() => {
+                              document
+                                .querySelector(
+                                  ".admin-internship-application-details"
+                                )
+                                ?.scrollIntoView({
+                                  behavior: "smooth",
+                                  block: "start",
+                                });
+                            }, 50);
+
+                          }}
+                        >
+                          <Eye size={15} />
+                          Details
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  );
+
+                }
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      )}
+
+    </div>
+
+    {/* =====================================================
+        SELECTED APPLICATION DETAILS
+        NO POPUP
+    ====================================================== */}
+
+    {selectedInternshipApplication && (
+
+      <div className="admin-internship-application-details">
+
+        <div className="admin-section-header">
+
+          <div>
+
+            <span className="admin-section-label">
+              APPLICATION DETAILS
+            </span>
+
+            <h2>
+              {selectedInternshipApplication.name ||
+                "Applicant Details"}
+            </h2>
+
+            <p>
+              Complete application information and current status.
+            </p>
+
+          </div>
+
+          <button
+            type="button"
+            className="admin-refresh-btn"
+            onClick={() =>
+              setSelectedInternshipApplication(null)
+            }
+          >
+            Close Details
+          </button>
+
+        </div>
+
+        <div className="admin-internship-details-table-wrapper">
+
+          <table className="admin-internship-details-table">
+
+            <tbody>
+
+              {/* NAME */}
+              <tr>
+                <th>Applicant Name</th>
+
+                <td>
+                  {selectedInternshipApplication.name ||
+                    selectedInternshipApplication.applicant?.name ||
+                    "N/A"}
+                </td>
+              </tr>
+
+              {/* EMAIL */}
+              <tr>
+                <th>Email</th>
+
+                <td>
+                  {selectedInternshipApplication.email ||
+                    selectedInternshipApplication.applicant?.email ||
+                    "N/A"}
+                </td>
+              </tr>
+
+              {/* PHONE */}
+              <tr>
+                <th>Phone</th>
+
+                <td>
+                  {selectedInternshipApplication.phone ||
+                    "N/A"}
+                </td>
+              </tr>
+
+              {/* EDUCATION */}
+              <tr>
+                <th>Education</th>
+
+                <td>
+                  {selectedInternshipApplication.education ||
+                    "N/A"}
+                </td>
+              </tr>
+
+              {/* PROGRAM */}
+              <tr>
+                <th>Internship Program</th>
+
+                <td>
+                  {selectedInternshipApplication.program
+                    ?.title || "N/A"}
+                </td>
+              </tr>
+
+              {/* DOMAIN */}
+              <tr>
+                <th>Domain</th>
+
+                <td>
+                  {selectedInternshipApplication.program
+                    ?.domain || "N/A"}
+                </td>
+              </tr>
+
+              {/* DURATION */}
+              <tr>
+                <th>Program Duration</th>
+
+                <td>
+                  {selectedInternshipApplication.program
+                    ?.duration || "N/A"}
+                </td>
+              </tr>
+
+              {/* APPLIED DATE */}
+              <tr>
+                <th>Applied On</th>
+
+                <td>
+                  {selectedInternshipApplication.createdAt
+                    ? new Date(
+                        selectedInternshipApplication.createdAt
+                      ).toLocaleString(
+                        "en-IN",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )
+                    : "N/A"}
+                </td>
+              </tr>
+
+              {/* STATUS */}
+              <tr>
+                <th>Application Status</th>
+
+                <td>
+
+                  <span
+                    className={`internship-status ${
+                      selectedInternshipApplication.status
+                    }`}
+                  >
+                    {selectedInternshipApplication.status ||
+                      "pending"}
+                  </span>
+
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    )}
+
+  </div>
+)}
 
         {/* ===== CONTACTS TAB ===== */}
         {activeTab === "contacts" && (
@@ -1337,16 +2594,6 @@ const filteredApplications = applications.filter(app => {
           <div className="app-detail-section">
             <h3>Cover Letter</h3>
             <p className="cover-letter-text">{selectedApp.coverLetter}</p>
-          </div>
-        )}
-
-        {selectedApp.resume && (
-          <div className="app-detail-section">
-            <h3>Resume</h3>
-            <a href={`http:///${selectedApp.resume}`} target="_blank" className="resume-link">
-              <FileText size={18} />
-              Download Resume
-            </a>
           </div>
         )}
 
