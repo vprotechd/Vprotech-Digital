@@ -209,7 +209,7 @@ export default function InternshipTest() {
             style={{
               display: "grid",
               gap: "12px",
-              color: "#172033",
+              color: "#e9ecf4",
             }}
           >
             <span>Are you sure you want to submit the test?</span>
