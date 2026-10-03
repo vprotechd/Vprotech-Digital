@@ -394,7 +394,7 @@ export const submitTest = async (req, res) => {
 // GET /api/test-attempts/my/:attemptId
 // STUDENT
 // =====================================================
-export const getMyAttempt = async (req, res) => {
+export const getMyAttempts = async (req, res) => {
   try {
     const { attemptId } = req.params;
 
@@ -440,55 +440,118 @@ export const getMyAttempt = async (req, res) => {
   }
 };
 
+
+
+
+
 // =====================================================
-// GET MY TEST ATTEMPTS
-// GET /api/test-attempts/my
-// STUDENT
+// GET SINGLE ATTEMPT - ADMIN
 // =====================================================
-export const getMyAttempts = async (req, res) => {
+
+export const getAdminAttempt = async (req, res) => {
   try {
-    const attempts = await TestAttempt.find({
-      student: req.user._id,
-    })
+    const { attemptId } = req.params;
+
+    const attempt = await TestAttempt.findById(attemptId)
+      .populate("student", "name email")
       .populate(
         "test",
-        "title description duration totalMarks passingMarks"
+        "title description duration totalMarks passingMarks program"
       )
-      .sort({
-        createdAt: -1,
+      .populate(
+        "answers.question",
+        "questionText options correctAnswer marks explanation order"
+      );
+
+    if (!attempt) {
+      return res.status(404).json({
+        success: false,
+        message: "Test attempt not found",
       });
+    }
 
     return res.status(200).json({
       success: true,
-      count: attempts.length,
-      attempts,
+      attempt,
     });
   } catch (error) {
-    console.error("Get my attempts error:", error);
+    console.error("Get admin attempt error:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch test attempts.",
+      message: "Failed to get test attempt",
+      error: error.message,
     });
   }
 };
 
 // =====================================================
-// ADMIN - GET ALL ATTEMPTS
-// GET /api/test-attempts/all
-// ADMIN ONLY
+// GET MY TEST ATTEMPTS
+// GET /api/test-attempts/my
+// STUDENT
 // =====================================================
+// =====================================================
+// GET MY ATTEMPT
+// =====================================================
+
+export const getMyAttempt = async (req, res) => {
+  try {
+    const { attemptId } = req.params;
+
+    const attempt = await TestAttempt.findOne({
+      _id: attemptId,
+      student: req.user._id,
+    })
+      .populate("student", "name email")
+      .populate(
+        "test",
+        "title description duration totalMarks passingMarks"
+      )
+      .populate(
+        "answers.question",
+        "questionText options correctAnswer marks explanation order"
+      );
+
+    if (!attempt) {
+      return res.status(404).json({
+        success: false,
+        message: "Test attempt not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      attempt,
+    });
+  } catch (error) {
+    console.error("Get my attempt error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to get test attempt",
+      error: error.message,
+    });
+  }
+};
+
+
+// =====================================================
+// GET ALL ATTEMPTS - ADMIN
+// =====================================================
+
 export const getAllAttempts = async (req, res) => {
   try {
     const attempts = await TestAttempt.find()
       .populate("student", "name email")
       .populate(
         "test",
-        "title totalMarks passingMarks duration"
+        "title description duration totalMarks passingMarks program"
       )
-      .sort({
-        createdAt: -1,
-      });
+      .populate(
+        "answers.question",
+        "questionText options correctAnswer marks explanation order"
+      )
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       success: true,
@@ -500,7 +563,8 @@ export const getAllAttempts = async (req, res) => {
 
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch test attempts.",
+      message: "Failed to get test attempts",
+      error: error.message,
     });
   }
 };

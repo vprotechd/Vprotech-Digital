@@ -16,7 +16,7 @@ export const getInternshipTest = async (programId) => {
 // Start test
 export const startTest = async (testId) => {
   const response = await axiosClient.post(
-    `/test-attempts/start/${testId}`
+    `/tests/${testId}/start`
   );
 
   return response.data;
@@ -38,6 +38,15 @@ export const submitTest = async (attemptId, answers) => {
 export const getMyAttempt = async (attemptId) => {
   const response = await axiosClient.get(
     `/test-attempts/my/${attemptId}`
+  );
+
+  return response.data;
+};
+
+// Get any student attempt - admin
+export const getAdminAttempt = async (attemptId) => {
+  const response = await axiosClient.get(
+    `/test-attempts/admin/${attemptId}`
   );
 
   return response.data;

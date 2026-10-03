@@ -7,8 +7,8 @@ import {
   updateTest,
   deleteTest,
   getInternshipTest,
-  startInternshipTest,
 } from "../controllers/testController.js";
+import { startTest } from "../controllers/testAttemptController.js";
 
 import { protect, admin } from "../middleware/auth.js";
 
@@ -27,7 +27,7 @@ router.get(
 router.post(
   "/:testId/start",
   protect,
-  startInternshipTest
+  startTest
 );
 
 // =====================================================

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
+  AlertCircle,
   Briefcase,
   Calendar,
   CheckCircle,
@@ -555,6 +556,17 @@ export default function InternshipDetails() {
           </div>
 
           {/* APPLICATION / TEST BUTTON */}
+
+          <div className="internship-registration-notice" role="note">
+            <AlertCircle size={20} />
+            <p>
+              You must{" "}
+              <Link to="/register">register for an account</Link> and apply
+              for this internship before taking the test. Unregistered
+              applicants are not eligible; only approved applicants can start
+              the test.
+            </p>
+          </div>
 
           {renderApplicationSection()}
 

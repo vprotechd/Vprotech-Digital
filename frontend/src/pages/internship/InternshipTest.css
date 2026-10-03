@@ -4,7 +4,7 @@
 
 .internship-test-page {
   min-height: 100vh;
-  padding: 40px 20px 70px;
+  padding: 120px 20px 70px;
   background: #f7f9fc;
 }
 
@@ -29,6 +29,7 @@
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  margin-top: 12px;
   margin-bottom: 25px;
   padding: 8px 0;
 }
@@ -185,7 +186,7 @@
 
 .internship-test-header {
   position: sticky;
-  top: 0;
+  top: 100px;
   z-index: 20;
 
   display: flex;
@@ -432,7 +433,7 @@
 
 @media (max-width: 768px) {
   .internship-test-page {
-    padding: 25px 14px 50px;
+    padding: 96px 14px 50px;
   }
 
   .internship-test-start-card {
@@ -448,6 +449,7 @@
   }
 
   .internship-test-header {
+    top: 84px;
     padding: 17px;
     gap: 15px;
   }

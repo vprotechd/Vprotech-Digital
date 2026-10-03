@@ -104,7 +104,10 @@ export default function InternshipTest() {
 
       toast.success("Test started successfully.");
     } catch (error) {
-      console.error("Start test error:", error);
+      console.error(
+        "Start test error:",
+        error?.response?.data || error
+      );
 
       toast.error(
         error?.response?.data?.message ||

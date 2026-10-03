@@ -23,20 +23,87 @@ export const createTest = async (req, res) => {
       endDate,
       status,
       assignedStudents,
+      questions,
     } = req.body;
 
+    const numericDuration = Number(duration);
+    const numericTotalMarks = Number(totalMarks);
+    const numericPassingMarks = Number(passingMarks);
+
     if (
-      !title ||
+      typeof title !== "string" ||
+      !title.trim() ||
       !program ||
-      !duration ||
-      !totalMarks ||
-      passingMarks === undefined
+      !Number.isFinite(numericDuration) ||
+      numericDuration < 1 ||
+      !Number.isFinite(numericTotalMarks) ||
+      numericTotalMarks < 1 ||
+      !Number.isFinite(numericPassingMarks) ||
+      numericPassingMarks < 0
     ) {
       return res.status(400).json({
         success: false,
         message:
           "Title, program, duration, total marks and passing marks are required",
       });
+    }
+
+    if (questions !== undefined) {
+      if (!Array.isArray(questions)) {
+        return res.status(400).json({
+          success: false,
+          message: "Questions must be an array",
+        });
+      }
+
+      const invalidQuestion = questions.find((question) => {
+        if (!question || typeof question !== "object") {
+          return true;
+        }
+
+        const options = Array.isArray(question.options)
+          ? question.options.map((option) =>
+              typeof option === "string" ? option.trim() : ""
+            )
+          : [];
+        const correctAnswer =
+          typeof question.correctAnswer === "string"
+            ? question.correctAnswer.trim()
+            : "";
+
+        return (
+          typeof question.questionText !== "string" ||
+          !question.questionText.trim() ||
+          options.length < 2 ||
+          options.some((option) => !option) ||
+          !correctAnswer ||
+          !options.includes(correctAnswer) ||
+          !Number.isFinite(Number(question.marks)) ||
+          Number(question.marks) < 1
+        );
+      });
+
+      if (invalidQuestion) {
+        return res.status(400).json({
+          success: false,
+          message: "Each question must have text, valid options, a correct answer and positive marks",
+        });
+      }
+
+      const questionTotalMarks = questions.reduce(
+        (total, question) => total + Number(question.marks),
+        0
+      );
+
+      if (
+        questions.length > 0 &&
+        questionTotalMarks !== numericTotalMarks
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Total marks must equal the sum of question marks",
+        });
+      }
     }
 
     // Check whether internship program exists
@@ -50,7 +117,7 @@ export const createTest = async (req, res) => {
     }
 
     // Passing marks cannot be greater than total marks
-    if (Number(passingMarks) > Number(totalMarks)) {
+    if (numericPassingMarks > numericTotalMarks) {
       return res.status(400).json({
         success: false,
         message: "Passing marks cannot be greater than total marks",
@@ -61,9 +128,9 @@ export const createTest = async (req, res) => {
       title: title.trim(),
       description: description?.trim() || "",
       program,
-      duration: Number(duration),
-      totalMarks: Number(totalMarks),
-      passingMarks: Number(passingMarks),
+      duration: numericDuration,
+      totalMarks: numericTotalMarks,
+      passingMarks: numericPassingMarks,
       instructions: Array.isArray(instructions) ? instructions : [],
       startDate: startDate || null,
       endDate: endDate || null,
@@ -73,6 +140,19 @@ export const createTest = async (req, res) => {
         : [],
       createdBy: req.user?._id,
     });
+
+    if (questions?.length) {
+      await Question.insertMany(
+        questions.map((question, index) => ({
+          test: test._id,
+          questionText: question.questionText.trim(),
+          options: question.options.map((option) => option.trim()),
+          correctAnswer: question.correctAnswer.trim(),
+          marks: Number(question.marks),
+          order: Number(question.order) || index + 1,
+        }))
+      );
+    }
 
     const populatedTest = await Test.findById(test._id)
       .populate("program", "title domain duration")
@@ -127,6 +207,11 @@ export const getAllTests = async (req, res) => {
 // GET /api/tests/:id
 // ADMIN ONLY
 // =====================================================
+// =====================================================
+// GET SINGLE TEST
+// GET /api/tests/:id
+// ADMIN ONLY
+// =====================================================
 export const getTestById = async (req, res) => {
   try {
     const test = await Test.findById(req.params.id)
@@ -140,9 +225,14 @@ export const getTestById = async (req, res) => {
       });
     }
 
+    const questions = await Question.find({
+      test: test._id,
+    }).sort({ order: 1 });
+
     res.status(200).json({
       success: true,
       test,
+      questions,
     });
   } catch (error) {
     console.error("Get test error:", error);
@@ -154,7 +244,11 @@ export const getTestById = async (req, res) => {
   }
 };
 
-
+// =====================================================
+// UPDATE TEST
+// PUT /api/tests/:id
+// ADMIN ONLY
+// =====================================================
 // =====================================================
 // UPDATE TEST
 // PUT /api/tests/:id
@@ -183,11 +277,16 @@ export const updateTest = async (req, res) => {
       endDate,
       status,
       assignedStudents,
+      questions,
     } = req.body;
 
-    // If program is being changed, verify it
+    // =================================================
+    // VALIDATE PROGRAM
+    // =================================================
+
     if (program !== undefined) {
-      const internshipProgram = await InternshipProgram.findById(program);
+      const internshipProgram =
+        await InternshipProgram.findById(program);
 
       if (!internshipProgram) {
         return res.status(404).json({
@@ -199,25 +298,83 @@ export const updateTest = async (req, res) => {
       test.program = program;
     }
 
+    // =================================================
+    // BASIC TEST DETAILS
+    // =================================================
+
     if (title !== undefined) {
+      if (
+        typeof title !== "string" ||
+        !title.trim()
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Test title is required",
+        });
+      }
+
       test.title = title.trim();
     }
 
     if (description !== undefined) {
-      test.description = description.trim();
+      test.description =
+        typeof description === "string"
+          ? description.trim()
+          : "";
     }
 
     if (duration !== undefined) {
-      test.duration = Number(duration);
+      const numericDuration = Number(duration);
+
+      if (
+        !Number.isFinite(numericDuration) ||
+        numericDuration < 1
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Duration must be at least 1 minute",
+        });
+      }
+
+      test.duration = numericDuration;
     }
 
     if (totalMarks !== undefined) {
-      test.totalMarks = Number(totalMarks);
+      const numericTotalMarks = Number(totalMarks);
+
+      if (
+        !Number.isFinite(numericTotalMarks) ||
+        numericTotalMarks < 1
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Total marks must be at least 1",
+        });
+      }
+
+      test.totalMarks = numericTotalMarks;
     }
 
     if (passingMarks !== undefined) {
-      test.passingMarks = Number(passingMarks);
+      const numericPassingMarks =
+        Number(passingMarks);
+
+      if (
+        !Number.isFinite(numericPassingMarks) ||
+        numericPassingMarks < 0
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Passing marks cannot be negative",
+        });
+      }
+
+      test.passingMarks = numericPassingMarks;
     }
+
+    // =================================================
+    // MARKS VALIDATION
+    // =================================================
 
     if (
       Number(test.passingMarks) >
@@ -225,15 +382,24 @@ export const updateTest = async (req, res) => {
     ) {
       return res.status(400).json({
         success: false,
-        message: "Passing marks cannot be greater than total marks",
+        message:
+          "Passing marks cannot be greater than total marks",
       });
     }
+
+    // =================================================
+    // INSTRUCTIONS
+    // =================================================
 
     if (instructions !== undefined) {
       test.instructions = Array.isArray(instructions)
         ? instructions
         : [];
     }
+
+    // =================================================
+    // DATES
+    // =================================================
 
     if (startDate !== undefined) {
       test.startDate = startDate || null;
@@ -243,26 +409,188 @@ export const updateTest = async (req, res) => {
       test.endDate = endDate || null;
     }
 
+    // =================================================
+    // STATUS
+    // =================================================
+
     if (status !== undefined) {
+      if (
+        !["draft", "published", "closed"].includes(
+          status
+        )
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid test status",
+        });
+      }
+
       test.status = status;
     }
 
+    // =================================================
+    // ASSIGNED STUDENTS
+    // =================================================
+
     if (assignedStudents !== undefined) {
-      test.assignedStudents = Array.isArray(assignedStudents)
-        ? assignedStudents
-        : [];
+      test.assignedStudents =
+        Array.isArray(assignedStudents)
+          ? assignedStudents
+          : [];
     }
+
+    // =================================================
+    // QUESTIONS VALIDATION
+    // =================================================
+
+    if (questions !== undefined) {
+      if (!Array.isArray(questions)) {
+        return res.status(400).json({
+          success: false,
+          message: "Questions must be an array",
+        });
+      }
+
+      if (questions.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "At least one question is required",
+        });
+      }
+
+      const invalidQuestion = questions.find(
+        (question) => {
+          if (
+            !question ||
+            typeof question !== "object"
+          ) {
+            return true;
+          }
+
+          const options =
+            Array.isArray(question.options)
+              ? question.options.map((option) =>
+                  typeof option === "string"
+                    ? option.trim()
+                    : ""
+                )
+              : [];
+
+          const correctAnswer =
+            typeof question.correctAnswer ===
+            "string"
+              ? question.correctAnswer.trim()
+              : "";
+
+          return (
+            typeof question.questionText !==
+              "string" ||
+            !question.questionText.trim() ||
+            options.length < 2 ||
+            options.some((option) => !option) ||
+            !correctAnswer ||
+            !options.includes(correctAnswer) ||
+            !Number.isFinite(
+              Number(question.marks)
+            ) ||
+            Number(question.marks) < 1
+          );
+        }
+      );
+
+      if (invalidQuestion) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Each question must have text, valid options, a correct answer and positive marks",
+        });
+      }
+
+      const questionTotalMarks =
+        questions.reduce(
+          (total, question) =>
+            total + Number(question.marks),
+          0
+        );
+
+      if (
+        questionTotalMarks !==
+        Number(test.totalMarks)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Total marks must equal the sum of question marks",
+        });
+      }
+    }
+
+    // =================================================
+    // SAVE TEST
+    // =================================================
 
     const updatedTest = await test.save();
 
-    const populatedTest = await Test.findById(updatedTest._id)
-      .populate("program", "title domain duration")
-      .populate("createdBy", "name email");
+    // =================================================
+    // REPLACE QUESTIONS
+    // =================================================
+
+    if (questions !== undefined) {
+      await Question.deleteMany({
+        test: updatedTest._id,
+      });
+
+      await Question.insertMany(
+        questions.map((question, index) => ({
+          test: updatedTest._id,
+          questionText:
+            question.questionText.trim(),
+          options: question.options.map((option) =>
+            option.trim()
+          ),
+          correctAnswer:
+            question.correctAnswer.trim(),
+          marks: Number(question.marks),
+          explanation:
+            typeof question.explanation === "string"
+              ? question.explanation.trim()
+              : "",
+          order:
+            Number(question.order) || index + 1,
+        }))
+      );
+    }
+
+    // =================================================
+    // POPULATE
+    // =================================================
+
+    const populatedTest =
+      await Test.findById(updatedTest._id)
+        .populate(
+          "program",
+          "title domain duration"
+        )
+        .populate(
+          "createdBy",
+          "name email"
+        );
+
+    const updatedQuestions =
+      await Question.find({
+        test: updatedTest._id,
+      }).sort({ order: 1 });
+
+    // =================================================
+    // RESPONSE
+    // =================================================
 
     res.status(200).json({
       success: true,
       message: "Test updated successfully",
       test: populatedTest,
+      questions: updatedQuestions,
     });
   } catch (error) {
     console.error("Update test error:", error);
@@ -291,7 +619,8 @@ export const deleteTest = async (req, res) => {
       });
     }
 
-    await Test.findByIdAndDelete(req.params.id);
+    await Question.deleteMany({ test: test._id });
+    await Test.findByIdAndDelete(test._id);
 
     res.status(200).json({
       success: true,

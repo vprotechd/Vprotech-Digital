@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getInternshipPrograms } from "../../services/internshipService";
 import InternshipCard from "../../components/internship/InternshipCard";
 import "./InternshipPrograms.css";
@@ -56,9 +56,12 @@ export default function InternshipPrograms() {
 
           <h1>Build Your Skills With Our Internship Programs</h1>
 
+        
+
           <p>
-            Explore practical internship opportunities designed to help you
-            learn, gain real-world experience, and prepare for your career.
+            Please{" "}
+            <Link to="/register">register yourself first</Link> to apply for
+            an internship and become eligible to take its test.
           </p>
         </div>
 

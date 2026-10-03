@@ -59,6 +59,7 @@ import {
   Search,
   Filter ,
     Tag,
+  ClipboardList,
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom"
@@ -889,6 +890,14 @@ const filteredApplications = applications.filter(app => {
 >
   <Tag size={20} />
   <span>Offers</span>
+</button>
+
+<button
+  onClick={() => navigate("/admin/tests")}
+  className={`nav-item ${location.pathname === "/admin/tests" ? "active" : ""}`}
+>
+  <ClipboardList size={20} />
+  <span>Tests</span>
 </button>
 
           <button 

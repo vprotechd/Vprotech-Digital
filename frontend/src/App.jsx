@@ -47,6 +47,13 @@ import AdminOffers from "./pages/admin/AdminOffers";
 import InternshipPrograms from "./pages/internship/InternshipPrograms";
 import InternshipDetails from "./pages/internship/InternshipDetails";
 import InternshipTest from "./pages/internship/InternshipTest";
+import AdminTests from "./pages/admin/AdminTests";
+import CreateTest from "./pages/admin/CreateTest";
+import TestResult from "./pages/internship/TestResult";
+import AdminTestDetails from "./pages/admin/AdminTestDetails";
+import EditTest from "./pages/admin/EditTest";
+import AdminTestAttempts from "./pages/admin/AdminTestAttempts";
+import AdminTestAttemptDetails from "./pages/admin/AdminTestAttemptDetails";
 
 
 function App() {
@@ -137,6 +144,50 @@ function App() {
             path="/internship/:id/test"
             element={<InternshipTest />}
           />
+
+<Route
+  path="/internship/:id/test/result/:attemptId"
+  element={<TestResult />}
+/>
+
+<Route
+  path="/admin/tests/edit/:id"
+  element={
+    <ProtectedRoute adminOnly>
+      <EditTest />
+    </ProtectedRoute>
+  }
+/>
+
+
+<Route
+  path="/admin/tests/:id"
+  element={
+    <ProtectedRoute adminOnly>
+      <AdminTestDetails />
+    </ProtectedRoute>
+  }
+/>
+
+
+<Route
+  path="/admin/test-attempts"
+  element={
+    <ProtectedRoute adminOnly>
+      <AdminTestAttempts />
+    </ProtectedRoute>
+  }
+/>
+
+
+<Route
+  path="/admin/test-attempts/:attemptId"
+  element={
+    <ProtectedRoute adminOnly>
+      <AdminTestAttemptDetails />
+    </ProtectedRoute>
+  }
+/>
 
                     <Route
   path="/digital-growth"
@@ -240,6 +291,22 @@ function App() {
       <AdminJobs />
     </ProtectedRoute>
   } 
+/>
+<Route
+  path="/admin/tests"
+  element={
+    <ProtectedRoute adminOnly>
+      <AdminTests />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/tests/create"
+  element={
+    <ProtectedRoute adminOnly>
+      <CreateTest />
+    </ProtectedRoute>
+  }
 />
         </Routes>
 

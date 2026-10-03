@@ -161,7 +161,7 @@ export default function Navbar() {
                   </NavLink>
                 </li>
 
-                <li className="admin-nav-item">
+                {/* <li className="admin-nav-item">
                   <NavLink
                     to="/admin/add-blog"
                     className={({ isActive }) =>
@@ -173,7 +173,7 @@ export default function Navbar() {
                   >
                     Add Blog
                   </NavLink>
-                </li>
+                </li> */}
 
                 <li className="admin-nav-item">
                   <NavLink
@@ -185,7 +185,7 @@ export default function Navbar() {
                     }
                     onClick={closeMenu}
                   >
-                    <Briefcase size={16} />
+                   
                     <span>Manage Jobs</span>
                   </NavLink>
                 </li>
@@ -326,9 +326,20 @@ export default function Navbar() {
             </li>
 
 
-<Link to="/internship">
-  Internships
-</Link>
+
+ <li className="admin-nav-item">
+                  <NavLink
+                    to="/internship"
+                    className={({ isActive }) =>
+                      `nav-link ${
+                        isActive ? "active" : ""
+                      }`
+                    }
+                    onClick={closeMenu}
+                  >
+                    Start Assessment
+                  </NavLink>
+                </li>
 
             {/* =================================================
                 MOBILE ONLY BUTTONS
