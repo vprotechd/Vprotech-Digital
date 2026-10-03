@@ -1,23 +1,6 @@
-// src/pages/Services.jsx
-
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  CheckCircle2,
-  Sparkles,
-  Globe2,
-  Smartphone,
-  Megaphone,
-  Palette,
-  LayoutTemplate,
-  Home,
-  Lightbulb,
-  Search,
-  PencilRuler,
-  Code2,
-  Rocket,
-} from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import custom from "../assets/itand custom.jpg";
@@ -35,11 +18,9 @@ const services = [
     id: "web-development",
     title: "Web Development",
     category: "WEB SOLUTIONS",
-    shortTitle: "Web",
     desc: "Custom web applications, e-commerce websites, real estate platforms, hotel booking systems and business management solutions.",
     img: custom,
     path: "/webdevelopment",
-    icon: Globe2,
     features: [
       "Business Websites",
       "Custom Web Applications",
@@ -47,16 +28,13 @@ const services = [
       "Business Management Systems",
     ],
   },
-
   {
     id: "android-app-development",
     title: "Android App Development",
     category: "MOBILE SOLUTIONS",
-    shortTitle: "Mobile",
     desc: "Custom Android applications designed for startups, businesses and organizations with smooth, reliable digital experiences.",
     img: expertiseBg,
     path: "/mobile-apps",
-    icon: Smartphone,
     features: [
       "Custom Android Apps",
       "Business Applications",
@@ -64,16 +42,13 @@ const services = [
       "Mobile Solutions",
     ],
   },
-
   {
     id: "digital-marketing",
     title: "Digital Marketing",
     category: "DIGITAL GROWTH",
-    shortTitle: "Growth",
     desc: "Data-driven digital marketing strategies that help businesses improve visibility, connect with customers and generate leads.",
     img: digital,
     path: "/digital-marketing",
-    icon: Megaphone,
     features: [
       "Search Engine Optimization",
       "Social Media Marketing",
@@ -81,16 +56,13 @@ const services = [
       "Lead Generation",
     ],
   },
-
   {
     id: "logo-designing",
     title: "Logo Designing",
     category: "BRAND IDENTITY",
-    shortTitle: "Branding",
     desc: "Creative logo and visual identity solutions designed to give your business a professional and memorable brand presence.",
     img: fullstack,
     path: "/logo-designing",
-    icon: Palette,
     features: [
       "Custom Logo Design",
       "Brand Identity",
@@ -98,16 +70,13 @@ const services = [
       "Marketing Graphics",
     ],
   },
-
   {
     id: "website-design",
     title: "Website Design",
     category: "UI / UX DESIGN",
-    shortTitle: "Design",
     desc: "Beautiful, responsive and user-focused website designs created to represent your brand and provide an engaging experience.",
     img: mechanical,
     path: "/website-design",
-    icon: LayoutTemplate,
     features: [
       "Responsive Design",
       "UI / UX Design",
@@ -115,16 +84,13 @@ const services = [
       "Portfolio Websites",
     ],
   },
-
   {
     id: "interior-designing",
     title: "Interior Designing",
     category: "SPACE DESIGN",
-    shortTitle: "Interior",
     desc: "Thoughtful residential and commercial interior design solutions that combine functionality, aesthetics and modern design.",
     img: internship,
     path: "/interior-designing",
-    icon: Home,
     features: [
       "Residential Interiors",
       "Commercial Interiors",
@@ -201,12 +167,18 @@ export default function Services() {
         }}
       >
         <div className="services-hero-overlay"></div>
-
         <div className="services-hero-grid"></div>
 
         <div className="services-hero-content">
 
-          
+          <motion.span
+            className="services-hero-label"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            OUR SERVICES
+          </motion.span>
 
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
@@ -244,17 +216,17 @@ export default function Services() {
             }}
           >
             <div>
-              <CheckCircle2 size={17} />
+              <CheckCircle2 size={16} />
               <span>Business-focused solutions</span>
             </div>
 
             <div>
-              <CheckCircle2 size={17} />
+              <CheckCircle2 size={16} />
               <span>Modern technology & design</span>
             </div>
 
             <div>
-              <CheckCircle2 size={17} />
+              <CheckCircle2 size={16} />
               <span>Support from idea to launch</span>
             </div>
           </motion.div>
@@ -270,11 +242,10 @@ export default function Services() {
             }}
           >
             Explore Our Services
-            <ArrowUpRight size={19} />
           </motion.button>
         </div>
 
-        {/* Hero visual panel */}
+        {/* HERO VISUAL */}
 
         <motion.div
           className="hero-services-panel"
@@ -292,14 +263,8 @@ export default function Services() {
           }}
         >
           <div className="hero-panel-top">
-            <div className="hero-panel-icon">
-              <Lightbulb size={20} />
-            </div>
-
-            <div>
-              <span>WHAT WE BUILD</span>
-              <strong>Digital Experiences</strong>
-            </div>
+            <span>WHAT WE BUILD</span>
+            <strong>Digital Experiences</strong>
           </div>
 
           <div className="hero-panel-services">
@@ -307,32 +272,28 @@ export default function Services() {
             <div>
               <span>01</span>
               <p>Web Development</p>
-         
             </div>
 
             <div>
               <span>02</span>
               <p>Mobile Applications</p>
-             
             </div>
 
             <div>
               <span>03</span>
               <p>Digital Marketing</p>
-             
             </div>
 
             <div>
               <span>04</span>
               <p>Brand & Design</p>
-          
             </div>
 
           </div>
 
           <div className="hero-panel-footer">
             <span>VProTech Digital</span>
-            <span>Ideas → Solutions</span>
+            <span>Ideas / Solutions</span>
           </div>
         </motion.div>
       </section>
@@ -428,94 +389,77 @@ export default function Services() {
           }}
         >
 
-          {services.map((service, index) => {
+          {services.map((service, index) => (
 
-            const Icon = service.icon;
+            <motion.article
+              className="service-card-wrapper"
+              key={service.id}
+              variants={cardVariants}
+            >
 
-            return (
-              <motion.article
-                className="service-card-wrapper"
-                key={service.id}
-                variants={cardVariants}
-              >
+              <div className="service-card">
 
-                {/* SERVICE CARD */}
+                <div className="service-card-image">
 
-                <div className="service-card">
+                  <img
+                    src={service.img}
+                    alt={service.title}
+                  />
 
-                  <div className="service-card-image">
+                  <div className="service-image-overlay"></div>
 
-                    <img
-                      src={service.img}
-                      alt={service.title}
-                    />
-
-                    <div className="service-image-overlay"></div>
-
-                    <div className="service-image-number">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <div className="service-image-icon">
-                      <Icon size={23} />
-                    </div>
-
-                  </div>
-
-
-                  <div className="service-card-content">
-
-                    <div className="service-card-category">
-                      {service.category}
-                    </div>
-
-                    <h3>
-                      {service.title}
-                    </h3>
-
-                    <p>
-                      {service.desc}
-                    </p>
-
-
-                    <div className="service-feature-list">
-
-                      {service.features.map((feature) => (
-                        <div
-                          className="service-feature"
-                          key={feature}
-                        >
-                          <CheckCircle2 size={15} />
-                          <span>{feature}</span>
-                        </div>
-                      ))}
-
-                    </div>
-
+                  <div className="service-image-number">
+                    {String(index + 1).padStart(2, "0")}
                   </div>
 
                 </div>
 
 
-                {/* EXPLORE BUTTON OUTSIDE CARD */}
+                <div className="service-card-content">
 
-                <button
-                  className="explore-btn"
-                  onClick={() =>
-                    handleExplore(service.path)
-                  }
-                  aria-label={`Explore ${service.title}`}
-                >
-                  <span>Explore More</span>
+                  <div className="service-card-category">
+                    {service.category}
+                  </div>
 
-                  <span className="explore-arrow">
-                    <ArrowUpRight size={17} />
-                  </span>
-                </button>
+                  <h3>
+                    {service.title}
+                  </h3>
 
-              </motion.article>
-            );
-          })}
+                  <p>
+                    {service.desc}
+                  </p>
+
+
+                  <div className="service-feature-list">
+
+                    {service.features.map((feature) => (
+                      <div
+                        className="service-feature"
+                        key={feature}
+                      >
+                        <CheckCircle2 size={15} />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <button
+                className="explore-btn"
+                onClick={() => handleExplore(service.path)}
+                aria-label={`Explore ${service.title}`}
+              >
+                Explore More
+              </button>
+
+            </motion.article>
+
+          ))}
 
         </motion.div>
 
@@ -565,78 +509,44 @@ export default function Services() {
           >
 
             <div className="process-item">
-              <div className="process-icon">
-                <Search size={21} />
-              </div>
-
               <span className="process-number">01</span>
-
               <h3>Discover</h3>
-
               <p>
                 We understand your business, goals, audience
                 and project requirements.
               </p>
             </div>
 
-
             <div className="process-item">
-              <div className="process-icon">
-                <PencilRuler size={21} />
-              </div>
-
               <span className="process-number">02</span>
-
               <h3>Plan</h3>
-
               <p>
                 We define the right technology, features,
                 structure and project direction.
               </p>
             </div>
 
-
             <div className="process-item">
-              <div className="process-icon">
-                <Palette size={21} />
-              </div>
-
               <span className="process-number">03</span>
-
               <h3>Design</h3>
-
               <p>
                 We create intuitive interfaces and experiences
                 aligned with your brand.
               </p>
             </div>
 
-
             <div className="process-item">
-              <div className="process-icon">
-                <Code2 size={21} />
-              </div>
-
               <span className="process-number">04</span>
-
               <h3>Develop</h3>
-
               <p>
                 Our development team turns the approved concept
                 into a functional product.
               </p>
             </div>
 
-
             <div className="process-item">
-              <div className="process-icon">
-                <Rocket size={21} />
-              </div>
-
               <span className="process-number">05</span>
-
               <h3>Test & Launch</h3>
-
               <p>
                 We test, deploy and help you move your digital
                 solution into the real world.
@@ -686,7 +596,6 @@ export default function Services() {
             onClick={() => navigate("/contact")}
           >
             Start a Conversation
-            <ArrowUpRight size={20} />
           </button>
 
         </motion.div>

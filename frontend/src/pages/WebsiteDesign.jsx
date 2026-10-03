@@ -1,146 +1,273 @@
 // src/pages/WebsiteDesign.jsx
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import './WebsiteDesign.css';
+
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "./WebsiteDesign.css";
 
 export default function WebsiteDesign() {
-  const navigate = useNavigate();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const services = [
     {
+      number: "01",
       title: "Responsive Website Design",
-      description: "Mobile-first designs that look perfect on all devices from desktops to smartphones."
+      description:
+        "Modern layouts designed to look clean and consistent across desktops, tablets, and smartphones.",
     },
     {
+      number: "02",
       title: "UI/UX Design",
-      description: "User-centered designs that enhance engagement and deliver exceptional user experiences."
+      description:
+        "User-focused interfaces that make websites simple, engaging, and easy to navigate.",
     },
     {
-      title: "Business & Corporate Websites",
-      description: "Professional website designs for businesses, corporations, and enterprises."
+      number: "03",
+      title: "Business Websites",
+      description:
+        "Professional website designs that communicate your brand and build customer trust.",
     },
     {
-      title: "Portfolio Websites",
-      description: "Beautiful portfolio designs that showcase your work and talent effectively."
+      number: "04",
+      title: "E-Commerce Design",
+      description:
+        "Clean and conversion-focused online store designs built around a smooth shopping experience.",
+    },
+  ];
+
+  const designFocus = [
+    "Responsive Layouts",
+    "Clean Interfaces",
+    "User Experience",
+    "Brand Consistency",
+    "Conversion Focus",
+    "Modern Visuals",
+  ];
+
+  const process = [
+    {
+      number: "01",
+      title: "Discover",
+      desc: "Understand your brand, goals, audience, and website requirements.",
     },
     {
-      title: "E-commerce Website Design",
-      description: "Engaging and conversion-focused designs for online stores and e-commerce platforms."
+      number: "02",
+      title: "Structure",
+      desc: "Plan the layout, content hierarchy, and user journey.",
     },
     {
-      title: "Landing Page Design",
-      description: "High-converting landing pages designed to drive leads and sales."
-    }
+      number: "03",
+      title: "Design",
+      desc: "Create a polished visual experience aligned with your brand.",
+    },
+    {
+      number: "04",
+      title: "Refine",
+      desc: "Review the design and make improvements before final delivery.",
+    },
   ];
 
   return (
     <>
       <Navbar />
-      
-      {/* ============ SERVICES SECTION ============ */}
+
+      {/* ================= HERO ================= */}
+      <section className="ws-hero">
+        <div className="ws-container">
+          <div className="ws-hero-grid">
+            <motion.div
+              className="ws-hero-content"
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <span className="ws-label">WEBSITE DESIGN</span>
+
+              <h1>
+                Websites Designed to
+                <span> Make an Impact.</span>
+              </h1>
+
+              <p>
+                We create modern, responsive, and user-focused website
+                designs that make your brand look professional and give your
+                audience a better digital experience.
+              </p>
+
+              <div className="ws-hero-buttons">
+                <Link to="/contact" className="ws-primary-btn">
+                  Start Your Project
+                </Link>
+
+                <Link to="/services" className="ws-secondary-btn">
+                  Back to Services
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="ws-design-card"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+            >
+              <div className="ws-card-top">
+                <span>WEBSITE EXPERIENCE</span>
+                <span>01</span>
+              </div>
+
+              <div className="ws-browser">
+                <div className="ws-browser-bar">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+
+                <div className="ws-browser-content">
+                  <div className="ws-browser-line large"></div>
+                  <div className="ws-browser-line"></div>
+                  <div className="ws-browser-line short"></div>
+
+                  <div className="ws-browser-grid">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="ws-card-bottom">
+                <strong>DESIGN</strong>
+                <strong>EXPERIENCE</strong>
+                <strong>IMPACT</strong>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= SERVICES ================= */}
       <section className="ws-services">
         <div className="ws-container">
-          <motion.div 
-            className="ws-section-header"
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div
+            className="ws-section-heading"
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="ws-section-tag">WHAT WE DESIGN</span>
-            <h2>Website <span className="ws-gradient">Design</span></h2>
-            <p>Create stunning, user-friendly websites that captivate your audience and drive results</p>
+            <span className="ws-label">WHAT WE DESIGN</span>
+
+            <h2>
+              Design That Looks Good.
+              <span> Works Better.</span>
+            </h2>
+
+            <p>
+              Every website is designed around your brand, audience, and
+              business objectives.
+            </p>
           </motion.div>
 
           <div className="ws-services-grid">
             {services.map((service, index) => (
-              <motion.div 
-                key={index}
+              <motion.div
+                key={service.number}
                 className="ws-service-card"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
+                <span className="ws-number">{service.number}</span>
+
                 <h3>{service.title}</h3>
+
                 <p>{service.description}</p>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ============ PROCESS SECTION ============ */}
-      <section className="ws-process">
-        <div className="ws-container">
-          <motion.div 
-            className="ws-section-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="ws-section-tag">OUR PROCESS</span>
-            <h2>How We <span className="ws-gradient">Design Websites</span></h2>
-            <p>A structured approach to deliver beautiful, functional websites</p>
-          </motion.div>
+          <div className="ws-focus-wrapper">
+            <div className="ws-focus-heading">
+              <span>DESIGN FOCUS</span>
+              <h3>Built around the experience.</h3>
+            </div>
 
-          <div className="ws-process-grid">
-            {[
-              { number: "01", title: "Discovery", desc: "We understand your goals, audience, and requirements." },
-              { number: "02", title: "Wireframing", desc: "Create layout structures and user flow diagrams." },
-              { number: "03", title: "Design", desc: "Develop visual designs that align with your brand." },
-              { number: "04", title: "Review", desc: "Collaborate with you to refine and perfect the design." },
-              { number: "05", title: "Delivery", desc: "Provide design files and assets for development." },
-              { number: "06", title: "Support", desc: "Ongoing support and design assistance as needed." }
-            ].map((step, index) => (
-              <motion.div 
-                key={index}
-                className="ws-process-step"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="ws-step-number">{step.number}</div>
-                <div className="ws-step-content">
-                  <h4>{step.title}</h4>
-                  <p>{step.desc}</p>
+            <div className="ws-focus-list">
+              {designFocus.map((item, index) => (
+                <div className="ws-focus-item" key={index}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <p>{item}</p>
                 </div>
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ============ CTA SECTION ============ */}
-      <section className="ws-cta">
+      {/* ================= PROCESS + CTA ================= */}
+      <section className="ws-process">
         <div className="ws-container">
-          <motion.div 
-            className="ws-cta-content"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+          <motion.div
+            className="ws-section-heading"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2>Ready to Design Your <span className="ws-gradient">Website</span>?</h2>
-            <p>Let's create a stunning website that represents your brand and engages your audience.</p>
-            <div className="ws-cta-buttons">
-              <Link to="/contact" className="ws-btn-primary">
-                Get Started Now <ArrowRight size={18} />
-              </Link>
-              <button 
-                className="ws-btn-secondary"
-                onClick={() => navigate('/services')}
+            <span className="ws-label">OUR PROCESS</span>
+
+            <h2>
+              From Idea to
+              <span> Interface.</span>
+            </h2>
+
+            <p>
+              A focused design process that turns your requirements into a
+              polished digital experience.
+            </p>
+          </motion.div>
+
+          <div className="ws-process-grid">
+            {process.map((step, index) => (
+              <motion.div
+                className="ws-process-item"
+                key={step.number}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
               >
-                ← Back to Services
-              </button>
+                <span>{step.number}</span>
+
+                <h3>{step.title}</h3>
+
+                <p>{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            className="ws-final-cta"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div>
+              <span>READY TO BUILD YOUR PRESENCE?</span>
+
+              <h2>
+                Your website should look as good
+                <span> as your business.</span>
+              </h2>
             </div>
+
+            <Link to="/contact" className="ws-cta-btn">
+              Start a Conversation
+            </Link>
           </motion.div>
         </div>
       </section>

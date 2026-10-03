@@ -1,183 +1,262 @@
-// src/pages/LogoDesigning.jsx
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import './LogoDesigning.css';
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "./LogoDesigning.css";
 
 export default function LogoDesigning() {
-  const navigate = useNavigate();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const services = [
     {
+      number: "01",
       title: "Custom Logo Design",
-      description: "Create a unique and memorable logo that represents your brand identity and values."
+      description:
+        "Unique logo concepts created to represent your brand and make it memorable.",
     },
     {
-      title: "Brand Identity Design",
-      description: "Complete brand identity packages including logos, color palettes, typography, and brand guidelines."
+      number: "02",
+      title: "Brand Identity",
+      description:
+        "A consistent visual identity built around your logo, colors and typography.",
     },
     {
-      title: "Minimalist Logo Design",
-      description: "Simple, clean, and modern logo designs that make a lasting impression."
+      number: "03",
+      title: "Minimalist Design",
+      description:
+        "Clean and modern logos designed to communicate more with less.",
     },
     {
-      title: "Corporate Logo Design",
-      description: "Professional logos designed for businesses, corporations, and enterprises."
+      number: "04",
+      title: "Logo Redesign",
+      description:
+        "Refresh your existing identity while keeping the recognition your brand already has.",
     },
-    {
-      title: "Creative & Artistic Logos",
-      description: "Unique and artistic logo designs that stand out from the competition."
-    },
-    {
-      title: "Logo Redesign & Refresh",
-      description: "Modernize your existing logo while maintaining brand recognition and equity."
-    }
   ];
 
-  const styles = ["Minimalist", "Modern", "Classic", "Vintage", "Bold", "Elegant"];
+  const styles = [
+    "Minimalist",
+    "Modern",
+    "Classic",
+    "Bold",
+    "Elegant",
+    "Creative",
+  ];
+
+  const process = [
+    {
+      number: "01",
+      title: "Discover",
+      desc: "Understand your brand and visual direction.",
+    },
+    {
+      number: "02",
+      title: "Explore",
+      desc: "Develop concepts and creative directions.",
+    },
+    {
+      number: "03",
+      title: "Refine",
+      desc: "Perfect the selected concept together.",
+    },
+    {
+      number: "04",
+      title: "Deliver",
+      desc: "Prepare your final logo and brand assets.",
+    },
+  ];
 
   return (
     <>
       <Navbar />
-      
-      {/* ============ SERVICES SECTION ============ */}
+
+      {/* ================= HERO ================= */}
+      <section className="ld-hero">
+        <div className="ld-container ld-hero-grid">
+          <motion.div
+            className="ld-hero-content"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <span className="ld-label">LOGO DESIGNING</span>
+
+            <h1>
+              Your Brand.
+              <span> Your Identity.</span>
+            </h1>
+
+            <p>
+              We create memorable logo designs that give your business a
+              distinctive visual identity and a strong first impression.
+            </p>
+
+            <div className="ld-hero-buttons">
+              <Link to="/contact" className="ld-primary-btn">
+                Create Your Logo
+              </Link>
+
+              <Link to="/services" className="ld-secondary-btn">
+                Back to Services
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="ld-hero-visual"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="ld-logo-card">
+              <div className="ld-card-top">
+                <span>BRAND IDENTITY</span>
+                <strong>01</strong>
+              </div>
+
+              <div className="ld-logo-mark">
+                <div className="ld-mark-shape"></div>
+                <div className="ld-mark-inner">V</div>
+              </div>
+
+              <div className="ld-logo-name">
+                <span>YOUR</span>
+                <strong>BRAND</strong>
+              </div>
+
+              <div className="ld-card-bottom">
+                <span>FORM</span>
+                <span>IDENTITY</span>
+                <span>IMPACT</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ================= SERVICES + STYLES ================= */}
       <section className="ld-services">
         <div className="ld-container">
-          <motion.div 
-            className="ld-section-header"
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div
+            className="ld-section-heading"
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="ld-section-tag">WHAT WE CREATE</span>
-            <h2>Logo <span className="ld-gradient">Designing</span></h2>
-            <p>Create a powerful brand identity with custom logo designs that leave a lasting impression</p>
+            <span>WHAT WE CREATE</span>
+
+            <h2>
+              Design that gives
+              <br />
+              <strong>your brand a face.</strong>
+            </h2>
           </motion.div>
 
           <div className="ld-services-grid">
             {services.map((service, index) => (
-              <motion.div 
-                key={index}
+              <motion.div
                 className="ld-service-card"
+                key={service.number}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.08 }}
+                viewport={{ once: true }}
+              >
+                <span className="ld-number">{service.number}</span>
+
+                <h3>{service.title}</h3>
+
+                <p>{service.description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="ld-style-wrapper">
+            <div className="ld-style-heading">
+              <span>DESIGN LANGUAGE</span>
+
+              <h3>
+                Different styles.
+                <br />
+                One strong identity.
+              </h3>
+            </div>
+
+            <div className="ld-style-list">
+              {styles.map((style) => (
+                <div className="ld-style-item" key={style}>
+                  {style}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= PROCESS + CTA ================= */}
+      <section className="ld-process">
+        <div className="ld-container">
+          <motion.div
+            className="ld-section-heading"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span>OUR PROCESS</span>
+
+            <h2>
+              From idea
+              <br />
+              <strong>to identity.</strong>
+            </h2>
+          </motion.div>
+
+          <div className="ld-process-grid">
+            {process.map((step, index) => (
+              <motion.div
+                className="ld-process-item"
+                key={step.number}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
+                <span>{step.number}</span>
+
+                <h3>{step.title}</h3>
+
+                <p>{step.desc}</p>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ============ STYLES SECTION ============ */}
-      <section className="ld-styles">
-        <div className="ld-container">
-          <motion.div 
-            className="ld-section-header"
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div
+            className="ld-final-cta"
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="ld-section-tag">DESIGN STYLES</span>
-            <h2>Our <span className="ld-gradient">Design Styles</span></h2>
-            <p>We create logos in various styles to match your brand personality</p>
-          </motion.div>
+            <div>
+              <span>MAKE IT MEMORABLE</span>
 
-          <div className="ld-styles-grid">
-            {styles.map((style, index) => (
-              <motion.div 
-                key={index}
-                className="ld-style-item"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-                viewport={{ once: true }}
-              >
-                <span className="ld-style-name">{style}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ PROCESS SECTION ============ */}
-      <section className="ld-process">
-        <div className="ld-container">
-          <motion.div 
-            className="ld-section-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="ld-section-tag">OUR PROCESS</span>
-            <h2>How We <span className="ld-gradient">Design</span></h2>
-            <p>A collaborative process to bring your brand vision to life</p>
-          </motion.div>
-
-          <div className="ld-process-grid">
-            {[
-              { number: "01", title: "Discovery", desc: "We learn about your brand, vision, and design preferences." },
-              { number: "02", title: "Research", desc: "Analyze your industry, competitors, and target audience." },
-              { number: "03", title: "Sketches", desc: "Create multiple logo concepts and design directions." },
-              { number: "04", title: "Design", desc: "Develop refined digital versions of the chosen concepts." },
-              { number: "05", title: "Revisions", desc: "Collaborate with you to perfect the design." },
-              { number: "06", title: "Delivery", desc: "Finalize and deliver all logo files and brand assets." }
-            ].map((step, index) => (
-              <motion.div 
-                key={index}
-                className="ld-process-step"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="ld-step-number">{step.number}</div>
-                <div className="ld-step-content">
-                  <h4>{step.title}</h4>
-                  <p>{step.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ============ CTA SECTION ============ */}
-      <section className="ld-cta">
-        <div className="ld-container">
-          <motion.div 
-            className="ld-cta-content"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-          >
-            <h2>Ready to Create Your <span className="ld-gradient">Brand Identity</span>?</h2>
-            <p>Let's design a logo that represents your brand and connects with your audience.</p>
-            <div className="ld-cta-buttons">
-              <Link to="/contact" className="ld-btn-primary">
-                Get Started Now <ArrowRight size={18} />
-              </Link>
-              <button 
-                className="ld-btn-secondary"
-                onClick={() => navigate('/services')}
-              >
-                ← Back to Services
-              </button>
+              <h2>
+                Your logo is the
+                <br />
+                first impression.
+              </h2>
             </div>
+
+            <Link to="/contact" className="ld-cta-btn">
+              Start a Conversation
+            </Link>
           </motion.div>
         </div>
       </section>
+
+      <Footer />
     </>
   );
 }

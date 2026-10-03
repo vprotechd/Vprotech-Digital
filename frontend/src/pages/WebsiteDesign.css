@@ -1,220 +1,521 @@
-/* src/pages/WebsiteDesign.css */
+/* =====================================================
+   WEBSITE DESIGN PAGE
+   ===================================================== */
 
-/* ============ CONTAINER ============ */
 .ws-container {
-  max-width: 1200px;
+  width: min(1180px, 90%);
   margin: 0 auto;
-  padding: 20px 24px;
 }
 
-/* ============ SERVICES SECTION ============ */
-.ws-services {
-  padding: 80px 0 40px;
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.ws-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 110px 0 100px;
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(124, 58, 237, 0.13),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #faf8ff 0%, #ffffff 55%, #f4f0ff 100%);
+}
+
+.ws-hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 80px;
+}
+
+.ws-hero-content {
+  max-width: 650px;
+}
+
+.ws-label {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #7c3aed;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+}
+
+.ws-hero h1 {
+  margin: 0;
+  color: #17151d;
+  font-size: clamp(45px, 5.2vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -3px;
+  font-weight: 800;
+}
+
+.ws-hero h1 span {
+  display: block;
+  color: #7c3aed;
+}
+
+.ws-hero p {
+  max-width: 600px;
+  margin: 28px 0 34px;
+  color: #68636f;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.ws-hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.ws-primary-btn,
+.ws-secondary-btn,
+.ws-cta-btn {
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.ws-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 26px;
+  border-radius: 8px;
+  background: #7c3aed;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.22);
+}
+
+.ws-primary-btn:hover {
+  background: #6828d8;
+  transform: translateY(-2px);
+}
+
+.ws-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 25px;
+  border: 1px solid #ddd7e8;
+  border-radius: 8px;
+  color: #29252f;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ws-secondary-btn:hover {
+  border-color: #7c3aed;
+  color: #7c3aed;
+}
+
+/* =====================================================
+   DESIGN CARD
+   ===================================================== */
+
+.ws-design-card {
+  position: relative;
+  min-height: 430px;
+  padding: 28px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #17131f;
+  color: #ffffff;
+  box-shadow: 0 30px 70px rgba(30, 20, 45, 0.2);
+}
+
+.ws-design-card::before {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  top: -100px;
+  right: -80px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.25);
+  filter: blur(10px);
+}
+
+.ws-card-top,
+.ws-card-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.ws-card-top {
+  color: #bdb5ca;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.ws-browser {
+  position: relative;
+  z-index: 2;
+  margin: 42px 0;
+  overflow: hidden;
+  border-radius: 12px;
   background: #ffffff;
 }
 
-.ws-section-header {
-  text-align: center;
-  max-width: 640px;
-  margin: 0 auto 48px;
+.ws-browser-bar {
+  display: flex;
+  gap: 6px;
+  padding: 10px 13px;
+  background: #ece9ef;
 }
 
-.ws-section-tag {
-  display: inline-block;
-  color: #4F46E5;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
+.ws-browser-bar span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #aaa3b1;
 }
 
-.ws-section-header h2 {
-  font-size: 36px;
-  font-weight: 800;
-  color: #0a0f1e;
-  margin-bottom: 12px;
+.ws-browser-content {
+  padding: 32px 25px;
+  min-height: 210px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.08),
+      rgba(124, 58, 237, 0.02)
+    );
 }
 
-.ws-gradient {
-  background: linear-gradient(135deg, #4F46E5, #818CF8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.ws-browser-line {
+  width: 72%;
+  height: 9px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background: #d6d0dd;
 }
 
-.ws-section-header p {
-  color: #475569;
+.ws-browser-line.large {
+  width: 48%;
+  height: 18px;
+  background: #7c3aed;
+}
+
+.ws-browser-line.short {
+  width: 55%;
+}
+
+.ws-browser-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.ws-browser-grid div {
+  height: 75px;
+  border-radius: 8px;
+  background: #ebe6f2;
+}
+
+.ws-card-bottom {
+  color: #ffffff;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+/* =====================================================
+   SERVICES
+   ===================================================== */
+
+.ws-services {
+  padding: 110px 0;
+  background: #ffffff;
+}
+
+.ws-section-heading {
+  max-width: 720px;
+  margin-bottom: 55px;
+}
+
+.ws-section-heading h2 {
+  margin: 0;
+  color: #18151d;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+}
+
+.ws-section-heading h2 span {
+  color: #7c3aed;
+}
+
+.ws-section-heading p {
+  max-width: 650px;
+  margin-top: 18px;
+  color: #706b77;
+  line-height: 1.7;
   font-size: 16px;
 }
 
 .ws-services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
 }
 
 .ws-service-card {
-  padding: 32px 24px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 12px;
-  transition: all 0.3s;
+  position: relative;
+  min-height: 210px;
+  padding: 30px;
+  border: 1px solid #ebe7f0;
+  border-radius: 16px;
+  background: #ffffff;
+  transition: 0.35s ease;
 }
 
 .ws-service-card:hover {
-  border-color: rgba(79, 70, 229, 0.2);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  border-color: #c9b5ed;
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(50, 30, 80, 0.08);
+}
+
+.ws-number {
+  display: block;
+  margin-bottom: 35px;
+  color: #a78bfa;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
 }
 
 .ws-service-card h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0a0f1e;
-  margin-bottom: 8px;
+  margin: 0 0 12px;
+  color: #201c26;
+  font-size: 21px;
 }
 
 .ws-service-card p {
-  color: #64748b;
-  font-size: 14px;
+  max-width: 470px;
+  margin: 0;
+  color: #716c77;
   line-height: 1.7;
+  font-size: 14px;
 }
 
-/* ============ PROCESS SECTION ============ */
+/* =====================================================
+   DESIGN FOCUS
+   ===================================================== */
+
+.ws-focus-wrapper {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 70px;
+  margin-top: 90px;
+  padding: 55px;
+  border-radius: 20px;
+  background: #f7f4fb;
+}
+
+.ws-focus-heading span {
+  color: #7c3aed;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.ws-focus-heading h3 {
+  max-width: 350px;
+  margin: 15px 0 0;
+  color: #1c1822;
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.ws-focus-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+
+.ws-focus-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 65px;
+  border-bottom: 1px solid #e4deec;
+}
+
+.ws-focus-item span {
+  color: #a78bfa;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ws-focus-item p {
+  margin: 0;
+  color: #37323e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =====================================================
+   PROCESS
+   ===================================================== */
+
 .ws-process {
-  padding: 60px 0;
-  background: #ffffff;
+  padding: 110px 0;
+  background: #f8f6fb;
 }
 
 .ws-process-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 90px;
 }
 
-.ws-process-step {
-  display: flex;
-  gap: 16px;
-  padding: 20px 24px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 12px;
-  transition: all 0.3s;
-}
-
-.ws-process-step:hover {
-  border-color: rgba(79, 70, 229, 0.15);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-}
-
-.ws-step-number {
-  font-size: 28px;
-  font-weight: 800;
-  color: #4F46E5;
-  line-height: 1;
-  flex-shrink: 0;
-  min-width: 40px;
-}
-
-.ws-step-content h4 {
-  color: #0a0f1e;
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.ws-step-content p {
-  color: #64748b;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* ============ CTA SECTION ============ */
-.ws-cta {
-  padding: 80px 0;
+.ws-process-item {
+  padding: 30px;
+  min-height: 220px;
+  border-radius: 16px;
   background: #ffffff;
-  border-top: 1px solid #f1f5f9;
+  border: 1px solid #ebe7f0;
+  transition: 0.3s ease;
 }
 
-.ws-cta-content {
-  text-align: center;
-  max-width: 640px;
-  margin: 0 auto;
+.ws-process-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(50, 30, 80, 0.08);
 }
 
-.ws-cta-content h2 {
-  font-size: 36px;
+.ws-process-item > span {
+  display: block;
+  margin-bottom: 55px;
+  color: #7c3aed;
+  font-size: 12px;
   font-weight: 800;
-  color: #0a0f1e;
-  margin-bottom: 12px;
+  letter-spacing: 1px;
 }
 
-.ws-cta-content p {
-  color: #64748b;
-  font-size: 18px;
-  margin-bottom: 32px;
+.ws-process-item h3 {
+  margin: 0 0 10px;
+  color: #211d27;
+  font-size: 20px;
 }
 
-.ws-cta-buttons {
+.ws-process-item p {
+  margin: 0;
+  color: #716c77;
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+/* =====================================================
+   CTA
+   ===================================================== */
+
+.ws-final-cta {
   display: flex;
-  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 50px 55px;
+  border-radius: 20px;
+  background: #17131f;
+  color: #ffffff;
+}
+
+.ws-final-cta span {
+  color: #a78bfa;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.ws-final-cta h2 {
+  max-width: 650px;
+  margin: 12px 0 0;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.ws-final-cta h2 span {
+  color: #a78bfa;
+  font-size: inherit;
+  letter-spacing: inherit;
+}
+
+.ws-cta-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  min-height: 52px;
+  padding: 0 25px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #17131f;
+  font-size: 14px;
+  font-weight: 700;
 }
 
-.ws-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  background: linear-gradient(135deg, #4F46E5, #1E3A8A);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-decoration: none;
+.ws-cta-btn:hover {
+  background: #a78bfa;
+  color: #ffffff;
+  transform: translateY(-2px);
 }
 
-.ws-btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(79, 70, 229, 0.3);
-}
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
 
-.ws-btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  background: rgba(0, 0, 0, 0.04);
-  color: #1e293b;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-decoration: none;
-}
+@media (max-width: 1000px) {
+  .ws-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 55px;
+  }
 
-.ws-btn-secondary:hover {
-  background: rgba(0, 0, 0, 0.08);
-  transform: translateY(-3px);
-}
+  .ws-hero-content {
+    max-width: 750px;
+  }
 
-/* ============ RESPONSIVE ============ */
-@media (max-width: 1024px) {
-  .ws-services-grid {
+  .ws-design-card {
+    max-width: 650px;
+  }
+
+  .ws-process-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ws-focus-wrapper {
+    grid-template-columns: 1fr;
+    gap: 35px;
   }
 }
 
-@media (max-width: 768px) {
-  .ws-services {
-    padding: 60px 0 30px;
+@media (max-width: 650px) {
+  .ws-hero {
+    padding: 80px 0 70px;
+  }
+
+  .ws-hero h1 {
+    font-size: 44px;
+    letter-spacing: -2px;
+  }
+
+  .ws-services,
+  .ws-process {
+    padding: 80px 0;
   }
 
   .ws-services-grid {
@@ -225,36 +526,49 @@
     grid-template-columns: 1fr;
   }
 
-  .ws-section-header h2 {
-    font-size: 28px;
+  .ws-focus-wrapper {
+    padding: 35px 25px;
   }
 
-  .ws-cta-content h2 {
-    font-size: 28px;
+  .ws-focus-list {
+    grid-template-columns: 1fr;
   }
 
-  .ws-cta-buttons {
+  .ws-final-cta {
     flex-direction: column;
-  }
-
-  .ws-cta-buttons .ws-btn-primary,
-  .ws-cta-buttons .ws-btn-secondary {
-    width: 100%;
-    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 30px;
   }
 }
 
-@media (max-width: 480px) {
-  .ws-service-card {
-    padding: 24px 16px;
+@media (max-width: 400px) {
+  .ws-container {
+    width: 88%;
   }
 
-  .ws-step-number {
-    font-size: 22px;
-    min-width: 32px;
+  .ws-hero h1 {
+    font-size: 38px;
   }
 
-  .ws-section-header h2 {
-    font-size: 24px;
+  .ws-hero-buttons {
+    flex-direction: column;
+  }
+
+  .ws-primary-btn,
+  .ws-secondary-btn {
+    width: 100%;
+  }
+
+  .ws-design-card {
+    min-height: 370px;
+    padding: 20px;
+  }
+
+  .ws-browser-content {
+    padding: 25px 18px;
+  }
+
+  .ws-section-heading h2 {
+    font-size: 34px;
   }
 }

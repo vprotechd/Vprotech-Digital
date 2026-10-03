@@ -1,183 +1,267 @@
-// src/pages/DigitalMarketing.jsx
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import './DigitalMarketing.css';
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "./DigitalMarketing.css";
 
 export default function DigitalMarketing() {
-  const navigate = useNavigate();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const services = [
     {
-      title: "Search Engine Optimization (SEO)",
-      description: "Boost your website rankings with strategic SEO techniques that drive organic traffic and increase visibility."
+      number: "01",
+      title: "Search Engine Optimization",
+      description:
+        "Improve your search visibility and attract relevant organic traffic.",
     },
     {
+      number: "02",
       title: "Social Media Marketing",
-      description: "Engage your audience across all major platforms with creative content and strategic social media campaigns."
+      description:
+        "Build your brand and engage your audience with strategic social campaigns.",
     },
     {
+      number: "03",
       title: "Google Ads & PPC",
-      description: "Targeted advertising campaigns that deliver measurable results and maximize your return on investment."
+      description:
+        "Reach high-intent customers through targeted and measurable campaigns.",
     },
     {
-      title: "Email Marketing",
-      description: "Build lasting relationships with personalized email campaigns that convert leads into loyal customers."
-    },
-    {
+      number: "04",
       title: "Content Marketing",
-      description: "Create valuable content that attracts, engages, and converts your target audience."
+      description:
+        "Create valuable content that attracts, engages and converts your audience.",
     },
-    {
-      title: "Analytics & Reporting",
-      description: "Data-driven insights to track performance, optimize campaigns, and make informed business decisions."
-    }
   ];
 
-  const platforms = ["Facebook", "Instagram", "Twitter", "LinkedIn", "YouTube", "Google"];
+  const platforms = [
+    "Google",
+    "Instagram",
+    "Facebook",
+    "LinkedIn",
+    "YouTube",
+    "Email",
+  ];
+
+  const process = [
+    {
+      number: "01",
+      title: "Research",
+      desc: "Understand your market, audience and competitors.",
+    },
+    {
+      number: "02",
+      title: "Strategy",
+      desc: "Create a marketing plan aligned with your goals.",
+    },
+    {
+      number: "03",
+      title: "Execute",
+      desc: "Launch campaigns across the right channels.",
+    },
+    {
+      number: "04",
+      title: "Optimize",
+      desc: "Measure performance and improve what works.",
+    },
+  ];
 
   return (
     <>
       <Navbar />
-      
-      {/* ============ SERVICES SECTION ============ */}
-      <section className="dm-services">
-        <div className="dm-container">
-          <motion.div 
-            className="dm-section-header"
+
+      {/* ================= HERO ================= */}
+      <section className="dm-hero">
+        <div className="dm-container dm-hero-grid">
+          <motion.div
+            className="dm-hero-content"
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
           >
-            <span className="dm-section-tag">WHAT WE OFFER</span>
-            <h2>Digital <span className="dm-gradient">Marketing</span></h2>
-            <p>Data-driven marketing strategies to grow your brand and boost revenue</p>
-          </motion.div>
+            <span className="dm-label">DIGITAL MARKETING</span>
 
-          <div className="dm-services-grid">
-            {services.map((service, index) => (
-              <motion.div 
-                key={index}
-                className="dm-service-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+            <h1>
+              Make Your Brand
+              <span> Impossible to Ignore.</span>
+            </h1>
 
-      {/* ============ PLATFORMS SECTION ============ */}
-      <section className="dm-platforms">
-        <div className="dm-container">
-          <motion.div 
-            className="dm-section-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="dm-section-tag">PLATFORMS</span>
-            <h2>We Work Across <span className="dm-gradient">All Platforms</span></h2>
-            <p>Reach your audience wherever they are with our multi-platform approach</p>
-          </motion.div>
+            <p>
+              We create focused digital marketing strategies that increase
+              visibility, reach the right audience and turn attention into
+              business growth.
+            </p>
 
-          <div className="dm-platforms-grid">
-            {platforms.map((platform, index) => (
-              <motion.div 
-                key={index}
-                className="dm-platform-item"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-                viewport={{ once: true }}
-              >
-                <span className="dm-platform-name">{platform}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ PROCESS SECTION ============ */}
-      <section className="dm-process">
-        <div className="dm-container">
-          <motion.div 
-            className="dm-section-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="dm-section-tag">OUR PROCESS</span>
-            <h2>How We <span className="dm-gradient">Drive Results</span></h2>
-            <p>A strategic approach to deliver measurable marketing success</p>
-          </motion.div>
-
-          <div className="dm-process-grid">
-            {[
-              { number: "01", title: "Research & Analysis", desc: "We analyze your business, competitors, and target audience." },
-              { number: "02", title: "Strategy Development", desc: "Create a customized marketing strategy aligned with your goals." },
-              { number: "03", title: "Campaign Execution", desc: "Launch targeted campaigns across multiple platforms." },
-              { number: "04", title: "Monitoring & Optimization", desc: "Track performance and optimize for better results." },
-              { number: "05", title: "Reporting", desc: "Data-driven reports to show ROI and campaign effectiveness." },
-              { number: "06", title: "Growth & Scaling", desc: "Scale successful strategies for continuous business growth." }
-            ].map((step, index) => (
-              <motion.div 
-                key={index}
-                className="dm-process-step"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="dm-step-number">{step.number}</div>
-                <div className="dm-step-content">
-                  <h4>{step.title}</h4>
-                  <p>{step.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ CTA SECTION ============ */}
-      <section className="dm-cta">
-        <div className="dm-container">
-          <motion.div 
-            className="dm-cta-content"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-          >
-            <h2>Ready to Grow Your <span className="dm-gradient">Digital Presence</span>?</h2>
-            <p>Let's create a custom marketing strategy that drives real results for your business.</p>
-            <div className="dm-cta-buttons">
-              <Link to="/contact" className="dm-btn-primary">
-                Get Started Now <ArrowRight size={18} />
+            <div className="dm-hero-buttons">
+              <Link to="/contact" className="dm-primary-btn">
+                Start Your Campaign
               </Link>
-              <button 
-                className="dm-btn-secondary"
-                onClick={() => navigate('/services')}
-              >
-                ← Back to Services
-              </button>
+
+              <Link to="/services" className="dm-secondary-btn">
+                Back to Services
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="dm-hero-visual"
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="dm-growth-card">
+              <div className="dm-growth-top">
+                <span>DIGITAL GROWTH</span>
+                <strong>01</strong>
+              </div>
+
+              <div className="dm-growth-main">
+                <div className="dm-growth-line line-one"></div>
+                <div className="dm-growth-line line-two"></div>
+                <div className="dm-growth-line line-three"></div>
+
+                <div className="dm-growth-bars">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+
+              <div className="dm-growth-bottom">
+                <span>REACH</span>
+                <span>ENGAGE</span>
+                <span>GROW</span>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
+      {/* ================= SERVICES + PLATFORMS ================= */}
+      <section className="dm-services">
+        <div className="dm-container">
+          <motion.div
+            className="dm-section-heading"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span>WHAT WE DO</span>
+
+            <h2>
+              Marketing built around
+              <br />
+              <strong>your growth.</strong>
+            </h2>
+          </motion.div>
+
+          <div className="dm-services-grid">
+            {services.map((service, index) => (
+              <motion.div
+                className="dm-service-card"
+                key={service.number}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.08 }}
+                viewport={{ once: true }}
+              >
+                <span className="dm-number">{service.number}</span>
+
+                <h3>{service.title}</h3>
+
+                <p>{service.description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="dm-platform-wrapper">
+            <div className="dm-platform-heading">
+              <span>CHANNELS</span>
+
+              <h3>
+                Reach your audience
+                <br />
+                where they are.
+              </h3>
+            </div>
+
+            <div className="dm-platform-list">
+              {platforms.map((platform) => (
+                <div className="dm-platform-item" key={platform}>
+                  {platform}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= PROCESS + CTA ================= */}
+      <section className="dm-process">
+        <div className="dm-container">
+          <motion.div
+            className="dm-section-heading"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span>OUR APPROACH</span>
+
+            <h2>
+              Strategy first.
+              <br />
+              <strong>Results always.</strong>
+            </h2>
+          </motion.div>
+
+          <div className="dm-process-grid">
+            {process.map((step, index) => (
+              <motion.div
+                className="dm-process-item"
+                key={step.number}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <span>{step.number}</span>
+
+                <h3>{step.title}</h3>
+
+                <p>{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            className="dm-final-cta"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div>
+              <span>READY TO GROW?</span>
+
+              <h2>
+                Your next customer
+                <br />
+                is already online.
+              </h2>
+            </div>
+
+            <Link to="/contact" className="dm-cta-btn">
+              Start a Conversation
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
     </>
   );
 }
