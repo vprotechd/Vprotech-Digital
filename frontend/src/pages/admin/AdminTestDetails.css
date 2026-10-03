@@ -1,6 +1,6 @@
 .admin-test-details-page {
   min-height: 100vh;
-  padding: 35px;
+  padding: 120px 35px 35px;
   background: #f6f8fb;
 }
 
@@ -359,6 +359,8 @@
 .admin-test-loading,
 .admin-test-error {
   min-height: 70vh;
+  padding: 100px 20px 20px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -414,7 +416,7 @@
 
 @media (max-width: 650px) {
   .admin-test-details-page {
-    padding: 20px 14px;
+    padding: 96px 14px 20px;
   }
 
   .header-main {
