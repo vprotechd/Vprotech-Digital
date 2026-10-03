@@ -4,7 +4,7 @@
 
 .admin-result-page {
   min-height: 100vh;
-  padding: 30px;
+  padding: 120px 30px 30px;
   max-width: 1450px;
   margin: 0 auto;
   background: #f8fafc;
@@ -539,7 +539,7 @@
 
 @media (max-width: 750px) {
   .admin-result-page {
-    padding: 18px;
+    padding: 96px 18px 18px;
   }
 
   .result-info-grid {
