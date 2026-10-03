@@ -1959,7 +1959,7 @@ const filteredApplications = applications.filter(app => {
                       {/* STATUS */}
                       <td>
 <select
-  value={application.status || "pending"}
+  value={application.status || "select"}
   disabled={updatingInternshipApplicationId === application._id}
   onChange={(e) =>
     handleInternshipApplicationStatus(
