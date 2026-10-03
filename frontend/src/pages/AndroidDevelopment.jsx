@@ -288,7 +288,7 @@ export default function AndroidDevelopment() {
         </div>
       </section>
 
-      <Footer />
+   
     </>
   );
 }

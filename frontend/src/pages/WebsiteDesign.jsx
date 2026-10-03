@@ -272,7 +272,7 @@ export default function WebsiteDesign() {
         </div>
       </section>
 
-      <Footer />
+  
     </>
   );
 }

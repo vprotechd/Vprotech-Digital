@@ -282,7 +282,7 @@ export default function InteriorDesigning() {
         </div>
       </section>
 
-      <Footer />
+    
     </>
   );
 }
