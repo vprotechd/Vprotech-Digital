@@ -24,7 +24,7 @@ const AdminTestAttempts = () => {
     loadAttempts();
   }, []);
 
-  const loadAttempts = async () => {
+  const loadAttempts = async (showSuccessToast = false) => {
     try {
       setLoading(true);
 
@@ -37,6 +37,10 @@ const AdminTestAttempts = () => {
       }
 
       setAttempts(response.attempts || []);
+
+      if (showSuccessToast) {
+        toast.success("Test results refreshed");
+      }
     } catch (error) {
       console.error("Load test attempts error:", error);
 
@@ -136,7 +140,7 @@ const AdminTestAttempts = () => {
 
         <button
           className="refresh-attempts-btn"
-          onClick={loadAttempts}
+          onClick={() => loadAttempts(true)}
         >
           <RefreshCw size={17} />
           Refresh

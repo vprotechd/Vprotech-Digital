@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { getInternshipPrograms } from "../../services/internshipService";
 import InternshipCard from "../../components/internship/InternshipCard";
 import "./InternshipPrograms.css";
@@ -24,21 +25,20 @@ export default function InternshipPrograms() {
 
       setPrograms(data?.programs || []);
     } catch (err) {
-  console.error("❌ Internship API Error:", err);
-  console.error("❌ Status:", err?.response?.status);
-  console.error("❌ Response:", err?.response?.data);
-  console.error("❌ Request URL:", err?.config?.url);
-  console.error("❌ Base URL:", err?.config?.baseURL);
+      console.error("Internship API error:", err);
+      console.error("Internship API response:", err?.response?.data);
 
-  setError(
-    err?.response?.data?.message ||
-      `Unable to load internship programs${
-        err?.response?.status
-          ? ` (HTTP ${err.response.status})`
-          : ""
-      }. Please try again.`
-  );
-} finally {
+      const message =
+        err?.response?.data?.message ||
+        `Unable to load internship programs${
+          err?.response?.status
+            ? ` (HTTP ${err.response.status})`
+            : ""
+        }. Please try again.`;
+
+      setError(message);
+      toast.error(message);
+    } finally {
       setLoading(false);
     }
   };

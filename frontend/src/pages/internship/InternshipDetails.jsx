@@ -60,15 +60,18 @@ export default function InternshipDetails() {
       if (data?.success) {
         setProgram(data.program);
       } else {
-        setError("Internship program not found.");
+        const message = "Internship program not found.";
+        setError(message);
+        toast.error(message);
       }
     } catch (err) {
       console.error("Internship details error:", err);
 
-      setError(
+      const message =
         err?.response?.data?.message ||
-          "Unable to load internship details."
-      );
+        "Unable to load internship details.";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -102,6 +105,12 @@ export default function InternshipDetails() {
       // If user is not logged in or has no application,
       // simply show Apply Now.
       setMyApplication(null);
+      if (localStorage.getItem("token")) {
+        toast.error(
+          err?.response?.data?.message ||
+            "Unable to load your application status."
+        );
+      }
     } finally {
       setApplicationLoading(false);
     }

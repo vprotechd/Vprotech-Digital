@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   CheckCircle,
   XCircle,
@@ -16,6 +17,25 @@ export default function TestResult() {
   const location = useLocation();
 
   const result = location.state?.result;
+  const passed =
+    result?.passed === true ||
+    result?.status === "passed";
+
+  useEffect(() => {
+    if (!result) {
+      toast.error("Test result information could not be found.", {
+        id: "test-result-unavailable",
+      });
+      return;
+    }
+
+    toast.success(
+      passed
+        ? "Test submitted successfully. You passed!"
+        : "Test submitted successfully. Your result is available.",
+      { id: "test-result-submitted" }
+    );
+  }, [result, passed]);
 
   // If result data is missing
   if (!result) {
@@ -41,10 +61,6 @@ export default function TestResult() {
       </div>
     );
   }
-
-  const passed =
-    result.passed === true ||
-    result.status === "passed";
 
   return (
     <div className="test-result-page">

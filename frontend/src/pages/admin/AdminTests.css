@@ -99,6 +99,39 @@
   transform: translateY(-1px);
 }
 
+.admin-test-delete-confirm {
+  display: grid;
+  gap: 12px;
+  color: #171717;
+}
+
+.admin-test-delete-confirm p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.admin-test-delete-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.admin-test-delete-confirm-actions button {
+  padding: 7px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: #374151;
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-test-delete-confirm-actions button.confirm {
+  border-color: #dc2626;
+  background: #dc2626;
+  color: #fff;
+}
+
 /* =========================================================
    SUMMARY
 ========================================================= */

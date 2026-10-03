@@ -40,10 +40,23 @@ export default function CreateTest() {
       try {
         const data = await getInternshipPrograms();
 
-        setPrograms(data?.programs || data?.data || []);
+        const availablePrograms =
+          data?.programs || data?.data || [];
+
+        setPrograms(availablePrograms);
+
+        if (availablePrograms.length === 0) {
+          toast.error(
+            data?.message ||
+              "No internship programs are available. Create a program before creating a test."
+          );
+        }
       } catch (error) {
         console.error("Failed to load internship programs:", error);
-        toast.error("Failed to load internship programs");
+        toast.error(
+          error?.response?.data?.message ||
+            "Failed to load internship programs"
+        );
       } finally {
         setLoadingPrograms(false);
       }

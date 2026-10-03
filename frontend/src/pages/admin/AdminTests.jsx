@@ -61,13 +61,7 @@ export default function AdminTests() {
   // DELETE TEST
   // =========================================================
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this test? All questions belonging to this test will also be deleted."
-    );
-
-    if (!confirmed) return;
-
+  const deleteTestById = async (id) => {
     try {
       setDeletingId(id);
       await deleteTest(id);
@@ -94,6 +88,42 @@ export default function AdminTests() {
     } finally {
       setDeletingId(null);
     }
+  };
+
+  const handleDelete = (id) => {
+    toast(
+      (toastItem) => (
+        <div
+          role="alertdialog"
+          aria-label="Confirm test deletion"
+          className="admin-test-delete-confirm"
+        >
+          <p>
+            Delete this test and all its questions? This action cannot be
+            undone.
+          </p>
+          <div className="admin-test-delete-confirm-actions">
+            <button
+              type="button"
+              onClick={() => toast.dismiss(toastItem.id)}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="confirm"
+              onClick={() => {
+                toast.dismiss(toastItem.id);
+                deleteTestById(id);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ),
+      { duration: Infinity, id: `delete-test-${id}` }
+    );
   };
 
   // =========================================================

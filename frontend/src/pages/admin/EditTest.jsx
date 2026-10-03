@@ -70,6 +70,13 @@ export default function EditTest() {
           return;
         }
 
+        if (programsData.length === 0) {
+          toast.error(
+            programsResponse?.message ||
+              "No internship programs are available to assign to this test."
+          );
+        }
+
         setForm({
           title: test.title || "",
           description: test.description || "",

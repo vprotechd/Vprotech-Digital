@@ -187,8 +187,12 @@ export default function InternshipTest() {
   // SUBMIT TEST
   // =====================================================
 
-  const handleSubmitTest = async (autoSubmit = false) => {
+  const handleSubmitTest = async (
+    autoSubmit = false,
+    confirmed = false
+  ) => {
     if (!attempt?._id) {
+      toast.error("Unable to submit because the test attempt is missing.");
       return;
     }
 
@@ -196,14 +200,47 @@ export default function InternshipTest() {
       return;
     }
 
-    if (!autoSubmit) {
-      const confirmed = window.confirm(
-        "Are you sure you want to submit the test?"
+    if (!autoSubmit && !confirmed) {
+      toast(
+        (toastItem) => (
+          <div
+            role="alertdialog"
+            aria-label="Confirm test submission"
+            style={{
+              display: "grid",
+              gap: "12px",
+              color: "#172033",
+            }}
+          >
+            <span>Are you sure you want to submit the test?</span>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "8px",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => toast.dismiss(toastItem.id)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  toast.dismiss(toastItem.id);
+                  handleSubmitTest(false, true);
+                }}
+              >
+                Submit test
+              </button>
+            </div>
+          </div>
+        ),
+        { duration: Infinity }
       );
-
-      if (!confirmed) {
-        return;
-      }
+      return;
     }
 
     try {
