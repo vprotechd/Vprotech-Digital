@@ -1975,10 +1975,6 @@ const filteredApplications = applications.filter(app => {
     Pending
   </option>
 
-  <option value="reviewed">
-    Reviewed
-  </option>
-
   <option value="shortlisted">
     Approved / Test Unlocked
   </option>
@@ -1987,9 +1983,7 @@ const filteredApplications = applications.filter(app => {
     Rejected
   </option>
 
-  <option value="selected">
-    Selected
-  </option>
+
 </select>
                       </td>
 
