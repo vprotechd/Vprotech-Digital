@@ -281,7 +281,7 @@ const response = await fetch(`${API_URL}/applications`, {
               <div className="form-group">
                 <label>Full Name *</label>
                 <div className="input-wrapper">
-                  <User size={18} className="input-icon" />
+               
                   <input
                     type="text"
                     name="name"
@@ -296,7 +296,7 @@ const response = await fetch(`${API_URL}/applications`, {
               <div className="form-group">
                 <label>Email Address *</label>
                 <div className="input-wrapper">
-                  <Mail size={18} className="input-icon" />
+                
                   <input
                     type="email"
                     name="email"
@@ -311,7 +311,7 @@ const response = await fetch(`${API_URL}/applications`, {
               <div className="form-group">
                 <label>Phone Number *</label>
                 <div className="input-wrapper">
-                  <Phone size={18} className="input-icon" />
+              
                   <input
                     type="tel"
                     name="phone"
@@ -337,7 +337,7 @@ const response = await fetch(`${API_URL}/applications`, {
               <div className="form-group">
                 <label>Available Interview Time *</label>
                 <div className="input-wrapper">
-                  <Calendar size={18} className="input-icon" />
+                 
                   <select
                     name="availableTime"
                     value={formData.availableTime}

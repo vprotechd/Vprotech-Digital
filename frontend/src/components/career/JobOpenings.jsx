@@ -18,7 +18,8 @@ import {
   Zap,
   Sparkles,
   ArrowRight,
-  Loader
+  Loader,
+  IndianRupee
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { jobService } from '../../services/api'; // ✅ Import jobService
@@ -284,7 +285,7 @@ const navigate = useNavigate();
                         {job.type}
                       </span>
                       <span className="meta-item">
-                        <DollarSign size={16} />
+                       <IndianRupee size={16} />
                         {job.salary || 'Negotiable'}
                       </span>
                     </div>
