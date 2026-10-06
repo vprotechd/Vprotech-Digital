@@ -40,7 +40,7 @@ app.use(cors({
   ],
   credentials: true,
 }));
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -75,11 +75,19 @@ app.get("/api/health", (req, res) => {
 
 // Error handling
 app.use((err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  const statusCode =
+    err.type === "entity.too.large" || err.code === "LIMIT_FILE_SIZE"
+      ? 413
+      : res.statusCode === 200
+        ? 500
+        : res.statusCode;
   res.status(statusCode);
   res.json({
     success: false,
-    message: err.message,
+    message:
+      err.code === "LIMIT_FILE_SIZE"
+        ? "Image must be 5 MB or smaller"
+        : err.message,
     stack: process.env.NODE_ENV === "production" ? null : err.stack,
   });
 });

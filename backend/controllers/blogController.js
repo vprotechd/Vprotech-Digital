@@ -214,6 +214,18 @@ import asyncHandler from "express-async-handler";
 import Blog from "../models/Blog.js";
 import cloudinary from "../config/cloudinary.js";
 
+const parseTags = (tags) => {
+  if (Array.isArray(tags)) return tags;
+  if (typeof tags !== "string" || !tags.trim()) return [];
+
+  try {
+    const parsedTags = JSON.parse(tags);
+    return Array.isArray(parsedTags) ? parsedTags : [tags];
+  } catch {
+    return [tags];
+  }
+};
+
 // ============ GET ALL PUBLISHED BLOGS ============
 const getBlogs = asyncHandler(async (req, res) => {
   const blogs = await Blog.find({ isPublished: true })
@@ -288,7 +300,7 @@ const createBlog = asyncHandler(async (req, res) => {
     readTime: readTime || "5 min read",
     author: author || "VProTech Digital",
     authorId: req.user.id,
-    tags: tags || [],
+    tags: parseTags(tags),
   });
 
   res.status(201).json({
@@ -335,7 +347,7 @@ const updateBlog = asyncHandler(async (req, res) => {
   if (content) blog.content = content;
   if (readTime) blog.readTime = readTime;
   if (author) blog.author = author;
-  if (tags) blog.tags = tags;
+  if (tags !== undefined) blog.tags = parseTags(tags);
   if (isPublished !== undefined) blog.isPublished = isPublished;
 
   const updatedBlog = await blog.save();

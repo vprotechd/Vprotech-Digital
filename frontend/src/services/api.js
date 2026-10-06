@@ -137,27 +137,25 @@ export const blogService = {
   
   // Create blog with Cloudinary image upload
   createBlog: async (data) => {
-    // Check if there's an image file to upload
-    if (data.imageFile) {
+    let imageFile = data.imageFile;
+
+    if (!imageFile && data.image?.startsWith("data:image/")) {
+      const imageBlob = await fetch(data.image).then((response) => response.blob());
+      imageFile = new File([imageBlob], "blog-image", { type: imageBlob.type });
+    }
+
+    if (imageFile) {
       const formData = new FormData();
       
-      // Append all fields to FormData
-      Object.keys(data).forEach(key => {
-        if (key === 'tags' && Array.isArray(data[key])) {
-          // Convert tags array to JSON string
-          formData.append(key, JSON.stringify(data[key]));
-        } else if (key === 'imageFile') {
-          // Append the actual file
-          formData.append('image', data[key]);
-        } else if (key !== 'imageFile') {
-          formData.append(key, data[key] || '');
-        }
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === "image" || key === "imageFile") return;
+        formData.append(key, key === "tags" && Array.isArray(value) ? JSON.stringify(value) : value ?? "");
       });
+      formData.append("image", imageFile);
       
       const token = localStorage.getItem("token");
       const response = await axios.post(`${API_URL}/blogs`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -171,25 +169,25 @@ export const blogService = {
   
   // Update blog with Cloudinary image upload
   updateBlog: async (id, data) => {
-    // Check if there's an image file to upload
-    if (data.imageFile) {
+    let imageFile = data.imageFile;
+
+    if (!imageFile && data.image?.startsWith("data:image/")) {
+      const imageBlob = await fetch(data.image).then((response) => response.blob());
+      imageFile = new File([imageBlob], "blog-image", { type: imageBlob.type });
+    }
+
+    if (imageFile) {
       const formData = new FormData();
       
-      // Append all fields to FormData
-      Object.keys(data).forEach(key => {
-        if (key === 'tags' && Array.isArray(data[key])) {
-          formData.append(key, JSON.stringify(data[key]));
-        } else if (key === 'imageFile') {
-          formData.append('image', data[key]);
-        } else if (key !== 'imageFile') {
-          formData.append(key, data[key] || '');
-        }
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === "image" || key === "imageFile") return;
+        formData.append(key, key === "tags" && Array.isArray(value) ? JSON.stringify(value) : value ?? "");
       });
+      formData.append("image", imageFile);
       
       const token = localStorage.getItem("token");
       const response = await axios.put(`${API_URL}/blogs/${id}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       });
