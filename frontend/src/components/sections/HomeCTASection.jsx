@@ -69,7 +69,21 @@ export default function HomeCTASection() {
 
         <div className="home-cta-actions">
 
-         
+
+ <motion.button
+  type="button"
+  className="vpro-primary-btn"
+  onClick={() => navigate("/services")}
+  whileHover={{
+    scale: 1.05,
+  }}
+  whileTap={{
+    scale: 0.96,
+  }}
+>
+  <span>Our Services</span>
+  <ArrowRight size={18} />
+</motion.button>
 
 
           <button
