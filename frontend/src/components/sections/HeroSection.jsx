@@ -22,37 +22,6 @@ import "./HeroSection.css";
 
 
 /* ============================================================
-   WORD ANIMATION
-============================================================ */
-
-const container = {
-  hidden: {},
-  visible: {
-    transition: {
-      delayChildren: 0.25,
-      staggerChildren: 0.035,
-    },
-  },
-};
-
-const child = {
-  hidden: {
-    opacity: 0,
-    y: 25,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      ease: "easeOut",
-    },
-  },
-};
-
-
-/* ============================================================
    HERO SECTION
 ============================================================ */
 
@@ -317,12 +286,10 @@ const navigate = useNavigate();
           className="vpro-hero-content"
 
           initial={{
-            opacity: 0,
             x: -60,
           }}
 
           animate={{
-            opacity: 1,
             x: 0,
           }}
 
@@ -331,41 +298,25 @@ const navigate = useNavigate();
             ease: "easeOut",
           }}
         >
-
-
-
-           
-      
-
-
           {/* ==================================================
               HEADING
           ================================================== */}
 
           <motion.h1
             className="vpro-hero-title"
-
-            variants={container}
-
-            initial="hidden"
-
-            animate="visible"
+            initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{
+              delay: 0.2,
+              duration: 0.9,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
-
-            {titleText
-              .split(" ")
-              .map((word, index) => (
-
-                <motion.span
-                  key={`${word}-${index}`}
-                  variants={child}
-                  className="vpro-title-word"
-                >
-                  {word}
-                </motion.span>
-
-              ))}
-
+            {titleText.split(" ").map((word, index) => (
+              <span className="vpro-title-word" key={`${word}-${index}`}>
+                {word}
+              </span>
+            ))}
           </motion.h1>
 
 
@@ -411,28 +362,13 @@ const navigate = useNavigate();
               DESCRIPTION
           ================================================== */}
 
-          <motion.p
+          <p
             className="vpro-hero-description"
-
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-
-            transition={{
-              delay: 1,
-              duration: 0.7,
-            }}
           >
 
             {descriptionText}
 
-          </motion.p>
+          </p>
 
 
           {/* ==================================================

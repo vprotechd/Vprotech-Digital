@@ -25,7 +25,7 @@
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #f58220;
+   color: #1557d6;
 }
 
 .journey-heading h2 {
@@ -37,7 +37,7 @@
 }
 
 .journey-heading h2 span {
-  color: #f58220;
+   color: #1557d6;
 }
 
 .journey-heading p {
@@ -59,12 +59,14 @@
 .journey-track {
   display: flex;
   width: max-content;
-  gap: 24px;
   animation: journeySlide 35s linear infinite;
 }
 
-.journey-slider:hover .journey-track {
-  animation-play-state: paused;
+.journey-group {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 24px;
+  padding-right: 24px;
 }
 
 .journey-card {
@@ -95,7 +97,7 @@
   }
 
   to {
-    transform: translateX(calc(-50% - 12px));
+    transform: translateX(-50%);
   }
 }
 
@@ -132,8 +134,12 @@
   }
 
   .journey-track {
-    gap: 16px;
     animation-duration: 28s;
+  }
+
+  .journey-group {
+    gap: 16px;
+    padding-right: 16px;
   }
 
   .journey-card {
@@ -142,4 +148,3 @@
     border-radius: 14px;
   }
 }
-

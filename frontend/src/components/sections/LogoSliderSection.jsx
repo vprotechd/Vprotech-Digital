@@ -65,19 +65,26 @@ export default function LogoSliderSection() {
       <h2>Our Partners</h2>
 
       <div className="logo-slider">
-
         {/* TOP ROW - RIGHT TO LEFT */}
         <div className="logo-row">
           <div className="logo-track logo-track-left">
-            {[...topRow, ...topRow].map((logo, index) => (
-              <div className="logo-item" key={`top-${index}`}>
-                <img
-                  src={logo}
-                  alt={`Partner logo ${index + 1}`}
-                  loading="lazy"
-                  width="150"
-                  height="80"
-                />
+            {[topRow, topRow].map((logoSet, setIndex) => (
+              <div
+                className="logo-group"
+                key={`top-set-${setIndex}`}
+                aria-hidden={setIndex === 1}
+              >
+                {logoSet.map((logo, index) => (
+                  <div className="logo-item" key={`top-${setIndex}-${index}`}>
+                    <img
+                      src={logo}
+                      alt={setIndex === 0 ? `Partner logo ${index + 1}` : ""}
+                      loading="lazy"
+                      width="150"
+                      height="80"
+                    />
+                  </div>
+                ))}
               </div>
             ))}
           </div>
@@ -86,20 +93,27 @@ export default function LogoSliderSection() {
         {/* BOTTOM ROW - LEFT TO RIGHT */}
         <div className="logo-row">
           <div className="logo-track logo-track-right">
-            {[...bottomRow, ...bottomRow].map((logo, index) => (
-              <div className="logo-item" key={`bottom-${index}`}>
-                <img
-                  src={logo}
-                  alt={`Partner logo ${index + 14}`}
-                  loading="lazy"
-                  width="150"
-                  height="80"
-                />
+            {[bottomRow, bottomRow].map((logoSet, setIndex) => (
+              <div
+                className="logo-group"
+                key={`bottom-set-${setIndex}`}
+                aria-hidden={setIndex === 1}
+              >
+                {logoSet.map((logo, index) => (
+                  <div className="logo-item" key={`bottom-${setIndex}-${index}`}>
+                    <img
+                      src={logo}
+                      alt={setIndex === 0 ? `Partner logo ${index + 14}` : ""}
+                      loading="lazy"
+                      width="150"
+                      height="80"
+                    />
+                  </div>
+                ))}
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );

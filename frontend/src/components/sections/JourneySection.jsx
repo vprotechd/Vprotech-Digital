@@ -46,13 +46,21 @@ export default function JourneySection() {
 
         <div className="journey-slider">
           <div className="journey-track">
-            {[...journeyImages, ...journeyImages].map((image, index) => (
-              <div className="journey-card" key={index}>
-                <img
-                  src={image}
-                  alt={`Our Journey ${index + 1}`}
-                  loading="lazy"
-                />
+            {[journeyImages, journeyImages].map((imageSet, setIndex) => (
+              <div
+                className="journey-group"
+                key={`journey-set-${setIndex}`}
+                aria-hidden={setIndex === 1}
+              >
+                {imageSet.map((image, index) => (
+                  <div className="journey-card" key={`journey-${setIndex}-${index}`}>
+                    <img
+                      src={image}
+                      alt={setIndex === 0 ? `Our Journey ${index + 1}` : ""}
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
               </div>
             ))}
           </div>
@@ -62,4 +70,3 @@ export default function JourneySection() {
     </section>
   );
 }
-
