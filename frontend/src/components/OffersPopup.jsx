@@ -79,12 +79,10 @@ const getCourseImage = (offer) => {
   const image = offer.image || "";
   const slug = offer.courseSlug || "";
 
-  // Old Vite source path
   if (image.startsWith("/src/")) {
     return courseImages[slug] || "";
   }
 
-  // No image but course slug exists
   if (!image && slug) {
     return courseImages[slug] || "";
   }
@@ -101,10 +99,6 @@ const OffersPopup = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visible, setVisible] = useState(false);
 
-  // ====================================================
-  // TIMER REFERENCES
-  // ====================================================
-
   const repeatTimerRef = useRef(null);
   const firstPopupTimerRef = useRef(null);
 
@@ -117,75 +111,54 @@ const OffersPopup = () => {
 
     const loadOffers = async () => {
       try {
-        const response =
-          await offerService.getPopupOffers();
+        const response = await offerService.getPopupOffers();
 
-        // Prevent old async request from updating
-        // component after cleanup
         if (cancelled) {
           return;
         }
 
-        const activeOffers =
-          Array.isArray(response.data)
-            ? response.data
-            : [];
+        const activeOffers = Array.isArray(response.data)
+          ? response.data
+          : [];
 
         if (activeOffers.length === 0) {
           return;
         }
 
-        // Store all offers
         setOffers(activeOffers);
-
-        // Start from first offer
         setCurrentIndex(0);
 
         // =================================================
-        // SHOW POPUP AFTER 5 SECONDS
+        // FIRST POPUP — 6 SECONDS
         // =================================================
 
-        firstPopupTimerRef.current =
-          setTimeout(() => {
-            if (cancelled) {
-              return;
-            }
+        firstPopupTimerRef.current = setTimeout(() => {
+          if (cancelled) {
+            return;
+          }
 
-            setCurrentIndex(0);
-            setVisible(true);
-          }, 5000);
+          setCurrentIndex(0);
+          setVisible(true);
+        }, 6000);
       } catch (error) {
         if (!cancelled) {
-          console.error(
-            "Failed to load offers:",
-            error
-          );
+          console.error("Failed to load offers:", error);
         }
       }
     };
 
     loadOffers();
 
-    // ====================================================
-    // CLEANUP
-    // ====================================================
-
     return () => {
       cancelled = true;
 
       if (firstPopupTimerRef.current) {
-        clearTimeout(
-          firstPopupTimerRef.current
-        );
-
+        clearTimeout(firstPopupTimerRef.current);
         firstPopupTimerRef.current = null;
       }
 
       if (repeatTimerRef.current) {
-        clearTimeout(
-          repeatTimerRef.current
-        );
-
+        clearTimeout(repeatTimerRef.current);
         repeatTimerRef.current = null;
       }
     };
@@ -196,27 +169,18 @@ const OffersPopup = () => {
   // ====================================================
 
   useEffect(() => {
-    // Do nothing when popup is hidden
     if (!visible) {
       return;
     }
 
-    // Do nothing if there is only one offer
     if (offers.length <= 1) {
       return;
     }
 
-    // Change offer every 3 seconds
     const autoSlideTimer = setInterval(() => {
-      setCurrentIndex((previous) => {
-        return (
-          (previous + 1) %
-          offers.length
-        );
-      });
+      setCurrentIndex((previous) => (previous + 1) % offers.length);
     }, 3000);
 
-    // Cleanup interval
     return () => {
       clearInterval(autoSlideTimer);
     };
@@ -227,52 +191,34 @@ const OffersPopup = () => {
   // ====================================================
 
   const closePopup = () => {
-    // Hide popup
     setVisible(false);
 
-    // Clear previous repeat timer
     if (repeatTimerRef.current) {
-      clearTimeout(
-        repeatTimerRef.current
-      );
-
+      clearTimeout(repeatTimerRef.current);
       repeatTimerRef.current = null;
     }
 
     // ==================================================
-    // SHOW AGAIN AFTER 10 SECONDS
+    // SHOW AGAIN AFTER 20 SECONDS
     // ==================================================
 
-    repeatTimerRef.current =
-      setTimeout(() => {
-        setCurrentIndex(0);
-        setVisible(true);
-      }, 10000);
+    repeatTimerRef.current = setTimeout(() => {
+      setCurrentIndex(0);
+      setVisible(true);
+    }, 20000);
   };
 
   // ====================================================
-  // NEXT OFFER
+  // NEXT / PREVIOUS
   // ====================================================
 
   const nextOffer = () => {
-    setCurrentIndex(
-      (previous) =>
-        (previous + 1) %
-        offers.length
-    );
+    setCurrentIndex((previous) => (previous + 1) % offers.length);
   };
-
-  // ====================================================
-  // PREVIOUS OFFER
-  // ====================================================
 
   const previousOffer = () => {
     setCurrentIndex(
-      (previous) =>
-        (previous -
-          1 +
-          offers.length) %
-        offers.length
+      (previous) => (previous - 1 + offers.length) % offers.length
     );
   };
 
@@ -280,254 +226,120 @@ const OffersPopup = () => {
   // DON'T RENDER
   // ====================================================
 
-  if (
-    !visible ||
-    offers.length === 0
-  ) {
+  if (!visible || offers.length === 0) {
     return null;
   }
 
-  // ====================================================
-  // CURRENT OFFER
-  // ====================================================
-
-  const offer =
-    offers[currentIndex];
-
-  // ====================================================
-  // IMAGE
-  // ====================================================
-
-  const imageUrl =
-    getCourseImage(offer);
+  const offer = offers[currentIndex];
+  const imageUrl = getCourseImage(offer);
 
   // ====================================================
   // RENDER
   // ====================================================
 
   return (
-    <div className="offers-popup-overlay">
+    <div className="offers-popup">
+      {/* CLOSE BUTTON */}
+      <button
+        className="offers-popup-close"
+        onClick={closePopup}
+        aria-label="Close offer"
+        type="button"
+      >
+        <X size={22} />
+      </button>
 
-      <div className="offers-popup">
+      {/* OFFER IMAGE */}
+      <div className="offers-popup-image">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={offer.courseName || "Course offer"}
+            onError={(event) => {
+              const fallback = courseImages[offer.courseSlug];
 
-        {/* =================================================
-            CLOSE BUTTON
-        ================================================== */}
-
-        <button
-          className="offers-popup-close"
-          onClick={closePopup}
-          aria-label="Close offer"
-          type="button"
-        >
-          <X size={22} />
-        </button>
-
-        {/* =================================================
-            OFFER IMAGE
-        ================================================== */}
-
-        <div className="offers-popup-image">
-
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={
-                offer.courseName ||
-                "Course offer"
+              if (fallback && event.currentTarget.src !== fallback) {
+                event.currentTarget.src = fallback;
               }
-              onError={(event) => {
-                const fallback =
-                  courseImages[
-                    offer.courseSlug
-                  ];
-
-                if (
-                  fallback &&
-                  event.currentTarget.src !==
-                    fallback
-                ) {
-                  event.currentTarget.src =
-                    fallback;
-                }
-              }}
-            />
-          ) : (
-            <div className="offers-popup-placeholder">
-              <Tag size={45} />
-            </div>
-          )}
-
-          {/* DISCOUNT */}
-
-          {Number(
-            offer.discountPercentage
-          ) > 0 && (
-            <div className="offers-popup-discount">
-              {offer.discountPercentage}% OFF
-            </div>
-          )}
-
-        </div>
-
-        {/* =================================================
-            OFFER CONTENT
-        ================================================== */}
-
-        <div className="offers-popup-content">
-
-          {/* LABEL */}
-
-          <span className="offers-popup-label">
-            SPECIAL COURSE OFFER
-          </span>
-
-          {/* TITLE */}
-
-          <h2>
-            {offer.title}
-          </h2>
-
-          {/* COURSE NAME */}
-
-          <h3>
-            {offer.courseName}
-          </h3>
-
-          {/* DESCRIPTION */}
-
-          {offer.description && (
-            <p>
-              {offer.description}
-            </p>
-          )}
-
-          {/* =================================================
-              PRICE
-          ================================================== */}
-
-          <div className="offers-popup-price">
-
-            <span className="old-price">
-              ₹
-              {Number(
-                offer.originalPrice
-              ).toLocaleString(
-                "en-IN"
-              )}
-            </span>
-
-            <span className="new-price">
-              ₹
-              {Number(
-                offer.offerPrice
-              ).toLocaleString(
-                "en-IN"
-              )}
-            </span>
-
-          </div>
-
-          {/* =================================================
-              BUTTONS
-          ================================================== */}
-
-          <div className="offers-popup-buttons">
-
-            {/* VIEW COURSE */}
-
-            <a
-              href={
-                offer.buttonLink ||
-                "/courses"
-              }
-              className="offers-popup-button"
-            >
-              {offer.buttonText ||
-                "View Course"}
-
-              <ArrowRight size={18} />
-            </a>
-
-            {/* REGISTER NOW */}
-
-            <a
-              href="/register"
-              className="offers-popup-register-button"
-            >
-              <UserPlus size={18} />
-              Register Now
-            </a>
-
-          </div>
-
-        </div>
-
-        {/* =================================================
-            NAVIGATION
-        ================================================== */}
-
-        {offers.length > 1 && (
-          <div className="offers-popup-navigation">
-
-            {/* PREVIOUS */}
-
-            <button
-              onClick={
-                previousOffer
-              }
-              aria-label="Previous offer"
-              type="button"
-            >
-              ‹
-            </button>
-
-            {/* DOTS */}
-
-            <div className="offer-dots">
-
-              {offers.map(
-                (_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    className={
-                      index ===
-                      currentIndex
-                        ? "active"
-                        : ""
-                    }
-                    onClick={() =>
-                      setCurrentIndex(
-                        index
-                      )
-                    }
-                    aria-label={`Go to offer ${
-                      index + 1
-                    }`}
-                  />
-                )
-              )}
-
-            </div>
-
-            {/* NEXT */}
-
-            <button
-              onClick={
-                nextOffer
-              }
-              aria-label="Next offer"
-              type="button"
-            >
-              ›
-            </button>
-
+            }}
+          />
+        ) : (
+          <div className="offers-popup-placeholder">
+            <Tag size={45} />
           </div>
         )}
 
+        {Number(offer.discountPercentage) > 0 && (
+          <div className="offers-popup-discount">
+            {offer.discountPercentage}% OFF
+          </div>
+        )}
       </div>
 
+      {/* OFFER CONTENT */}
+      <div className="offers-popup-content">
+        <span className="offers-popup-label">SPECIAL COURSE OFFER</span>
+
+        <h2>{offer.title}</h2>
+
+        <h3>{offer.courseName}</h3>
+
+        {offer.description && <p>{offer.description}</p>}
+
+        <div className="offers-popup-price">
+          <span className="old-price">
+            ₹{Number(offer.originalPrice).toLocaleString("en-IN")}
+          </span>
+
+          <span className="new-price">
+            ₹{Number(offer.offerPrice).toLocaleString("en-IN")}
+          </span>
+        </div>
+
+        <div className="offers-popup-buttons">
+          <a
+            href={offer.buttonLink || "/courses"}
+            className="offers-popup-button"
+          >
+            {offer.buttonText || "View Course"}
+            <ArrowRight size={18} />
+          </a>
+
+          <a href="/register" className="offers-popup-register-button">
+            <UserPlus size={18} />
+            Register Now
+          </a>
+        </div>
+      </div>
+
+      {/* NAVIGATION */}
+      {offers.length > 1 && (
+        <div className="offers-popup-navigation">
+          <button
+            onClick={previousOffer}
+            aria-label="Previous offer"
+            type="button"
+          >
+            ‹
+          </button>
+
+          <div className="offer-dots">
+            {offers.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                className={index === currentIndex ? "active" : ""}
+                onClick={() => setCurrentIndex(index)}
+                aria-label={`Go to offer ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          <button onClick={nextOffer} aria-label="Next offer" type="button">
+            ›
+          </button>
+        </div>
+      )}
     </div>
   );
 };

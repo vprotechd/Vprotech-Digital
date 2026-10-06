@@ -14,6 +14,9 @@ import HomeCTASection from "../components/sections/HomeCTASection";
 import OffersPopup from "../components/OffersPopup";
 import JourneySection from "../components/sections/JourneySection";
 
+import StatsSection from "../components/sections/StatsSection";
+
+
 // CSS
 import "./Home.css";
 import "../App.css";
@@ -92,6 +95,8 @@ export default function Home() {
 
       <LogoSliderSection />
 
+
+ <StatsSection />  
 
 
       <JourneySection />

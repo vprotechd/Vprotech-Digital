@@ -1,0 +1,252 @@
+/* ============================================================
+   VPROTECH SPLASH SCREEN
+============================================================ */
+
+.vpro-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------
+   ANIMATED GRID BACKGROUND
+------------------------------------------------------------ */
+
+.vpro-splash-grid {
+  position: absolute;
+  inset: -50%;
+  background-image:
+    linear-gradient(rgba(21, 87, 214, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 87, 214, 0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: splashGridMove 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes splashGridMove {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(60px, 60px); }
+}
+
+/* ------------------------------------------------------------
+   GLOWING ORBS
+------------------------------------------------------------ */
+
+.vpro-splash-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.vpro-splash-orb.orb-1 {
+  width: 480px;
+  height: 480px;
+  top: -160px;
+  left: -160px;
+  background: rgba(21, 87, 214, 0.22);
+  animation: splashFloat1 8s ease-in-out infinite;
+}
+
+.vpro-splash-orb.orb-2 {
+  width: 420px;
+  height: 420px;
+  bottom: -160px;
+  right: -160px;
+  background: rgba(32, 180, 134, 0.2);
+  animation: splashFloat2 10s ease-in-out infinite;
+}
+
+@keyframes splashFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(40px, 30px) scale(1.08); }
+}
+
+@keyframes splashFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-40px, -30px) scale(1.06); }
+}
+
+/* ------------------------------------------------------------
+   CONTENT
+------------------------------------------------------------ */
+
+.vpro-splash-content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  padding: 0 24px;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   LOGO WRAPPER + RING + IMAGE
+------------------------------------------------------------ */
+
+.vpro-splash-logo-wrap {
+  position: relative;
+
+  width: 180px;
+  height: 180px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 6px;
+}
+
+/* Rotating dashed ring behind the logo */
+.vpro-splash-ring {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50%;
+  border: 1.5px dashed rgba(21, 87, 214, 0.35);
+  pointer-events: none;
+}
+
+
+
+/* The actual logo image */
+.vpro-splash-logo-img {
+  position: relative;
+  z-index: 2;
+
+  width: 120px;
+  height: 120px;
+
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+
+  filter: drop-shadow(0 8px 24px rgba(21, 87, 214, 0.18));
+}
+
+/* ------------------------------------------------------------
+   BRAND NAME
+------------------------------------------------------------ */
+
+.vpro-splash-title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  color: #101828;
+}
+
+.vpro-splash-title span {
+  color: #1557d6;
+}
+
+/* ------------------------------------------------------------
+   TAGLINE
+------------------------------------------------------------ */
+
+.vpro-splash-tagline {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #20b486;
+}
+
+/* ------------------------------------------------------------
+   LOADING DOTS
+------------------------------------------------------------ */
+
+.vpro-splash-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.vpro-splash-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1557d6;
+}
+
+.vpro-splash-dots span:nth-child(2) {
+  background: #20b486;
+}
+
+.vpro-splash-dots span:nth-child(3) {
+  background: #1557d6;
+}
+
+/* ------------------------------------------------------------
+   PROGRESS BAR
+------------------------------------------------------------ */
+
+.vpro-splash-progress {
+  position: relative;
+  width: 220px;
+  height: 3px;
+  margin-top: 14px;
+
+  border-radius: 100px;
+  background: rgba(21, 87, 214, 0.12);
+  overflow: hidden;
+}
+
+.vpro-splash-progress-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #1557d6, #20b486);
+  transition: width 0.1s linear;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 600px) {
+  .vpro-splash-logo-wrap {
+    width: 140px;
+    height: 140px;
+  }
+
+  .vpro-splash-logo-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .vpro-splash-title {
+    font-size: 26px;
+  }
+
+  .vpro-splash-tagline {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .vpro-splash-progress {
+    width: 180px;
+  }
+}
+
+/* ------------------------------------------------------------
+   REDUCED MOTION
+------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .vpro-splash-grid,
+  .vpro-splash-orb {
+    animation: none !important;
+  }
+}

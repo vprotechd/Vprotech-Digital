@@ -23,7 +23,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import VerificationRequired from "./components/VerificationRequired";
-import Loader from "./components/Loader";
+import Loader from "./components/SplashScreen";
 import WebDevelopment from './pages/WebDevelopment';
 import AndroidDevelopment from './pages/AndroidDevelopment';
 import DigitalMarketing from './pages/DigitalMarketing';
@@ -69,9 +69,9 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading) {
-    return <Loader />
-  }
+  // if (loading) {
+  //   return <Loader />
+  // }
 
   return (
     <AuthProvider>
