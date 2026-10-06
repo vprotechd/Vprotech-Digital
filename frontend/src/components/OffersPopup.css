@@ -12,7 +12,7 @@
   /* Keep it below the navbar */
   top: 110px;
 
-  width: 340px;
+  width: 400px;
   max-height: calc(100vh - 130px);
 
   overflow-y: auto;

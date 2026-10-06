@@ -371,7 +371,7 @@ export default function Navbar() {
                 LOGOUT
                 ================================================= */}
 
-            {isSuperAdmin && (
+            {/* {isSuperAdmin && (
               <li className="logout-wrapper">
 
                 <button
@@ -382,7 +382,7 @@ export default function Navbar() {
                 </button>
 
               </li>
-            )}
+            )} */}
 
           </ul>
 
