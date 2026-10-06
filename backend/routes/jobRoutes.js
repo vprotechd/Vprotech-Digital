@@ -15,7 +15,6 @@ const router = express.Router();
 
 // ===== PUBLIC ROUTES =====
 router.get('/', getJobs);
-router.get('/:id', getJobById);
 
 // ===== ADMIN ROUTES =====
 router.get('/admin/all', protect, admin, getAdminJobs);
@@ -24,5 +23,8 @@ router.post('/', protect, admin, createJob);
 router.put('/:id', protect, admin, updateJob);
 router.delete('/:id', protect, admin, deleteJob);
 router.patch('/:id/toggle-status', protect, admin, toggleJobStatus);
+
+// Keep dynamic ID routes after fixed paths such as /admin/all and /admin/stats.
+router.get('/:id', getJobById);
 
 export default router;
