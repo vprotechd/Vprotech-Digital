@@ -874,6 +874,16 @@
 import asyncHandler from "express-async-handler";
 import Team from "../models/Team.js";
 
+const parseJsonField = (value, fallback) => {
+  if (typeof value !== "string") return value ?? fallback;
+
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+};
+
 // ============ GET ALL TEAM MEMBERS (PUBLIC) ============
 const getTeamMembers = asyncHandler(async (req, res) => {
   try {
@@ -993,6 +1003,8 @@ const createTeamMember = asyncHandler(async (req, res) => {
 
     const isActiveBool = isActive === 'true' || isActive === true || isActive === '1';
     const featuredBool = featured === 'true' || featured === true || featured === '1';
+    const parsedSkills = parseJsonField(skills, []);
+    const parsedSocialLinks = parseJsonField(socialLinks, {});
 
     if (!name || !designation || !department || !email) {
       return res.status(400).json({
@@ -1023,8 +1035,11 @@ const createTeamMember = asyncHandler(async (req, res) => {
       image: imageUrl,
       bio: bio || "",
       experience: experience || "",
-      skills: skills || [],
-      socialLinks: socialLinks || {},
+      skills: Array.isArray(parsedSkills) ? parsedSkills : [],
+      socialLinks:
+        parsedSocialLinks && typeof parsedSocialLinks === "object"
+          ? parsedSocialLinks
+          : {},
       isActive: isActiveBool,
       order: order || 0,
       featured: featuredBool,

@@ -178,9 +178,8 @@ const handleSubmit = async (e) => {
       featured: formData.featured,
       order: parseInt(formData.order) || 0,
       joinedDate: formData.joinedDate,
+      imageFile,
     };
-
-    console.log('📤 Submitting JSON:', data);
 
     if (isEditing) {
       await updateTeamMember(id, data);

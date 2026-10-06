@@ -1,6 +1,26 @@
 // services/teamService.js
 import api from './api';
 
+const createTeamFormData = (data) => {
+  const formData = new FormData();
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (key === 'imageFile' || value === undefined || value === null) return;
+
+    if (key === 'skills' || key === 'socialLinks') {
+      formData.append(key, JSON.stringify(value));
+    } else {
+      formData.append(key, String(value));
+    }
+  });
+
+  if (data.imageFile) {
+    formData.append('image', data.imageFile);
+  }
+
+  return formData;
+};
+
 const teamService = {
   // Public routes
   getTeamMembers: async (params) => {
@@ -24,21 +44,13 @@ const teamService = {
     return response.data;
   },
 
-  createTeamMember: async (formData) => {
-    const response = await api.post('/team', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  createTeamMember: async (data) => {
+    const response = await api.post('/team', createTeamFormData(data));
     return response.data;
   },
 
-  updateTeamMember: async (id, formData) => {
-    const response = await api.put(`/team/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  updateTeamMember: async (id, data) => {
+    const response = await api.put(`/team/${id}`, createTeamFormData(data));
     return response.data;
   },
 
