@@ -41,7 +41,6 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
         "underline",
         "strike",
         "list",
-        "bullet",
         "indent",
         "align",
         "blockquote",
