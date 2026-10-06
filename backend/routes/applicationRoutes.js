@@ -8,6 +8,7 @@ import {
   getApplicationsByJob,
   getAllApplications,
   getApplicationById,
+  downloadApplicationResume,
   updateApplicationStatus,
   deleteApplication,
   getApplicationStats
@@ -69,6 +70,9 @@ router.get('/stats', protect, admin, getApplicationStats);
 
 // Get applications by job
 router.get('/job/:jobId', protect, admin, getApplicationsByJob);
+
+// Download route must precede the general application ID route.
+router.get('/:id/resume', protect, admin, downloadApplicationResume);
 
 // Get single application
 router.get('/:id', protect, admin, getApplicationById);

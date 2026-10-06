@@ -410,7 +410,7 @@ export default function AdminJobs() {
 
       {/* Create/Edit Modal */}
       {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+        <div className="modal-overlay job-modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{editingJob ? 'Edit Job' : 'Create New Job'}</h2>

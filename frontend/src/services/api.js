@@ -482,6 +482,15 @@ export const jobService = {
   },
 };
 
+export const applicationService = {
+  downloadResume: async (applicationId) => {
+    const response = await api.get(`/applications/${applicationId}/resume`, {
+      responseType: "blob",
+    });
+    return response.data;
+  },
+};
+
 export const offerService = {
   getPopupOffers: async () => {
     const response = await api.get("/offers/popup");

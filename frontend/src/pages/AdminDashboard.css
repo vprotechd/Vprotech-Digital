@@ -2969,6 +2969,16 @@ img {
   max-width: 700px;
 }
 
+.application-details-overlay {
+  z-index: 10002;
+  align-items: flex-start;
+  padding-top: 110px;
+}
+
+.application-details-overlay .app-details-modal {
+  max-height: calc(100vh - 130px);
+}
+
 .app-detail-section {
   margin-bottom: 20px;
 }
@@ -3875,6 +3885,15 @@ textarea:focus-visible {
     border-radius: 11px;
   }
 
+  .application-details-overlay {
+    padding: 96px 10px 16px;
+  }
+
+  .application-details-overlay .app-details-modal {
+    max-height: calc(100vh - 112px);
+    margin-top: 0;
+  }
+
   .modal-header h3 {
     font-size: 17px;
   }
@@ -4515,4 +4534,3 @@ textarea:focus-visible {
     width: 100%;
   }
 }
-

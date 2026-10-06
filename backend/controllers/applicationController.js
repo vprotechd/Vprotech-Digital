@@ -1,6 +1,8 @@
 // backend/controllers/applicationController.js
 import Application from '../models/Application.js';
 import Job from '../models/Job.js';
+import { access } from 'node:fs/promises';
+import path from 'node:path';
 
 // ===== PUBLIC CONTROLLERS =====
 
@@ -192,6 +194,59 @@ export const getApplicationById = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message
+    });
+  }
+};
+
+// @desc    Download an applicant resume
+// @route   GET /api/applications/:id/resume
+// @access  Private/Admin
+export const downloadApplicationResume = async (req, res) => {
+  try {
+    const application = await Application.findById(req.params.id).select('resume name');
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: 'Application not found'
+      });
+    }
+
+    if (!application.resume) {
+      return res.status(404).json({
+        success: false,
+        message: 'No resume is attached to this application'
+      });
+    }
+
+    const storedFilename = path.basename(application.resume.replace(/\\/g, '/'));
+    const resumePath = path.resolve(process.cwd(), 'uploads', 'resumes', storedFilename);
+    const resumeDirectory = path.resolve(process.cwd(), 'uploads', 'resumes');
+
+    if (path.dirname(resumePath) !== resumeDirectory) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid resume path'
+      });
+    }
+
+    try {
+      await access(resumePath);
+    } catch {
+      return res.status(404).json({
+        success: false,
+        message: 'Resume file is no longer available'
+      });
+    }
+
+    const extension = path.extname(storedFilename);
+    const applicantName = application.name.replace(/[^a-z0-9-_]/gi, '-');
+    return res.download(resumePath, `${applicantName}-resume${extension}`);
+  } catch (error) {
+    console.error('Download application resume error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to download resume'
     });
   }
 };

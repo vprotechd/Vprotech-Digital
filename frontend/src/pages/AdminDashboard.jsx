@@ -1,7 +1,7 @@
 
 // src/pages/AdminDashboard.jsx
 import React, { useState, useEffect } from "react";
-import { API_URL } from "../services/api";
+import { API_URL, applicationService } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { userService, contactAdminService } from "../services/api";
@@ -60,6 +60,7 @@ import {
   Filter ,
     Tag,
   ClipboardList,
+  Download,
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom"
@@ -101,6 +102,7 @@ const [appFilterStatus, setAppFilterStatus] = useState('all');
 const [appSearchTerm, setAppSearchTerm] = useState('');
 const [selectedApp, setSelectedApp] = useState(null);
 const [showAppDetailsModal, setShowAppDetailsModal] = useState(false);
+const [downloadingResumeId, setDownloadingResumeId] = useState(null);
 const [appStats, setAppStats] = useState({
   total: 0,
   pending: 0,
@@ -530,6 +532,34 @@ const updateApplicationStatus = async (id, newStatus) => {
     }
   } catch (error) {
     toast.error('Failed to update status');
+  }
+};
+
+const handleResumeDownload = async (application) => {
+  if (!application.resume) {
+    toast.error("No resume is attached to this application");
+    return;
+  }
+
+  setDownloadingResumeId(application._id);
+  try {
+    const resumeBlob = await applicationService.downloadResume(application._id);
+    const downloadUrl = URL.createObjectURL(resumeBlob);
+    const link = document.createElement("a");
+    const extension =
+      application.resume.match(/\.(pdf|docx?)($|\?)/i)?.[1] || "pdf";
+    const applicantName = application.name.replace(/[^a-z0-9-_]/gi, "-");
+
+    link.href = downloadUrl;
+    link.download = `${applicantName}-resume.${extension}`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Failed to download resume");
+  } finally {
+    setDownloadingResumeId(null);
   }
 };
 
@@ -2574,7 +2604,7 @@ const filteredApplications = applications.filter(app => {
 
 {/* Application Details Modal */}
 {showAppDetailsModal && selectedApp && (
-  <div className="modal-overlay" onClick={() => setShowAppDetailsModal(false)}>
+  <div className="modal-overlay application-details-overlay" onClick={() => setShowAppDetailsModal(false)}>
     <div className="modal-content app-details-modal" onClick={(e) => e.stopPropagation()}>
       <div className="modal-header">
         <h2>Application Details</h2>
@@ -2602,6 +2632,25 @@ const filteredApplications = applications.filter(app => {
             <p className="cover-letter-text">{selectedApp.coverLetter}</p>
           </div>
         )}
+
+        <div className="app-detail-section">
+          <h3>Resume</h3>
+          {selectedApp.resume ? (
+            <button
+              type="button"
+              className="admin-resume-btn"
+              onClick={() => handleResumeDownload(selectedApp)}
+              disabled={downloadingResumeId === selectedApp._id}
+            >
+              <Download size={16} />
+              {downloadingResumeId === selectedApp._id
+                ? "Downloading..."
+                : "Download Resume"}
+            </button>
+          ) : (
+            <p className="cover-letter-text">No resume was attached to this application.</p>
+          )}
+        </div>
 
         <div className="app-detail-section">
           <h3>Update Status</h3>
