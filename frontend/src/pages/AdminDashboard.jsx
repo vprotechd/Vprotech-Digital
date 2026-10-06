@@ -547,7 +547,9 @@ const handleResumeDownload = async (application) => {
     const downloadUrl = URL.createObjectURL(resumeBlob);
     const link = document.createElement("a");
     const extension =
-      application.resume.match(/\.(pdf|docx?)($|\?)/i)?.[1] || "pdf";
+      application.resumeFormat ||
+      application.resume.match(/\.(pdf|docx?)($|\?)/i)?.[1] ||
+      "pdf";
     const applicantName = application.name.replace(/[^a-z0-9-_]/gi, "-");
 
     link.href = downloadUrl;
@@ -557,7 +559,16 @@ const handleResumeDownload = async (application) => {
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
   } catch (error) {
-    toast.error(error.response?.data?.message || "Failed to download resume");
+    let message = error.response?.data?.message;
+    if (error.response?.data instanceof Blob) {
+      try {
+        const errorBody = JSON.parse(await error.response.data.text());
+        message = errorBody.message;
+      } catch {
+        message = "";
+      }
+    }
+    toast.error(message || "Failed to download resume");
   } finally {
     setDownloadingResumeId(null);
   }

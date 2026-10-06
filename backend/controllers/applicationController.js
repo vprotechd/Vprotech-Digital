@@ -3,6 +3,10 @@ import Application from '../models/Application.js';
 import Job from '../models/Job.js';
 import { access } from 'node:fs/promises';
 import path from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
+import cloudinary from '../config/cloudinary.js';
 
 // ===== PUBLIC CONTROLLERS =====
 
@@ -53,13 +57,45 @@ export const submitApplication = async (req, res) => {
     }
 
     // Handle resume file
-    let resumePath = '';
-    if (req.file) {
-      resumePath = req.file.path;
-    } else {
+    if (!req.file) {
       return res.status(400).json({
         success: false,
         message: 'Resume is required'
+      });
+    }
+
+    const resumeFormat = path.extname(req.file.originalname).slice(1).toLowerCase();
+    const resumePublicId = `resume-${randomUUID()}.${resumeFormat}`;
+    let resumeUpload;
+    try {
+      resumeUpload = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'vprotech/resumes',
+            public_id: resumePublicId,
+            resource_type: 'raw',
+            type: 'authenticated',
+            use_filename: false,
+            unique_filename: false,
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else if (!result?.public_id || !result.secure_url) {
+              reject(new Error('Resume storage did not return a valid file reference'));
+            } else {
+              resolve(result);
+            }
+          },
+        );
+
+        uploadStream.end(req.file.buffer);
+      });
+    } catch (error) {
+      console.error('Resume upload error:', error);
+      return res.status(502).json({
+        success: false,
+        message: 'Failed to store resume. Please try again.'
       });
     }
 
@@ -74,7 +110,9 @@ export const submitApplication = async (req, res) => {
       coverLetter,
       linkedin,
       portfolio,
-      resume: resumePath,
+      resume: resumeUpload.secure_url,
+      resumePublicId: resumeUpload.public_id,
+      resumeFormat,
       status: 'pending'
     });
 
@@ -203,7 +241,8 @@ export const getApplicationById = async (req, res) => {
 // @access  Private/Admin
 export const downloadApplicationResume = async (req, res) => {
   try {
-    const application = await Application.findById(req.params.id).select('resume name');
+    const application = await Application.findById(req.params.id)
+      .select('resume resumePublicId resumeFormat name');
 
     if (!application) {
       return res.status(404).json({
@@ -217,6 +256,41 @@ export const downloadApplicationResume = async (req, res) => {
         success: false,
         message: 'No resume is attached to this application'
       });
+    }
+
+    const applicantName = application.name.replace(/[^a-z0-9-_]/gi, '-');
+
+    if (application.resumePublicId) {
+      const format = application.resumeFormat || path.extname(application.resume).slice(1);
+      const downloadUrl = cloudinary.utils.private_download_url(
+        application.resumePublicId,
+        format,
+        {
+          resource_type: 'raw',
+          type: 'authenticated',
+          attachment: `${applicantName}-resume.${format}`,
+        },
+      );
+      const resumeResponse = await fetch(downloadUrl);
+
+      if (!resumeResponse.ok || !resumeResponse.body) {
+        console.error('Cloudinary resume download failed:', resumeResponse.status);
+        return res.status(502).json({
+          success: false,
+          message: 'Resume storage is temporarily unavailable'
+        });
+      }
+
+      res.setHeader(
+        'Content-Type',
+        resumeResponse.headers.get('content-type') || 'application/octet-stream',
+      );
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="${applicantName}-resume.${format}"`,
+      );
+      await pipeline(Readable.fromWeb(resumeResponse.body), res);
+      return;
     }
 
     const storedFilename = path.basename(application.resume.replace(/\\/g, '/'));
@@ -240,10 +314,13 @@ export const downloadApplicationResume = async (req, res) => {
     }
 
     const extension = path.extname(storedFilename);
-    const applicantName = application.name.replace(/[^a-z0-9-_]/gi, '-');
     return res.download(resumePath, `${applicantName}-resume${extension}`);
   } catch (error) {
     console.error('Download application resume error:', error);
+    if (res.headersSent) {
+      res.destroy(error);
+      return;
+    }
     return res.status(500).json({
       success: false,
       message: 'Failed to download resume'

@@ -54,6 +54,14 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Resume is required']
   },
+  resumePublicId: {
+    type: String,
+    default: ''
+  },
+  resumeFormat: {
+    type: String,
+    default: ''
+  },
   status: {
     type: String,
     enum: ['pending', 'reviewed', 'shortlisted', 'rejected', 'hired'],
