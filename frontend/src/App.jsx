@@ -56,6 +56,10 @@ import AdminTestAttempts from "./pages/admin/AdminTestAttempts";
 import AdminTestAttemptDetails from "./pages/admin/AdminTestAttemptDetails";
 
 
+import Portfolio from "./pages/Portfolio";
+import PortfolioCard from "./components/PortfolioCard";
+
+
 function App() {
  const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -149,6 +153,11 @@ function App() {
   path="/internship/:id/test/result/:attemptId"
   element={<TestResult />}
 />
+
+
+<Route path="/portfolio" element={<Portfolio />} />
+
+
 
 <Route
   path="/admin/tests/edit/:id"

@@ -326,6 +326,22 @@ export default function Navbar() {
             </li>
 
 
+            
+            <li>
+              <NavLink
+                to="/portfolio"
+                className={({ isActive }) =>
+                  `nav-link ${
+                    isActive ? "active" : ""
+                  }`
+                }
+                onClick={closeMenu}
+              >
+               Portfolio
+              </NavLink>
+            </li>
+
+
 
  <li className="admin-nav-item">
                   <NavLink
