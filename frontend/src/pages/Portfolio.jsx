@@ -11,40 +11,58 @@ const projects = [
     title: "AVS Solar Consultancy",
     category: "Web Development",
     description:
-      "A professional solar consultancy website designed to showcase solar energy services and help customers explore clean-energy solutions.",
+      "A website for a solar consultancy business that presents its clean-energy services and helps visitors understand the available solar solutions.",
+    overview:
+      "The website is designed to give visitors a clear introduction to solar energy services, present the consultancy professionally, and make service information easy to explore.",
+    highlights: [
+      "Presents solar consultancy and clean-energy solutions.",
+      "Uses a focused visual layout to communicate the brand and its services.",
+      "Organizes website content so visitors can explore information easily.",
+      "Includes responsive design for desktop and mobile screen sizes.",
+    ],
     technologies: ["React", "JavaScript", "CSS", "Responsive Design"],
     image: avsSolarImage,
     liveUrl: "https://avs-solar-consultancy.onrender.com",
   },
- 
   {
     id: 2,
     title: "Jobify Mobile & Web App",
     category: "Web Development",
     description:
-      "A job portal application connecting job seekers and recruiters through job discovery, search filters, profiles, and recruitment features.",
+      "A job portal that brings job seekers and recruiters together through job discovery, search filters, user profiles, and recruitment workflows.",
+    overview:
+      "Jobify provides separate experiences for candidates and recruiters. Candidates can explore relevant opportunities, while recruiters can use the platform's recruitment features to manage their hiring activity.",
+    highlights: [
+      "Supports job discovery and searching with filters.",
+      "Provides profiles for users on the platform.",
+      "Includes features for both job seekers and recruiters.",
+      "Uses a web and mobile application approach to make the service accessible across devices.",
+    ],
     technologies: ["React", "React Native", "Node.js", "MongoDB"],
     image: jobifyImage,
     liveUrl: "https://jobify-application-frontend.onrender.com",
   },
-
-   {
+  {
     id: 3,
     title: "GoNbite Mobile App",
     category: "Mobile App",
     description:
-      "A modern food delivery application designed to make discovering restaurants and ordering food simple and convenient.",
+      "A food delivery application focused on helping users discover restaurants and order food through a convenient digital experience.",
+    overview:
+      "GoNbite is built around the food-ordering journey, giving customers a digital way to explore food options and connect with restaurant ordering services.",
+    highlights: [
+      "Focuses on restaurant discovery and food ordering.",
+      "Designed to make the ordering journey straightforward for customers.",
+      "Uses a mobile-focused interface for convenient access.",
+      "Uses a backend built with Node.js and Express, with MongoDB for data storage.",
+    ],
     technologies: ["React Native", "Node.js", "Express", "MongoDB"],
     image: goNbiteImage,
     liveUrl: "https://www.gonbite.com",
   },
 ];
 
-const categories = [
-  "All",
-  "Web Development",
-  "Mobile App",
-];
+const categories = ["All", "Web Development", "Mobile App"];
 
 const services = [
   { icon: "</>", title: "Web Development" },
@@ -59,20 +77,16 @@ const Portfolio = () => {
   const filteredProjects =
     activeCategory === "All"
       ? projects
-      : projects.filter(
-          (project) => project.category === activeCategory
-        );
+      : projects.filter((project) => project.category === activeCategory);
 
   const openProject = (url) => {
     if (!url) return;
-
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
     <main className="portfolio-page">
       {/* NAVIGATION */}
-
       <nav className="portfolio-navbar">
         <a href="/" className="portfolio-logo" aria-label="Home">
           K<span>B</span>
@@ -94,13 +108,9 @@ const Portfolio = () => {
       </nav>
 
       {/* HERO SECTION */}
-
       <section className="portfolio-hero">
         <div className="portfolio-hero-content">
-          <div className="portfolio-eyebrow">
-            <span>MY WORK</span>
-            <span className="eyebrow-line"></span>
-          </div>
+          
 
           <h1>
             Showcasing <span>Excellence</span>
@@ -111,10 +121,9 @@ const Portfolio = () => {
           </h1>
 
           <p className="portfolio-hero-description">
-            Explore my projects and discover how I turn ideas into
-            powerful, user-friendly digital experiences. From modern
-            websites to mobile applications, I build solutions that
-            combine creativity, functionality, and technology.
+            Explore a selection of web and mobile projects, with each project
+            focused on its purpose, core features, and the technologies used
+            to build it.
           </p>
 
           <div className="portfolio-services">
@@ -128,15 +137,13 @@ const Portfolio = () => {
 
           <div className="portfolio-hero-stats">
             <div>
-              <strong>03+</strong>
+              <strong>03</strong>
               <span>Featured Projects</span>
             </div>
-
             <div>
               <strong>Full Stack</strong>
               <span>Development</span>
             </div>
-
             <div>
               <strong>MERN</strong>
               <span>Tech Stack</span>
@@ -149,7 +156,6 @@ const Portfolio = () => {
         </div>
 
         {/* PROJECT SHOWCASE */}
-
         <div className="portfolio-hero-showcase">
           <div className="showcase-decoration showcase-decoration-one"></div>
           <div className="showcase-decoration showcase-decoration-two"></div>
@@ -164,42 +170,32 @@ const Portfolio = () => {
               <span className="showcase-window-dot"></span>
               <span className="showcase-window-dot"></span>
               <span className="showcase-window-dot"></span>
-
-              <span className="showcase-window-title">
-                My Portfolio
-              </span>
+              <span className="showcase-window-title">My Portfolio</span>
             </div>
 
             <div className="showcase-main-content">
-              <span className="showcase-tag">
-                DESIGN • DEVELOP • DEPLOY
-              </span>
-
+              <span className="showcase-tag">DESIGN • DEVELOP • DEPLOY</span>
               <h2>
                 Turning ideas into
                 <br />
                 <span>digital experiences.</span>
               </h2>
-
               <p>
-                Creating meaningful digital solutions with modern
-                technologies and thoughtful design.
+                Building practical web and mobile solutions with modern
+                technologies and clear, user-focused interfaces.
               </p>
 
               <div className="showcase-code-line">
                 <span>01</span>
                 <code>const creativity = "innovation";</code>
               </div>
-
               <div className="showcase-code-line">
                 <span>02</span>
                 <code>buildAmazingProjects();</code>
               </div>
-
               <div className="showcase-progress">
                 <span></span>
               </div>
-
               <div className="showcase-bottom-label">
                 <span>AVAILABLE FOR OPPORTUNITIES</span>
                 <span>✦</span>
@@ -209,7 +205,6 @@ const Portfolio = () => {
 
           <div className="showcase-floating-card">
             <span className="floating-card-icon">✧</span>
-
             <div>
               <strong>Creative Developer</strong>
               <span>Ideas into reality</span>
@@ -224,7 +219,6 @@ const Portfolio = () => {
       </section>
 
       {/* PROJECT SECTION */}
-
       <section className="portfolio-section" id="projects">
         <div className="portfolio-heading">
           <div className="portfolio-eyebrow portfolio-eyebrow-center">
@@ -236,23 +230,19 @@ const Portfolio = () => {
           <h2>
             Projects I've <span>Built</span>
           </h2>
-
           <p>
-            A collection of websites and applications developed with
-            creativity, modern technologies, and attention to detail.
+            Explore each project's purpose, main features, and technology
+            stack.
           </p>
         </div>
 
         {/* CATEGORY FILTERS */}
-
         <div className="portfolio-filters">
           {categories.map((category) => (
             <button
               key={category}
               type="button"
-              className={
-                activeCategory === category ? "active" : ""
-              }
+              className={activeCategory === category ? "active" : ""}
               onClick={() => setActiveCategory(category)}
             >
               {category}
@@ -261,7 +251,6 @@ const Portfolio = () => {
         </div>
 
         {/* PROJECT LIST */}
-
         <div className="portfolio-project-list">
           {filteredProjects.map((project, index) => (
             <article
@@ -271,34 +260,22 @@ const Portfolio = () => {
               key={project.id}
               style={{ animationDelay: `${index * 0.12}s` }}
             >
-              {/* PROJECT IMAGE */}
-
               <div className="portfolio-project-visual">
                 <img
                   src={project.image}
                   alt={`${project.title} project showcase`}
                   loading="lazy"
                 />
-
                 <span className="project-number">
                   {String(project.id).padStart(2, "0")}
                 </span>
-
                 <div className="project-image-shade"></div>
-
-                <span className="project-image-label">
-                  PROJECT SHOWCASE
-                </span>
+                <span className="project-image-label">PROJECT SHOWCASE</span>
               </div>
-
-              {/* PROJECT DETAILS */}
 
               <div className="portfolio-project-details">
                 <div className="portfolio-project-meta">
-                  <span className="portfolio-category">
-                    {project.category}
-                  </span>
-
+                  <span className="portfolio-category">{project.category}</span>
                   <span className="project-status">
                     <span></span>
                     Featured Project
@@ -306,15 +283,31 @@ const Portfolio = () => {
                 </div>
 
                 <h3>{project.title}</h3>
-
                 <p className="portfolio-project-description">
                   {project.description}
                 </p>
 
-                <div className="portfolio-tech">
-                  {project.technologies.map((technology) => (
-                    <span key={technology}>{technology}</span>
-                  ))}
+                <div className="project-overview">
+                  <h4>Project Overview</h4>
+                  <p>{project.overview}</p>
+                </div>
+
+                <div className="project-highlights">
+                  <h4>Key Features</h4>
+                  <ul>
+                    {project.highlights.map((highlight) => (
+                      <li key={highlight}>{highlight}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="project-tech-section">
+                  <h4>Technologies Used</h4>
+                  <div className="portfolio-tech">
+                    {project.technologies.map((technology) => (
+                      <span key={technology}>{technology}</span>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="portfolio-project-actions">
@@ -324,7 +317,7 @@ const Portfolio = () => {
                     onClick={() => openProject(project.liveUrl)}
                     disabled={!project.liveUrl}
                   >
-                    <span className="portfolio-link-arrow">←</span>
+                    <span className="portfolio-link-arrow">↗</span>
                     <span>View Live Project</span>
                   </button>
 
@@ -338,23 +331,18 @@ const Portfolio = () => {
         </div>
 
         {/* BOTTOM CONTACT SECTION */}
-
         <div className="portfolio-bottom-cta">
           <div className="cta-decoration">✳</div>
-
           <div className="cta-content">
             <span>HAVE A PROJECT IN MIND?</span>
-
             <h2>
               Let's create something <span>amazing.</span>
             </h2>
-
             <p>
-              Have an idea or opportunity? Let's connect and build
-              something meaningful together.
+              Have an idea or opportunity? Get in touch to discuss the next
+              project.
             </p>
           </div>
-
           <a href="/contact" className="portfolio-cta-button">
             Let's Talk <span>↗</span>
           </a>
@@ -362,12 +350,8 @@ const Portfolio = () => {
       </section>
 
       {/* FOOTER */}
-
       <footer className="portfolio-footer">
-       
-
         <p>Designed with creativity. Built with code.</p>
-
         <a href="#projects" className="footer-back-top">
           Back to top ↑
         </a>
