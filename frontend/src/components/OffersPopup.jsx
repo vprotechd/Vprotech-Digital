@@ -40,6 +40,19 @@ import matlabImage from "../assets/images/courses/matlab.jpg";
 import embeddedSystemImage from "../assets/images/courses/embedded-system.jpg";
 import roboticsImage from "../assets/images/courses/robotics.jpg";
 
+import mernImage from "../assets/images/courses/mern.jpg";
+import fullStackImage from "../assets/images/courses/fulls.jpg";
+import ethicalHackingImage from "../assets/images/courses/ethical.jpg";
+import cyberSecurityImage from "../assets/images/courses/cyber.jpg";
+import dataAnalyticsImage from "../assets/images/courses/data-analytics.jpg";
+import webGraphicsImage from "../assets/images/courses/web-graphics.jpg";
+import appDevelopmentImage from "../assets/images/courses/app-development.jpg";
+import flutterImage from "../assets/images/courses/flutter.jpg";
+import primaveraImage from "../assets/images/courses/primavera.jpg";
+import etabsImage from "../assets/images/courses/etabs.jpg";
+import vlsiVhdlImage from "../assets/images/courses/vlsi-vhdl.jpg";
+import plcScadaImage from "../assets/images/courses/plc-scada.jpg";
+
 // ======================================================
 // COURSE IMAGE MAP
 // ======================================================
@@ -65,11 +78,11 @@ const courseImages = {
   matlab: matlabImage,
   "embedded-system": embeddedSystemImage,
   robotics: roboticsImage,
-
-  "mern": mernImage,
-"fulls": fullStackImage,
-"ethical": ethicalHackingImage,
-"cyber": cyberSecurityImage,
+  
+  "mern-stack": mernImage,
+"full-stack": fullStackImage,
+"ethical-hacking": ethicalHackingImage,
+"cyber-security": cyberSecurityImage,
 "data-analytics": dataAnalyticsImage,
 "web-graphics": webGraphicsImage,
 "app-development": appDevelopmentImage,
@@ -79,7 +92,6 @@ const courseImages = {
 "vlsi-vhdl": vlsiVhdlImage,
 "plc-scada": plcScadaImage,
 };
-
 
 // ======================================================
 // GET COURSE IMAGE
