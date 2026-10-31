@@ -40,7 +40,7 @@ import matlabImage from "../assets/images/courses/matlab.jpg";
 import embeddedSystemImage from "../assets/images/courses/embedded-system.jpg";
 import roboticsImage from "../assets/images/courses/robotics.jpg";
 
-import mernImage from "../assets/images/courses/mern.jpg";
+
 import fullStackImage from "../assets/images/courses/fulls.jpg";
 import ethicalHackingImage from "../assets/images/courses/ethical.jpg";
 import cyberSecurityImage from "../assets/images/courses/cyber.jpg";
@@ -79,7 +79,7 @@ const courseImages = {
   "embedded-system": embeddedSystemImage,
   robotics: roboticsImage,
   
-  "mern-stack": mernImage,
+
 "full-stack": fullStackImage,
 "ethical-hacking": ethicalHackingImage,
 "cyber-security": cyberSecurityImage,
