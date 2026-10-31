@@ -6,261 +6,211 @@ import {
   Database,
   Layers3,
   LockKeyhole,
-  Globe2,
   Activity,
-  CheckCircle2,
-  Zap,
   RefreshCw,
   TrendingUp,
 } from "lucide-react";
-import technologyCore from "../../assets/technology-core.png";
 import "./AboutSection.css";
 
-export default function AboutSection() {
-  const technologyNodes = [
-    {
-      title: "Cloud",
-      subtitle: "Infrastructure",
-      icon: Cloud,
-      className: "node-cloud",
-    },
-    {
-      title: "Data",
-      subtitle: "Intelligence",
-      icon: Database,
-      className: "node-data",
-    },
-    {
-      title: "Applications",
-      subtitle: "Digital Products",
-      icon: Layers3,
-      className: "node-app",
-    },
-    {
-      title: "Security",
-      subtitle: "Protection",
-      icon: LockKeyhole,
-      className: "node-security",
-    },
-   
-  ];
+/* ============================================================
+   CONTENT
+============================================================ */
 
+const STACK = [
+  { title: "Cloud", subtitle: "Infrastructure", icon: Cloud },
+  { title: "Data", subtitle: "Intelligence", icon: Database },
+  { title: "Applications", subtitle: "Digital Products", icon: Layers3 },
+  { title: "Security", subtitle: "Protection", icon: LockKeyhole },
+];
+
+const HEALTH = [
+  { label: "Uptime", value: "99.9%", width: "99%" },
+  { label: "Performance", value: "96%", width: "96%" },
+  { label: "Protection", value: "100%", width: "100%" },
+];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
+});
+
+/* ============================================================
+   SECTION
+============================================================ */
+
+export default function AboutSection() {
   return (
     <section className="technology-visual-section">
+      {/* ================= HEADER ================= */}
 
-      {/* HEADER */}
-      <div className="technology-heading">
+      <div className="tw-head">
+        <div className="tw-head-left">
+          <motion.span className="tw-pill" {...fadeUp(0)}>
+            <i>
+              <ShieldCheck size={10} />
+            </i>
+            TRUSTED TECHNOLOGY
+            <i>
+              <ShieldCheck size={10} />
+            </i>
+          </motion.span>
 
-      
+          <motion.h2 {...fadeUp(0.08)}>
+            Technology That
+            <span> Works Together.</span>
+          </motion.h2>
+        </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Technology That
-          <span> Works Together.</span>
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          We connect digital products, applications, data, cloud
-          infrastructure and users into one reliable technology ecosystem.
+        <motion.p className="tw-head-text" {...fadeUp(0.16)}>
+          We connect digital products, applications, data, cloud infrastructure
+          and users into one reliable technology ecosystem.
         </motion.p>
-
       </div>
 
-      {/* MAIN VISUAL */}
-      <motion.div
-        className="technology-ecosystem"
-        initial={{ opacity: 0, scale: 0.96 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
+      {/* ================= CARDS ================= */}
 
-        {/* GRID BACKGROUND */}
-        <div className="ecosystem-grid" />
+      <div className="tw-cards">
+        {/* ---------- CARD 1 ---------- */}
+        <motion.article className="tw-card tw-card-light tw-card-a" {...fadeUp(0.1)}>
+          <span className="tw-card-icon">
+            <ShieldCheck size={22} />
+          </span>
 
-        {/* CONNECTION LINES */}
-        <div className="connection-lines">
-          <span className="line line-one" />
-          <span className="line line-two" />
-          <span className="line line-three" />
-          <span className="line line-four" />
-          <span className="line line-five" />
-        </div>
+          <h3>Secure by Design</h3>
+          <p>Security integrated into every layer of your products and infrastructure.</p>
 
-        {/* CENTER CORE */}
-        <motion.div
-          className="technology-core"
-          animate={{
-            y: [0, -8, 0],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-
-          <div className="core-ring ring-one" />
-          <div className="core-ring ring-two" />
-
-          <div className="core-icon">
-            <ShieldCheck size={38} strokeWidth={1.7} />
-          </div>
-
-          <div className="core-content">
-            <strong>VPROTECH DIGITAL</strong>
-            <span>Technology Core</span>
-          </div>
-
-          
-
-            <div className="core-visual">
-    <img
-  src={technologyCore}
-  alt="VProTech Digital Technology"
-/>
-  </div>
-
-        </motion.div>
-
-        {/* TECHNOLOGY NODES */}
-        {technologyNodes.map((node, index) => {
-          const Icon = node.icon;
-
-          return (
-            <motion.div
-              key={node.title}
-              className={`technology-node ${node.className}`}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.12,
-              }}
-              whileHover={{
-                scale: 1.06,
-                y: -5,
-              }}
-            >
-              <div className="node-icon">
-                <Icon size={22} />
-              </div>
-
+          <div className="tw-mock" style={{ "--rot": "-4deg" }}>
+            <div className="tw-mock-head">
+              <span className="tw-mock-logo">
+                <ShieldCheck size={15} />
+              </span>
               <div>
-                <strong>{node.title}</strong>
-                <span>{node.subtitle}</span>
+                <strong>Technology Stack</strong>
+                <small>Everything stays connected</small>
               </div>
+            </div>
 
-              <div className="node-active">
-                <span />
-                Connected
+            <div className="tw-mock-fields">
+              <div>
+                <small>Layers</small>
+                <strong>04 Active</strong>
               </div>
-            </motion.div>
-          );
-        })}
+              <div>
+                <small>Status</small>
+                <strong>Protected</strong>
+              </div>
+            </div>
 
-        
-
-        {/* FLOATING CARDS */}
-
-        <motion.div
-          className="floating-tech-card card-protected"
-          animate={{ y: [0, -7, 0] }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <CheckCircle2 size={18} />
-          <div>
-            <strong>Protected</strong>
-            <span>Secure Systems</span>
+            <ul className="tw-mock-list">
+              {STACK.map(({ title, subtitle, icon: Icon }) => (
+                <li key={title}>
+                  <span className="tw-mini-icon">
+                    <Icon size={13} />
+                  </span>
+                  <div>
+                    <strong>{title}</strong>
+                    <small>{subtitle}</small>
+                  </div>
+                  <em>Connected</em>
+                </li>
+              ))}
+            </ul>
           </div>
-        </motion.div>
+        </motion.article>
 
-        <motion.div
-          className="floating-tech-card card-optimized"
-          animate={{ y: [0, 7, 0] }}
-          transition={{
-            duration: 3.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <Zap size={18} />
-          <div>
-            <strong>Optimized</strong>
-            <span>High Performance</span>
+        {/* ---------- CARD 2 (dark) ---------- */}
+        <motion.article className="tw-card tw-card-dark tw-card-b" {...fadeUp(0.22)}>
+          <span className="tw-card-icon">
+            <RefreshCw size={22} />
+          </span>
+
+          <h3>Reliable Performance</h3>
+          <p>Systems designed for consistent operation, day after day.</p>
+
+          <div className="tw-mock" style={{ "--rot": "0deg" }}>
+            <div className="tw-mock-head">
+              <span className="tw-mock-logo">
+                <Activity size={15} />
+              </span>
+              <div>
+                <strong>System Health</strong>
+                <small>Live monitoring</small>
+              </div>
+            </div>
+
+            <div className="tw-bars">
+              {HEALTH.map(({ label, value, width }) => (
+                <div key={label}>
+                  <div className="tw-bars-row">
+                    <small>{label}</small>
+                    <strong>{value}</strong>
+                  </div>
+                  <span className="tw-bar">
+                    <span style={{ width }} />
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="tw-barcode" />
           </div>
-        </motion.div>
+        </motion.article>
 
-        <motion.div
-          className="floating-tech-card card-scalable"
-          animate={{ y: [0, -6, 0] }}
-          transition={{
-            duration: 3.2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <TrendingUp size={18} />
-          <div>
-            <strong>Scalable</strong>
-            <span>Built to Grow</span>
+        {/* ---------- CARD 3 ---------- */}
+        <motion.article className="tw-card tw-card-light tw-card-c" {...fadeUp(0.34)}>
+          <span className="tw-card-icon">
+            <TrendingUp size={22} />
+          </span>
+
+          <h3>Ready to Scale</h3>
+          <p>Technology that grows with your business.</p>
+
+          <div className="tw-mock" style={{ "--rot": "-4deg" }}>
+            <div className="tw-mock-head">
+              <span className="tw-mock-logo">
+                <TrendingUp size={15} />
+              </span>
+              <div>
+                <strong>Growth Overview</strong>
+                <small>Built to grow</small>
+              </div>
+            </div>
+
+            <div className="tw-mock-fields">
+              <div>
+                <small>Capacity</small>
+                <strong>Elastic</strong>
+              </div>
+              <div>
+                <small>Growth</small>
+                <strong>+128%</strong>
+              </div>
+            </div>
+
+            <svg className="tw-chart" viewBox="0 0 220 90" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="twArea" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#1769aa" stopOpacity="0.35" />
+                  <stop offset="1" stopColor="#1769aa" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M0 78 C25 74 35 60 60 58 S95 62 115 42 S160 30 185 18 S210 10 220 6 V90 H0 Z"
+                fill="url(#twArea)"
+              />
+              <path
+                d="M0 78 C25 74 35 60 60 58 S95 62 115 42 S160 30 185 18 S210 10 220 6"
+                fill="none"
+                stroke="#1769aa"
+                strokeWidth="2.2"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
           </div>
-        </motion.div>
-
-      </motion.div>
-
-      {/* FEATURE ROW */}
-      <div className="technology-feature-row">
-
-        <div className="technology-feature">
-          <div className="feature-icon">
-            <ShieldCheck size={20} />
-          </div>
-
-          <div>
-            <strong>Secure by Design</strong>
-            <span>Security integrated into every layer.</span>
-          </div>
-        </div>
-
-        <div className="technology-feature">
-          <div className="feature-icon">
-            <RefreshCw size={20} />
-          </div>
-
-          <div>
-            <strong>Reliable Performance</strong>
-            <span>Systems designed for consistent operation.</span>
-          </div>
-        </div>
-
-        <div className="technology-feature">
-          <div className="feature-icon">
-            <TrendingUp size={20} />
-          </div>
-
-          <div>
-            <strong>Ready to Scale</strong>
-            <span>Technology that grows with your business.</span>
-          </div>
-        </div>
-
+        </motion.article>
       </div>
-
     </section>
   );
 }

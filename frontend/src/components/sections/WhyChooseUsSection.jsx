@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Code2,
@@ -7,14 +7,16 @@ import {
   Rocket,
   Users,
   Headphones,
-  Sparkles,
-  BarChart3,
   ArrowUpRight,
 } from "lucide-react";
 
 import img1 from "../../assets/img11.jpg";
 
 import "./WhyChooseUsSection.css";
+
+/* ============================================================
+   CONTENT
+============================================================ */
 
 const reasons = [
   {
@@ -61,372 +63,96 @@ const reasons = [
   },
 ];
 
+/* card that is popped up when the page loads */
+const DEFAULT_ACTIVE = 2;
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.15 },
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+});
+
+/* ============================================================
+   SECTION
+============================================================ */
+
 export default function WhyChooseUsSection() {
+  const [active, setActive] = useState(DEFAULT_ACTIVE);
+
   return (
     <section className="why-section">
+      <div className="why-bg-glow why-bg-glow-one" />
+      <div className="why-bg-glow why-bg-glow-two" />
+      <div className="why-grid-pattern" />
 
-      {/* =====================================================
-          BACKGROUND
-      ===================================================== */}
+      {/* ================= HEADER ================= */}
 
-      <div className="why-bg-glow why-bg-glow-one"></div>
-      <div className="why-bg-glow why-bg-glow-two"></div>
+      <div className="why-head">
+        <motion.h2 className="why-main-title" {...fadeUp(0)}>
+          Digital Solutions
+          <br />
+          <span>Built Around You.</span>
+        </motion.h2>
 
-      <div className="why-grid-pattern"></div>
-
-      <div className="why-bg-circle why-circle-one"></div>
-      <div className="why-bg-circle why-circle-two"></div>
-      <div className="why-bg-circle why-circle-three"></div>
-
-      <div className="why-small-dot why-dot-one"></div>
-      <div className="why-small-dot why-dot-two"></div>
-      <div className="why-small-dot why-dot-three"></div>
-
-
-      {/* =====================================================
-          MAIN CONTAINER
-      ===================================================== */}
-
-      <div className="why-container">
-
-
-        {/* ===================================================
-            LEFT SIDE
-        =================================================== */}
-
-        <motion.div
-          className="why-left"
-          initial={{
-            opacity: 0,
-            x: -50,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: "easeOut",
-          }}
-        >
-
-
-          {/* MAIN HEADING */}
-
-          <h2 className="why-main-title">
-
-            Digital Solutions
-
-            <br />
-
-            <span>
-              Built Around You.
-            </span>
-
-          </h2>
-
-
-          {/* DESCRIPTION */}
+        <motion.div className="why-head-right" {...fadeUp(0.12)}>
+          <div className="why-right-intro">
+            <span>WHAT MAKES US DIFFERENT</span>
+            <div className="why-intro-line" />
+          </div>
 
           <p className="why-main-description">
-            We combine technology, creativity and practical thinking
-            to build digital experiences that help businesses move
-            forward.
+            We combine technology, creativity and practical thinking to build
+            digital experiences that help businesses move forward.
           </p>
-
-
-          {/* =================================================
-              VISUAL AREA
-          ================================================= */}
-
-          <div className="why-visual">
-
-
-            {/* LARGE DECORATIVE RINGS */}
-
-            <div className="why-ring why-ring-one"></div>
-
-            <div className="why-ring why-ring-two"></div>
-
-            <div className="why-ring why-ring-three"></div>
-
-
-            {/* MAIN IMAGE */}
-
-            <motion.div
-              className="why-image"
-              initial={{
-                opacity: 0,
-                scale: 0.85,
-              }}
-              whileInView={{
-                opacity: 1,
-                scale: 1,
-              }}
-              viewport={{
-                once: true,
-                amount: 0.2,
-              }}
-              transition={{
-                duration: 0.9,
-                delay: 0.15,
-              }}
-            >
-
-              <img
-                src={img1}
-                alt="VProTech Digital team"
-              />
-
-            </motion.div>
-
-
-            {/* IMAGE OVERLAY */}
-
-            <div className="why-image-overlay"></div>
-
-
-            {/* TOP FLOATING ELEMENT */}
-
-            <motion.div
-              className="why-floating-box why-floating-top"
-              initial={{
-                opacity: 0,
-                y: -20,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: 0.6,
-              }}
-            >
-
-              <div className="why-floating-icon">
-                <BarChart3 size={19} />
-              </div>
-
-              <div className="why-floating-text">
-
-                <strong>
-                  Smart Solutions
-                </strong>
-
-                <span>
-                  Designed to perform
-                </span>
-
-              </div>
-
-            </motion.div>
-
-
-            {/* BOTTOM FLOATING ELEMENT */}
-
-            <motion.div
-              className="why-floating-box why-floating-bottom"
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: 0.8,
-              }}
-            >
-
-              <div className="why-floating-icon">
-                <Code2 size={19} />
-              </div>
-
-              <div className="why-floating-text">
-
-                <strong>
-                  Digital Products
-                </strong>
-
-                <span>
-                  Built for real impact
-                </span>
-
-              </div>
-
-              <ArrowUpRight
-                className="why-floating-arrow"
-                size={17}
-              />
-
-            </motion.div>
-
-
-            {/* SMALL DECORATIVE ORB */}
-
-            <motion.div
-              className="why-orb"
-              animate={{
-                y: [0, -12, 0],
-                x: [0, 5, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <span></span>
-            </motion.div>
-
-
-            {/* SMALL TEXT */}
-
-            <div className="why-visual-text">
-              <span>
-                YOUR VISION
-              </span>
-
-              <strong>
-                OUR TECHNOLOGY
-              </strong>
-            </div>
-
-          </div>
-
         </motion.div>
-
-
-        {/* ===================================================
-            RIGHT SIDE
-        =================================================== */}
-
-        <div className="why-right">
-
-
-          {/* RIGHT SIDE INTRO */}
-
-          <motion.div
-            className="why-right-intro"
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-          >
-
-            <span>
-              WHAT MAKES US DIFFERENT
-            </span>
-
-            <div className="why-intro-line"></div>
-
-          </motion.div>
-
-
-          {/* =================================================
-              FEATURE LIST
-          ================================================= */}
-
-          <div className="why-features">
-
-            {reasons.map((item, index) => {
-
-              const Icon = item.icon;
-
-              return (
-                <motion.div
-                  className="why-feature"
-                  key={item.number}
-                  initial={{
-                    opacity: 0,
-                    x: 45,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    x: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                    amount: 0.15,
-                  }}
-                  transition={{
-                    duration: 0.55,
-                    delay: index * 0.08,
-                    ease: "easeOut",
-                  }}
-                >
-
-
-                  {/* NUMBER */}
-
-                  <div className="why-feature-number">
-                    {item.number}
-                  </div>
-
-
-                  {/* ICON */}
-
-                  <div className="why-feature-icon">
-                    <Icon size={22} />
-                  </div>
-
-
-                  {/* CONTENT */}
-
-                  <div className="why-feature-content">
-
-                    <h3>
-                      {item.title}
-                    </h3>
-
-                    <p>
-                      {item.description}
-                    </p>
-
-                  </div>
-
-
-                
-
-
-                  {/* BOTTOM LINE */}
-
-                  <div className="why-feature-line"></div>
-
-                </motion.div>
-              );
-
-            })}
-
-          </div>
-
-        </div>
-
       </div>
 
+      {/* ================= CARDS ================= */}
+
+      <motion.div className="why-panel" {...fadeUp(0.2)}>
+        {reasons.map((item, index) => {
+          const Icon = item.icon;
+          const isActive = active === index;
+
+          return (
+            <div className="why-cell" key={item.number}>
+              <article
+                className={`why-card${isActive ? " is-active" : ""}`}
+                onMouseEnter={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                onClick={() => setActive(index)}
+                tabIndex={0}
+              >
+                {/* image shown when the card pops up */}
+                <img
+                  className="why-card-bg"
+                  src={img1}
+                  alt=""
+                  draggable="false"
+                  style={{ objectPosition: `${index * 18}% center` }}
+                />
+                <span className="why-card-shade" />
+
+                <span className="why-card-icon">
+                  <Icon size={18} />
+                </span>
+
+                <div className="why-card-body">
+                  <span className="why-card-number">{item.number}</span>
+
+                  <span className="why-card-dots" />
+
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+
+                  
+                </div>
+              </article>
+            </div>
+          );
+        })}
+      </motion.div>
     </section>
   );
 }

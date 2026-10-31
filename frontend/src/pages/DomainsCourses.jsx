@@ -28,7 +28,13 @@ import {
   Award,
   Users,
   BookOpen,
-  CheckCircle
+  CheckCircle,
+  ChartNoAxesCombined,
+  Palette ,
+  CalendarDays,
+  Building2,
+  Workflow
+  
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -220,35 +226,39 @@ export default function DomainsCourses() {
           'Deploy applications'
         ]
       },
-      { 
-        name: 'JavaScript', 
-        image: '/assets/images/courses/javascript.jpg',
-        icon: <Globe size={24} />, 
-        desc: 'Modern JavaScript for web and app development', 
-        color: '#F59E0B',
-        duration: '6 Months & 45 days',
-        students: '450+',
-        level: 'Intermediate',
-        overview: 'Master modern JavaScript for web and mobile app development. Learn ES6+, React, Node.js, and build full-stack applications.',
-        curriculum: [
-          'ES6+ Features',
-          'DOM Manipulation',
-          'Asynchronous JavaScript',
-          'API Integration',
-          'React.js Fundamentals',
-          'State Management',
-          'Routing & Navigation',
-          'Node.js & Express',
-          'Full-Stack Applications'
-        ],
-        outcomes: [
-          'Build interactive web applications',
-          'Create React apps',
-          'Develop Node.js APIs',
-          'Work with modern JavaScript',
-          'Build full-stack projects'
-        ]
-      },
+      {
+  name: 'MERN Stack Development',
+  image: '/assets/images/courses/javascript.jpg',
+  icon: <Globe size={24} />,
+  desc: 'Full-stack web development using MongoDB, Express, React, and Node.js',
+  color: '#10B981',
+  duration: '6 Months & 45 days',
+  students: '450+',
+  level: 'Intermediate',
+  overview: 'Master full-stack web development with MongoDB, Express.js, React.js, and Node.js. Learn to build responsive frontend applications, develop secure backend APIs, manage databases, and create complete real-world web applications.',
+  curriculum: [
+    'HTML5, CSS3 & JavaScript',
+    'ES6+ JavaScript Features',
+    'React.js Fundamentals',
+    'Components, Props & Hooks',
+    'State Management & Context API',
+    'React Router & Navigation',
+    'Node.js Fundamentals',
+    'Express.js & REST APIs',
+    'MongoDB & Mongoose',
+    'Authentication & Authorization',
+    'Full-Stack Application Development',
+    'Deployment & Live Projects'
+  ],
+  outcomes: [
+    'Build responsive React applications',
+    'Develop backend APIs using Node.js and Express.js',
+    'Design and manage MongoDB databases',
+    'Implement authentication and authorization',
+    'Integrate frontend with backend APIs',
+    'Develop and deploy complete MERN stack projects'
+  ]
+},
       { 
         name: 'Machine Learning', 
         image: '/assets/images/courses/machine-learning.jpg',
@@ -278,34 +288,39 @@ export default function DomainsCourses() {
           'Create intelligent systems'
         ]
       },
-      { 
-        name: 'IoT Training', 
-        image: '/assets/images/courses/iot.jpg',
-        icon: <Wifi size={24} />, 
-        desc: 'Internet of Things and smart devices', 
-        color: '#3B82F6',
-        duration: '6 Months & 45 days',
-        students: '150+',
-        level: 'Intermediate',
-        overview: 'Learn to build smart devices and IoT solutions. This course covers sensors, microcontrollers, cloud integration, and IoT application development.',
-        curriculum: [
-          'IoT Fundamentals',
-          'Arduino & Raspberry Pi',
-          'Sensor Integration',
-          'Communication Protocols',
-          'Cloud Integration',
-          'IoT Application Development',
-          'Data Analytics',
-          'Smart Device Projects'
-        ],
-        outcomes: [
-          'Build IoT projects',
-          'Work with sensors and microcontrollers',
-          'Integrate with cloud platforms',
-          'Create smart solutions',
-          'Understand IoT architecture'
-        ]
-      },
+     {
+  name: 'Full Stack Development',
+  image: '/assets/images/courses/fulls.jpg',
+  icon: <Globe size={24} />,
+  desc: 'Complete frontend and backend web development',
+  color: '#3B82F6',
+  duration: '6 Months & 45 days',
+  students: '450+',
+  level: 'Intermediate',
+  overview: 'Learn complete web development from frontend to backend. Master HTML, CSS, JavaScript, React, Node.js, Express.js, and databases to build dynamic, responsive, and fully functional web applications.',
+  curriculum: [
+    'HTML5 & CSS3 Fundamentals',
+    'JavaScript & ES6+ Features',
+    'Responsive Web Design',
+    'React.js Fundamentals',
+    'Components, Props & Hooks',
+    'State Management & Routing',
+    'Node.js Fundamentals',
+    'Express.js & REST APIs',
+    'MongoDB & Database Management',
+    'Authentication & Authorization',
+    'Frontend & Backend Integration',
+    'Live Projects & Deployment'
+  ],
+  outcomes: [
+    'Build responsive and interactive websites',
+    'Develop dynamic frontend applications',
+    'Create backend APIs and services',
+    'Manage databases and application data',
+    'Implement authentication and authorization',
+    'Develop and deploy complete full-stack projects'
+  ]
+},
       { 
         name: 'Networking', 
         image: '/assets/images/courses/networking.jpg',
@@ -389,8 +404,228 @@ export default function DomainsCourses() {
           'Create computer vision systems',
           'Understand AI ethics'
         ]
-      }
-    ],
+      },
+
+      {
+  name: 'Ethical Hacking',
+  image: '/assets/images/courses/ethical.jpg',
+  icon: <Shield size={24} />,
+  desc: 'Cybersecurity, penetration testing, and ethical hacking techniques',
+  color: '#8B5CF6',
+  duration: '6 Months & 45 days',
+  students: '150+',
+  level: 'Intermediate',
+  overview: 'Learn ethical hacking and cybersecurity techniques to identify vulnerabilities, secure computer networks, and protect digital systems. Gain practical experience in penetration testing, network security, and security assessment using industry-standard tools.',
+  curriculum: [
+    'Introduction to Cybersecurity',
+    'Networking Fundamentals',
+    'Linux Fundamentals',
+    'Operating System Security',
+    'Information Gathering & Reconnaissance',
+    'Vulnerability Assessment',
+    'Web Application Security',
+    'Penetration Testing Fundamentals',
+    'Network Security & Monitoring',
+    'Cryptography Fundamentals',
+    'Security Tools & Techniques',
+    'Practical Security Projects'
+  ],
+  outcomes: [
+    'Understand cybersecurity principles',
+    'Identify security vulnerabilities',
+    'Perform authorized penetration testing',
+    'Analyze network and system security',
+    'Understand web application security',
+    'Apply security measures to protect digital systems'
+  ]
+},
+
+
+{
+  name: 'Cyber Security',
+  image: '/assets/images/courses/cyber.jpg',
+  icon: <Shield size={24} />,
+  desc: 'Digital security, threat detection, and data protection',
+  color: '#0EA5E9',
+  duration: '6 Months & 45 days',
+  students: '200+',
+  level: 'Intermediate',
+  overview: 'Learn how to protect computer systems, networks, and digital information from cyber threats. Develop practical skills in network security, threat analysis, risk management, data protection, and incident response using modern cybersecurity tools and techniques.',
+  curriculum: [
+    'Introduction to Cyber Security',
+    'Computer Networks & Security',
+    'Linux & Windows Security',
+    'Network Security Fundamentals',
+    'Malware & Threat Analysis',
+    'Cryptography & Data Protection',
+    'Firewall & Intrusion Detection Systems',
+    'Web & Application Security',
+    'Vulnerability Assessment',
+    'Security Monitoring & Incident Response',
+    'Risk Management & Security Policies',
+    'Practical Cyber Security Projects'
+  ],
+  outcomes: [
+    'Understand cybersecurity principles and practices',
+    'Identify and analyze potential cyber threats',
+    'Secure computer systems and networks',
+    'Apply data protection techniques',
+    'Monitor security events and respond to incidents',
+    'Implement security measures to protect digital assets'
+  ]
+},
+
+
+{
+  name: 'Data Analytics',
+  image: '/assets/images/courses/data-analytics.jpg',
+  icon: <ChartNoAxesCombined size={24} />,
+  desc: 'Data analysis, visualization, and business intelligence',
+  color: '#8B5CF6',
+  duration: '6 Months & 45 days',
+  students: '250+',
+  level: 'Intermediate',
+  overview: 'Learn to collect, clean, analyze, and visualize data to make informed business decisions. Master Excel, SQL, Python, Power BI, and data visualization techniques through practical exercises and real-world projects.',
+  curriculum: [
+    'Introduction to Data Analytics',
+    'Microsoft Excel & Advanced Excel',
+    'Data Cleaning & Data Preprocessing',
+    'SQL & Database Management',
+    'Python for Data Analytics',
+    'NumPy & Pandas',
+    'Exploratory Data Analysis',
+    'Data Visualization Techniques',
+    'Power BI & Interactive Dashboards',
+    'Statistical Analysis Fundamentals',
+    'Business Intelligence & Reporting',
+    'Real-World Data Analytics Projects'
+  ],
+  outcomes: [
+    'Collect, clean, and analyze datasets',
+    'Perform data analysis using Python and SQL',
+    'Create interactive dashboards using Power BI',
+    'Generate meaningful business insights',
+    'Visualize data through charts and reports',
+    'Make data-driven business decisions'
+  ]
+},   
+
+{
+  name: 'Web Graphic Design',
+  image: '/assets/images/courses/web-graphics.jpg',
+  icon: <Palette size={24} />,
+  desc: 'Creative web design, graphic design, and visual communication',
+  color: '#EC4899',
+  duration: '6 Months & 45 days',
+  students: '200+',
+  level: 'Beginner',
+  overview: 'Learn to create attractive websites and professional graphics using modern design tools. Develop skills in UI/UX design, web layouts, branding, image editing, and visual content creation through practical projects.',
+  curriculum: [
+    'Introduction to Web & Graphic Design',
+    'Design Principles & Color Theory',
+    'Typography & Visual Composition',
+    'Adobe Photoshop',
+    'Adobe Illustrator',
+    'CorelDRAW Fundamentals',
+    'HTML5 & CSS3 Basics',
+    'Responsive Web Design',
+    'UI/UX Design Fundamentals',
+    'Figma & Wireframing',
+    'Logo & Branding Design',
+    'Social Media Graphics & Creative Projects'
+  ],
+  outcomes: [
+    'Create professional graphic designs',
+    'Design attractive website layouts',
+    'Develop responsive web pages',
+    'Create logos, banners, and marketing materials',
+    'Design user-friendly interfaces using Figma',
+    'Build a professional design portfolio'
+  ]
+},
+
+{
+  name: 'App Development',
+  image: '/assets/images/courses/app-development.jpg',
+  icon: <Smartphone size={24} />,
+  desc: 'Build modern mobile applications for Android and iOS',
+  color: '#F59E0B',
+  duration: '6 Months & 45 days',
+  students: '250+',
+  level: 'Beginner',
+  overview: 'Learn to design and develop modern mobile applications with hands-on experience in mobile UI/UX, app functionality, API integration, databases, and app deployment.',
+  curriculum: [
+    'Introduction to Mobile App Development',
+    'Mobile Application Architecture',
+    'UI/UX Design Fundamentals',
+    'React Native Fundamentals',
+    'JavaScript for App Development',
+    'Components, Props & State',
+    'Navigation & Screen Management',
+    'Forms & User Input Handling',
+    'API Integration & Data Fetching',
+    'Firebase & Database Integration',
+    'Authentication & User Management',
+    'App Testing & Debugging',
+    'Android App Development',
+    'App Deployment & Publishing'
+  ],
+  outcomes: [
+    'Develop functional mobile applications',
+    'Create responsive and user-friendly app interfaces',
+    'Build Android and iOS apps using React Native',
+    'Integrate APIs and databases',
+    'Implement user authentication',
+    'Test and debug mobile applications',
+    'Publish apps for mobile platforms',
+    'Build a professional app development portfolio'
+  ]
+},
+
+{
+  name: 'Flutter',
+  image: '/assets/images/courses/flutter.jpg',
+  icon: <Smartphone size={24} />,
+  desc: 'Modern cross-platform app development using Flutter',
+  color: '#0EA5E9',
+  duration: '6 Months & 45 days',
+  students: '200+',
+  level: 'Beginner',
+  overview: 'Learn Flutter app development from scratch and build attractive, high-performance mobile applications with practical projects.',
+  curriculum: [
+    'Introduction to Flutter',
+    'Flutter Installation & Setup',
+    'Dart Programming Fundamentals',
+    'Flutter Widgets & Components',
+    'Layouts & Responsive UI Design',
+    'Navigation & Routing',
+    'State Management',
+    'Forms & User Input Handling',
+    'API Integration',
+    'JSON Data Handling',
+    'Firebase Integration',
+    'Local Storage',
+    'App Testing & Debugging',
+    'Animations & UI Enhancements',
+    'Live Project Development',
+    'App Deployment'
+  ],
+  outcomes: [
+    'Understand Flutter development fundamentals',
+    'Create attractive and responsive app interfaces',
+    'Build functional mobile applications',
+    'Manage application state and data',
+    'Integrate APIs and Firebase',
+    'Test and debug Flutter applications',
+    'Develop and deploy real-world Flutter projects'
+  ]
+},
+
+
+
+],
+
+    
     mechanical: [
       { 
         name: 'AutoCAD 2D, 3D', 
@@ -728,7 +963,86 @@ export default function DomainsCourses() {
           'Use SketchUp professionally',
           'Complete design projects'
         ]
-      }
+      },
+
+{
+  name: 'Primavera',
+  image: '/assets/images/courses/primavera.jpg',
+  icon: <CalendarDays size={24} />,
+  desc: 'Professional project planning and management using Primavera P6',
+  color: '#F97316',
+  duration: '6 Months & 45 days',
+  students: '150+',
+  level: 'Beginner',
+  overview: 'Learn project planning, scheduling, monitoring, and resource management using Primavera P6. Gain practical experience in managing project timelines, costs, activities, and progress reports.',
+  curriculum: [
+    'Introduction to Project Management',
+    'Introduction to Primavera P6',
+    'Primavera P6 Interface & Navigation',
+    'Creating & Managing Projects',
+    'Work Breakdown Structure (WBS)',
+    'Activities & Activity Relationships',
+    'Project Scheduling & Calendars',
+    'Critical Path Method (CPM)',
+    'Resource Allocation & Management',
+    'Cost Estimation & Budgeting',
+    'Baseline Management',
+    'Project Progress Tracking',
+    'Project Monitoring & Control',
+    'Reports & Project Documentation',
+    'Practical Project Planning'
+  ],
+  outcomes: [
+    'Create and manage projects in Primavera P6',
+    'Develop project schedules and timelines',
+    'Build Work Breakdown Structures',
+    'Manage resources and project costs',
+    'Identify critical paths and project dependencies',
+    'Track project progress and performance',
+    'Generate professional project reports',
+    'Plan and monitor real-world projects'
+  ]
+},
+
+{
+  name: 'ETABS',
+  image: '/assets/images/courses/etabs.jpg',
+  icon: <Building2 size={24} />,
+  desc: 'Structural analysis and design using ETABS software',
+  color: '#F97316',
+  duration: '6 Months & 45 days',
+  students: '150+',
+  level: 'Beginner',
+  overview: 'Learn structural analysis and design of buildings using ETABS. Gain practical experience in modeling structures, applying loads, analyzing structural behavior, and designing building components.',
+  curriculum: [
+    'Introduction to Structural Engineering',
+    'Introduction to ETABS Software',
+    'ETABS Interface & Basic Settings',
+    'Grid Systems & Building Geometry',
+    'Modeling Beams, Columns & Slabs',
+    'Material & Section Properties',
+    'Load Patterns & Load Combinations',
+    'Dead Load & Live Load Application',
+    'Earthquake & Wind Load Analysis',
+    'Structural Analysis & Design',
+    'Shear Wall Modeling & Design',
+    'Building Code Fundamentals',
+    'Analysis Results & Interpretation',
+    'Structural Design Reports',
+    'Practical Building Design Project'
+  ],
+  outcomes: [
+    'Create 3D building models in ETABS',
+    'Apply structural loads and load combinations',
+    'Perform structural analysis',
+    'Understand earthquake and wind load effects',
+    'Design beams, columns, slabs, and shear walls',
+    'Interpret structural analysis results',
+    'Generate structural design reports',
+    'Work on practical building design projects'
+  ]
+},
+
     ],
     ece: [
       { 
@@ -843,62 +1157,82 @@ export default function DomainsCourses() {
           'Build robotics projects'
         ]
       },
-      { 
-        name: 'Networking', 
-        image: '/assets/images/courses/networking.jpg',
-        icon: <Network size={24} />, 
-        desc: 'Computer and communication networks', 
-        color: '#F59E0B',
-        duration: '6 Months & 45 days',
-        students: '200+',
-        level: 'Beginner',
-        overview: 'Master computer networks, communication protocols, network security, and wireless technologies for modern communication systems.',
-        curriculum: [
-          'Network Fundamentals',
-          'Communication Protocols',
-          'Wireless Technologies',
-          'Network Security',
-          'Voice & Data Communication',
-          'Optical Networks',
-          'Network Management',
-          'Networking Projects'
-        ],
-        outcomes: [
-          'Design communication networks',
-          'Configure network devices',
-          'Implement network security',
-          'Understand wireless systems',
-          'Manage communication networks'
-        ]
-      },
-      { 
-        name: 'Android', 
-        image: '/assets/images/courses/android.jpg',
-        icon: <Smartphone size={24} />, 
-        desc: 'Android app development for mobile', 
-        color: '#10B981',
-        duration: '6 Months & 45 days',
-        students: '250+',
-        level: 'Intermediate',
-        overview: 'Learn Android app development with Java and Kotlin. Build native Android apps with modern UI and backend integration.',
-        curriculum: [
-          'Android Fundamentals',
-          'Java/Kotlin Programming',
-          'UI/UX Design',
-          'Activity & Fragments',
-          'Database Integration',
-          'API Integration',
-          'Firebase & Cloud Services',
-          'App Deployment'
-        ],
-        outcomes: [
-          'Build Android apps',
-          'Design mobile interfaces',
-          'Integrate with backend',
-          'Publish apps on Play Store',
-          'Create professional apps'
-        ]
-      }
+     {
+  name: 'VLSI/VHDL',
+  image: '/assets/images/courses/vlsi-vhdl.jpg',
+  icon: <Cpu size={24} />,
+  desc: 'Digital circuit design and hardware description using VLSI and VHDL',
+  color: '#8B5CF6',
+  duration: '6 Months & 45 days',
+  students: '150+',
+  level: 'Beginner',
+  overview: 'Learn digital system design, VLSI fundamentals, and hardware description using VHDL. Gain practical experience in designing, simulating, and verifying digital circuits.',
+  curriculum: [
+    'Introduction to VLSI Technology',
+    'Digital Electronics Fundamentals',
+    'Logic Gates & Boolean Algebra',
+    'Combinational Circuit Design',
+    'Sequential Circuit Design',
+    'Introduction to VHDL',
+    'VHDL Syntax & Data Types',
+    'Behavioral & Structural Modeling',
+    'VHDL Coding for Digital Circuits',
+    'Simulation & Testbench Development',
+    'Introduction to FPGA Architecture',
+    'RTL Design & Verification',
+    'Synthesis Fundamentals',
+    'Timing Analysis',
+    'Mini Project & Practical Implementation'
+  ],
+  outcomes: [
+    'Understand VLSI and digital design fundamentals',
+    'Write VHDL code for digital circuits',
+    'Design combinational and sequential circuits',
+    'Simulate and verify hardware designs',
+    'Understand RTL design and synthesis',
+    'Gain basic knowledge of FPGA architecture',
+    'Analyze and troubleshoot digital circuits',
+    'Develop practical VLSI design projects'
+  ]
+},
+      {
+  name: 'PLC/SCADA',
+  image: '/assets/images/courses/plc-scada.jpg',
+  icon: <Workflow size={24} />,
+  desc: 'Industrial automation and control systems using PLC and SCADA',
+  color: '#0EA5E9',
+  duration: '6 Months & 45 days',
+  students: '150+',
+  level: 'Beginner',
+  overview: 'Learn industrial automation, PLC programming, and SCADA systems. Gain practical experience in designing control logic, monitoring industrial processes, and developing automated systems.',
+  curriculum: [
+    'Introduction to Industrial Automation',
+    'Fundamentals of PLC',
+    'PLC Architecture & Components',
+    'PLC Hardware Configuration',
+    'Ladder Logic Programming',
+    'Timers & Counters',
+    'Digital & Analog I/O',
+    'PLC Programming Instructions',
+    'Introduction to SCADA Systems',
+    'SCADA Architecture & Configuration',
+    'HMI Design & Development',
+    'Industrial Communication Protocols',
+    'PLC-SCADA Integration',
+    'Process Monitoring & Control',
+    'Industrial Automation Projects'
+  ],
+  outcomes: [
+    'Understand industrial automation fundamentals',
+    'Configure and program PLC systems',
+    'Develop ladder logic programs',
+    'Work with digital and analog signals',
+    'Design HMI screens',
+    'Configure SCADA monitoring systems',
+    'Integrate PLC with SCADA applications',
+    'Develop practical industrial automation projects'
+  ]
+},
     ]
   };
 

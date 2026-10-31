@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
@@ -9,12 +10,14 @@ import {
   BriefcaseBusiness,
   Rocket,
   Landmark,
-  ArrowUpRight,
-  Check,
-  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 import "./IndustriesSection.css";
+
+/* ============================================================
+   CONTENT
+============================================================ */
 
 const industries = [
   {
@@ -33,7 +36,6 @@ const industries = [
       "Institute Management Solutions",
     ],
   },
-
   {
     icon: ShoppingCart,
     title: "E-Commerce",
@@ -50,7 +52,6 @@ const industries = [
       "Customer Accounts",
     ],
   },
-
   {
     icon: HeartPulse,
     title: "Healthcare",
@@ -67,7 +68,6 @@ const industries = [
       "Wellness Platforms",
     ],
   },
-
   {
     icon: Building2,
     title: "Real Estate",
@@ -84,7 +84,6 @@ const industries = [
       "Enquiry Management",
     ],
   },
-
   {
     icon: Factory,
     title: "Manufacturing",
@@ -101,7 +100,6 @@ const industries = [
       "Business Applications",
     ],
   },
-
   {
     icon: BriefcaseBusiness,
     title: "Professional Services",
@@ -118,7 +116,6 @@ const industries = [
       "Business Applications",
     ],
   },
-
   {
     icon: Rocket,
     title: "Startups",
@@ -135,7 +132,6 @@ const industries = [
       "Product Development",
     ],
   },
-
   {
     icon: Landmark,
     title: "Finance",
@@ -154,225 +150,118 @@ const industries = [
   },
 ];
 
-export default function IndustriesSection() {
-  const [activeIndustry, setActiveIndustry] = useState(null);
+/* ============================================================
+   SECTION
+============================================================ */
 
-  const handleToggle = (index) => {
-    setActiveIndustry((current) =>
-      current === index ? null : index
-    );
-  };
+export default function IndustriesSection() {
+  /* first row is open when the page loads - use null for all closed */
+  const [open, setOpen] = useState(0);
+
+  const toggle = (index) => setOpen((cur) => (cur === index ? null : index));
 
   return (
-    <section className="industries-section">
+    <section className="ind-section">
+      <div className="ind-wrap">
+        {/* ================= LEFT: INTRO ================= */}
 
-      <div className="industries-container">
-
-        {/* HEADER */}
         <motion.div
-          className="industries-header"
-          initial={{
-            opacity: 0,
-            y: 35,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
+          className="ind-intro"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-
+          <p className="ind-eyebrow">Industries</p>
 
           <h2>
-            Technology That
-            <span> Fits Your Industry.</span>
+            Technology that fits <em>your industry.</em>
           </h2>
 
-          <p>
-            We create digital experiences and technology solutions
-            for businesses across different industries and stages
-            of growth.
+          <p className="ind-lead">
+            We create digital experiences and technology solutions for
+            businesses across different industries and stages of growth.
           </p>
 
+          <Link to="/contact" className="ind-cta">
+            <span>Talk to our team</span>
+            <ArrowRight size={16} />
+          </Link>
         </motion.div>
 
+        {/* ================= RIGHT: LIST ================= */}
 
-        {/* VERTICAL INDUSTRY LIST */}
-
-        <div className="industries-list">
-
+        <ul className="ind-list">
           {industries.map((industry, index) => {
-
             const Icon = industry.icon;
-            const isActive = activeIndustry === index;
+            const isOpen = open === index;
 
             return (
-              <motion.div
+              <motion.li
                 key={industry.title}
-                className={`industry-wrapper ${
-                  isActive ? "industry-wrapper-active" : ""
-                }`}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.1,
-                }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.05,
-                }}
+                className={`ind-item${isOpen ? " is-open" : ""}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.45, delay: index * 0.04 }}
               >
+                <button
+                  type="button"
+                  className="ind-trigger"
+                  onClick={() => toggle(index)}
+                  aria-expanded={isOpen}
+                  aria-controls={`ind-panel-${index}`}
+                >
+                  <span className="ind-num">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                {/* MAIN VERTICAL CARD */}
+                  <Icon className="ind-icon" size={22} strokeWidth={1.5} />
 
-                <div className="industry-card">
+                  <span className="ind-head">
+                    <span className="ind-title">{industry.title}</span>
+                    <span className="ind-summary">{industry.text}</span>
+                  </span>
 
-                  <div className="industry-number">
-                    0{index + 1}
-                  </div>
-
-                  <div className="industry-icon">
-                    <Icon size={25} />
-                  </div>
-
-                  <div className="industry-content">
-
-                    <h3>
-                      {industry.title}
-                    </h3>
-
-                    <p>
-                      {industry.text}
-                    </p>
-
-                  </div>
-
-                  <button
-                    type="button"
-                    className={`industry-arrow ${
-                      isActive
-                        ? "industry-arrow-active"
-                        : ""
-                    }`}
-                    onClick={() => handleToggle(index)}
-                    aria-label={`View ${industry.title} details`}
-                    aria-expanded={isActive}
-                  >
-                    <ArrowUpRight size={20} />
-                  </button>
-
-                </div>
-
-
-                {/* EXPANDED CONTENT */}
+                  <span className="ind-toggle" aria-hidden="true" />
+                </button>
 
                 <AnimatePresence initial={false}>
-
-                  {isActive && (
-
+                  {isOpen && (
                     <motion.div
-                      className="industry-expanded"
-                      initial={{
-                        height: 0,
-                        opacity: 0,
-                      }}
-                      animate={{
-                        height: "auto",
-                        opacity: 1,
-                      }}
-                      exit={{
-                        height: 0,
-                        opacity: 0,
-                      }}
-                      transition={{
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
+                      id={`ind-panel-${index}`}
+                      className="ind-panel"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
-
-                      <div className="industry-expanded-inner">
-
-                        {/* LEFT CONTENT */}
-
-                        <div className="industry-expanded-text">
-
-                          <span className="industry-small-label">
-                            {industry.title.toUpperCase()}
-                          </span>
-
-                          <h4>
-                            {industry.expandedTitle}
-                          </h4>
-
-                          <p>
-                            {industry.expandedText}
-                          </p>
-
+                      <div className="ind-panel-inner">
+                        <div className="ind-about">
+                          <h4>{industry.expandedTitle}</h4>
+                          <p>{industry.expandedText}</p>
                         </div>
 
-
-                        {/* RIGHT SOLUTIONS */}
-
-                        <div className="industry-solutions">
-
-                          <span className="solutions-heading">
-                            What We Can Build
+                        <div className="ind-build">
+                          <span className="ind-build-label">
+                            What we can build
                           </span>
 
-                          <div className="solutions-list">
-
-                            {industry.solutions.map(
-                              (solution) => (
-                                <div
-                                  className="solution-item"
-                                  key={solution}
-                                >
-
-                                  <span className="solution-check">
-                                    <Check size={14} />
-                                  </span>
-
-                                  <span>
-                                    {solution}
-                                  </span>
-
-                                </div>
-                              )
-                            )}
-
-                          </div>
-
+                          <ul>
+                            {industry.solutions.map((solution) => (
+                              <li key={solution}>{solution}</li>
+                            ))}
+                          </ul>
                         </div>
-
                       </div>
-
                     </motion.div>
-
                   )}
-
                 </AnimatePresence>
-
-              </motion.div>
+              </motion.li>
             );
           })}
-
-        </div>
-
+        </ul>
       </div>
-
     </section>
   );
 }

@@ -65,7 +65,21 @@ const courseImages = {
   matlab: matlabImage,
   "embedded-system": embeddedSystemImage,
   robotics: roboticsImage,
+
+  "mern": mernImage,
+"fulls": fullStackImage,
+"ethical": ethicalHackingImage,
+"cyber": cyberSecurityImage,
+"data-analytics": dataAnalyticsImage,
+"web-graphics": webGraphicsImage,
+"app-development": appDevelopmentImage,
+"flutter": flutterImage,
+"primavera": primaveraImage,
+"etabs": etabsImage,
+"vlsi-vhdl": vlsiVhdlImage,
+"plc-scada": plcScadaImage,
 };
+
 
 // ======================================================
 // GET COURSE IMAGE

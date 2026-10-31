@@ -1,314 +1,295 @@
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap");
+
 /* =========================================================
-   HOME CTA
+   HOME CTA — BLUE BANNER (matches the hero)
 ========================================================= */
+
+.home-cta-section,
+.home-cta-section *,
+.home-cta-section *::before,
+.home-cta-section *::after {
+  box-sizing: border-box;
+}
 
 .home-cta-section {
-  position: relative;
+  --cta-serif: "Newsreader", Georgia, "Times New Roman", serif;
 
   width: 100%;
-
-  padding: 115px 6%;
-
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      135deg,
-      #edf6ff 0%,
-      #f4f0ff 50%,
-      #eef7ff 100%
-    );
-
-  color: #10213d;
-}
-
-
-/* =========================================================
-   GRID
-========================================================= */
-
-.home-cta-grid {
-  position: absolute;
-
-  inset: 0;
-
-  background-image:
-    linear-gradient(
-      rgba(23, 105, 170, 0.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(23, 105, 170, 0.035) 1px,
-      transparent 1px
-    );
-
-  background-size: 45px 45px;
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   ORBS
-========================================================= */
-
-.home-cta-orb {
-  position: absolute;
-
-  border-radius: 50%;
-
-  pointer-events: none;
-
-  filter: blur(4px);
-}
-
-.home-cta-orb-one {
-  width: 360px;
-  height: 360px;
-
-  top: -190px;
-  right: -100px;
-
-  background: rgba(37, 99, 235, 0.12);
-}
-
-.home-cta-orb-two {
-  width: 300px;
-  height: 300px;
-
-  bottom: -170px;
-  left: -100px;
-
-  background: rgba(124, 58, 237, 0.09);
-}
-
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.home-cta-container {
-  position: relative;
-
-  z-index: 2;
-
-  width: min(850px, 100%);
-
-  margin: 0 auto;
-
-  text-align: center;
-}
-
-
-/* =========================================================
-   LABEL
-========================================================= */
-
-.home-cta-label {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  padding: 9px 16px;
-
-  border-radius: 50px;
+  padding: 90px 28px;
 
   background: #ffffff;
-
-  border: 1px solid #dce7f2;
-
-  color: #1769aa;
-
-  font-size: 12px;
-
-  font-weight: 800;
-
-  letter-spacing: 1.5px;
-
-  box-shadow:
-    0 8px 25px rgba(16, 33, 61, 0.06);
 }
 
+.home-cta-banner {
+  position: relative;
+  overflow: hidden;
 
-/* =========================================================
-   HEADING
-========================================================= */
-
-.home-cta-container h2 {
-  margin: 22px 0 18px;
-
-  color: #10213d;
-
-  font-size: clamp(42px, 6vw, 68px);
-
-  line-height: 1.05;
-
-  letter-spacing: -2px;
-}
-
-.home-cta-container h2 span {
-  background:
-    linear-gradient(
-      90deg,
-      #1769aa,
-      #4f46e5,
-      #7c3aed
-    );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-
-  color: transparent;
-}
-
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
-
-.home-cta-container p {
-  max-width: 650px;
+  max-width: 1380px;
 
   margin: 0 auto;
+  padding: clamp(48px, 6vw, 88px) clamp(32px, 6vw, 96px);
 
-  color: #65768d;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 80px;
+  align-items: center;
 
-  font-size: 16px;
+  border-radius: 32px;
 
-  line-height: 1.75;
+  background: linear-gradient(
+    100deg,
+    #051633 0%,
+    #082a5c 42%,
+    #0f4a93 72%,
+    #2b73bd 100%
+  );
+
+  color: #ffffff;
 }
 
+/* thin inner edge, same as the hero */
+.home-cta-banner::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  pointer-events: none;
+}
 
 /* =========================================================
-   ACTIONS
+   LEFT
+========================================================= */
+
+.home-cta-eyebrow {
+  margin: 0 0 22px;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.home-cta-title {
+  margin: 0;
+
+  max-width: 620px;
+
+  font-family: var(--cta-serif);
+  font-size: clamp(36px, 4.4vw, 62px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+
+.home-cta-title em {
+  color: #c4dcff;
+
+  font-style: italic;
+}
+
+.home-cta-text {
+  max-width: 500px;
+
+  margin: 24px 0 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   BUTTONS
 ========================================================= */
 
 .home-cta-actions {
+  margin-top: 36px;
+
   display: flex;
-
+  flex-wrap: wrap;
   align-items: center;
-
-  justify-content: center;
-
-  gap: 15px;
-
-  margin-top: 32px;
+  gap: 14px;
 }
 
+.home-cta-btn {
+  min-height: 50px;
 
-/* =========================================================
-   PRIMARY BUTTON
-========================================================= */
+  padding: 0 28px;
 
-.home-cta-primary,
-.home-cta-secondary {
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
+  gap: 10px;
 
-  gap: 9px;
-
-  padding: 14px 22px;
-
-  border-radius: 12px;
+  border-radius: 999px;
 
   font-family: inherit;
-
-  font-size: 14px;
-
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
 
   cursor: pointer;
 
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    background 0.3s ease;
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.home-cta-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
 }
 
 .home-cta-primary {
-  border: none;
+  border: 1px solid #ffffff;
 
-  background: #1769aa;
-
-  color: #ffffff;
-
-  box-shadow:
-    0 12px 30px rgba(23, 105, 170, 0.24);
+  background: #ffffff;
+  color: #082a5c;
 }
 
 .home-cta-primary:hover {
-  transform: translateY(-3px);
+  background: #e6f0ff;
+  border-color: #e6f0ff;
 
-  background: #12578f;
-
-  box-shadow:
-    0 16px 35px rgba(23, 105, 170, 0.3);
+  transform: translateY(-1px);
 }
 
+.home-cta-primary svg {
+  transition: transform 0.25s ease;
+}
+
+.home-cta-primary:hover svg {
+  transform: translateX(3px);
+}
+
+.home-cta-outline {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  background: transparent;
+  color: #ffffff;
+}
+
+.home-cta-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+
+  transform: translateY(-1px);
+}
 
 /* =========================================================
-   SECONDARY BUTTON
+   RIGHT — simple list with thin lines
 ========================================================= */
 
-.home-cta-secondary {
-  border: 1px solid #d5e0ec;
+.home-cta-side {
+  padding-left: 48px;
 
-  background: #ffffff;
-
-  color: #10213d;
-
-  box-shadow:
-    0 8px 20px rgba(16, 33, 61, 0.06);
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-.home-cta-secondary:hover {
-  transform: translateY(-3px);
+.home-cta-side-label {
+  margin: 0 0 22px;
 
-  background: #f7faff;
+  color: rgba(255, 255, 255, 0.6);
 
-  border-color: #1769aa;
-
-  color: #1769aa;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
+.home-cta-side ul {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.home-cta-side li {
+  padding: 20px 0;
+
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.home-cta-num {
+  width: 24px;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.home-cta-item {
+  font-family: var(--cta-serif);
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media (max-width: 650px) {
+@media (max-width: 960px) {
+  .home-cta-banner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
 
+  .home-cta-side {
+    padding-left: 0;
+    padding-top: 36px;
+
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .home-cta-side ul {
+    border-top: 0;
+  }
+}
+
+@media (max-width: 600px) {
   .home-cta-section {
-    padding: 85px 20px;
+    padding: 60px 14px;
   }
 
-  .home-cta-container h2 {
-    font-size: 43px;
+  .home-cta-banner {
+    padding: 44px 26px;
 
-    letter-spacing: -1px;
+    border-radius: 26px;
   }
 
-  .home-cta-container p {
+  .home-cta-text {
     font-size: 15px;
   }
 
   .home-cta-actions {
     flex-direction: column;
-
-    width: 100%;
+    align-items: stretch;
   }
 
-  .home-cta-primary,
-  .home-cta-secondary {
-    width: 100%;
-
-    max-width: 280px;
+  .home-cta-item {
+    font-size: 20px;
   }
+}
 
+@media (prefers-reduced-motion: reduce) {
+  .home-cta-btn,
+  .home-cta-primary svg {
+    transition: none !important;
+  }
 }

@@ -1,3 +1,22 @@
+:root {
+  --font-heading: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Roboto", system-ui, sans-serif;
+  --font-ui: "Google Sans Flex", "Roboto", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* navigation, buttons, form fields and small labels */
+button, input, select, textarea, nav a, label, small {
+  font-family: var(--font-ui);
+}
 
 .counter {
   font-size: 16px;

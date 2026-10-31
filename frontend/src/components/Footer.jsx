@@ -3,200 +3,140 @@ import {
   FiPhone,
   FiMail,
   FiMapPin,
-  FiArrowUpRight,
   FiLinkedin,
   FiFacebook,
   FiInstagram,
+    FiYoutube,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import logoImage from "../assets/images (2.png";
 import "./Footer.css";
+
+const SOCIALS = [
+  {
+    label: "LinkedIn",
+    href: "https://in.linkedin.com/company/vprotechdigital",
+    icon: FiLinkedin,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/vprotechdigital/?_rdr",
+    icon: FiFacebook,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/vprotech_digitalx/",
+    icon: FiInstagram,
+  },
+
+  {
+  label: "YouTube",
+  href: "https://www.youtube.com/@vprotechdigital5980",
+  icon: FiYoutube,
+},
+];
+
+const QUICK_LINKS = [
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About Us" },
+  { to: "/blogs", label: "Blogs" },
+  { to: "/careers", label: "Careers" },
+  { to: "/contact", label: "Contact" },
+  { to: "/portfolio", label: "Portfolio"},
+];
 
 export default function Footer() {
   return (
     <footer className="footer">
-
-      {/* =====================================================
-          MAIN FOOTER
-          ===================================================== */}
-
       <div className="footer-container">
+        {/* ================= BRAND / SOCIAL ================= */}
 
-        {/* ================= BRAND ================= */}
-
-        <div className="footer-brand">
-
-          <img
-            src={logoImage}
-            alt="VProTech Digital"
-            className="footer-logo"
-          />
-
-          <p className="footer-description">
-            Empowering students and businesses through innovative technology,
-            professional IT training, software development, web solutions,
-            AI, digital marketing, and industry-ready skills.
-          </p>
-
-          {/* Social Media */}
+        <div className="footer-col footer-brand">
+          <h3 className="footer-label">
+            © {new Date().getFullYear()} VProTech Digital
+          </h3>
 
           <div className="footer-socials">
-
-            <a
-              href="https://in.linkedin.com/company/vprotechdigital"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="social-icon"
-            >
-              <FiLinkedin />
-            </a>
-
-            <a
-              href="https://www.facebook.com/vprotechdigital/?_rdr"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Facebook"
-              className="social-icon"
-            >
-              <FiFacebook />
-            </a>
-
-            <a
-              href="https://www.instagram.com/vprotech_digitalx/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-              className="social-icon"
-            >
-              <FiInstagram />
-            </a>
-
+            {SOCIALS.map(({ label, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+                className="social-icon"
+              >
+                <Icon />
+              </a>
+            ))}
           </div>
-        </div>
 
+          <p className="footer-description">
+            Empowering students and businesses through <strong>IT training</strong>,
+            software development, web solutions, AI and digital marketing.
+          </p>
+        </div>
 
         {/* ================= QUICK LINKS ================= */}
 
-        <div className="footer-column">
+        <div className="footer-col">
+          <h3 className="footer-label">Quick Links</h3>
 
-          <h3>Quick Links</h3>
-
-          <Link to="/" className="footer-link">
-            <span>Home</span>
-            <FiArrowUpRight />
-          </Link>
-
-          <Link to="/about" className="footer-link">
-            <span>About Us</span>
-            <FiArrowUpRight />
-          </Link>
-
-          <Link to="/blogs" className="footer-link">
-            <span>Blogs</span>
-            <FiArrowUpRight />
-          </Link>
-
-          <Link to="/careers" className="footer-link">
-            <span>Careers</span>
-            <FiArrowUpRight />
-          </Link>
-
-          <Link to="/contact" className="footer-link">
-            <span>Contact</span>
-            <FiArrowUpRight />
-          </Link>
-
+          <ul className="footer-list">
+            {QUICK_LINKS.map(({ to, label }) => (
+              <li key={to}>
+                <Link to={to} className="footer-link">
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-
 
         {/* ================= CONTACT ================= */}
 
-        <div className="footer-column">
+        <div className="footer-col">
+          <h3 className="footer-label">Contact Us</h3>
 
-          <h3>Contact Us</h3>
+          <ul className="footer-list">
+            <li>
+              <a href="tel:+918894110026" className="footer-link with-icon">
+                <FiPhone />
+                <span>+91 88941 10026</span>
+              </a>
+            </li>
 
-          {/* Phone 1 */}
+            <li>
+              <a href="tel:+918146759497" className="footer-link with-icon">
+                <FiPhone />
+                <span>+91 81467 59497</span>
+              </a>
+            </li>
 
-          <a
-            href="tel:+918894110026"
-            className="contact-item"
-          >
-            <span className="contact-icon">
-              <FiPhone />
-            </span>
+            <li>
+              <a
+                href="mailto:vprotechdigitalmohali@gmail.com"
+                className="footer-link with-icon"
+              >
+                <FiMail />
+                <span>vprotechdigitalmohali@gmail.com</span>
+              </a>
+            </li>
 
-            <span>
-              +91 88941 10026
-            </span>
-          </a>
-
-
-          {/* Phone 2 */}
-
-          <a
-            href="tel:+918146759497"
-            className="contact-item"
-          >
-            <span className="contact-icon">
-              <FiPhone />
-            </span>
-
-            <span>
-              +91 81467 59497
-            </span>
-          </a>
-
-
-          {/* Email */}
-
-          <a
-            href="mailto:vprotechdigitalmohali@gmail.com"
-            className="contact-item"
-          >
-            <span className="contact-icon">
-              <FiMail />
-            </span>
-
-            <span>
-              vprotechdigitalmohali@gmail.com
-            </span>
-          </a>
-
-
-          {/* Location */}
-
-          <div className="contact-item">
-
-            <span className="contact-icon">
-              <FiMapPin />
-            </span>
-
-            <span>
-              Mohali, Punjab, India
-            </span>
-
-          </div>
-
+            <li>
+              <span className="footer-link with-icon static">
+                <FiMapPin />
+                <span>Mohali, Punjab, India</span>
+              </span>
+            </li>
+          </ul>
         </div>
-
       </div>
 
+      {/* ================= GIANT WORDMARK ================= */}
 
-      {/* =====================================================
-          BOTTOM FOOTER
-          ===================================================== */}
-
-      <div className="footer-bottom">
-
-        <p>
-          © {new Date().getFullYear()} VProTech Digital.
-          All Rights Reserved.
-        </p>
-
-     
+      <div className="footer-wordmark" aria-hidden="true">
+        Vprotech Digital
       </div>
-
     </footer>
   );
 }

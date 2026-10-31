@@ -1,789 +1,406 @@
 /* =========================================================
    VPROTECH DIGITAL
-   TRUSTED TECHNOLOGY
-   PREMIUM COMMAND CENTER DESIGN
+   TRUSTED TECHNOLOGY — THREE CARD LAYOUT
 ========================================================= */
+
+.technology-visual-section,
+.technology-visual-section *,
+.technology-visual-section *::before,
+.technology-visual-section *::after {
+  box-sizing: border-box;
+}
 
 .technology-visual-section {
+  --tw-blue: #1769aa;
+  --tw-navy: #10213d;
+  --tw-deep: #071b31;
+  --tw-muted: #5c6f84;
+
   position: relative;
   width: 100%;
-  padding: 100px 5% 90px;
+  padding: 90px 5% 90px;
   overflow: hidden;
 
+  color: var(--tw-navy);
+
+  /* soft light rays like the reference */
   background:
-    radial-gradient(
-      circle at 10% 20%,
-      rgba(23, 105, 170, 0.08),
-      transparent 28%
-    ),
-    #edf2f6;
-
-  color: #10213d;
+    radial-gradient(ellipse at 20% 0%, rgba(255, 255, 255, 0.95), transparent 45%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.8), transparent 40%),
+    radial-gradient(circle at 5% 90%, rgba(23, 105, 170, 0.08), transparent 35%),
+    #eef2f6;
 }
-
 
 /* =========================================================
-   HEADING
+   HEADER
 ========================================================= */
 
-.technology-heading {
-  position: relative;
-  z-index: 5;
-
-  max-width: 850px;
-
+.tw-head {
+  width: min(1100px, 100%);
   margin: 0 auto 48px;
 
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 40px;
 }
 
-.technology-eyebrow {
+.tw-pill {
   display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 8px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #0b2d4d, #1769aa);
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.tw-pill i {
+  width: 20px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.tw-pill,
+.tw-pill i {
+  font-style: normal;
+}
+
+.tw-head h2 {
+  margin: 18px 0 0;
+
+  max-width: 520px;
+
+  color: var(--tw-navy);
+
+  font-size: clamp(30px, 3.6vw, 46px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+}
+
+.tw-head h2 span {
+  color: var(--tw-blue);
+}
+
+.tw-head-text {
+  max-width: 400px;
+
+  margin: 6px 0 0 auto;
+
+  color: var(--tw-muted);
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.tw-cards {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.tw-card {
+  position: relative;
+  overflow: hidden;
+
+  height: 480px;
+
+  padding: 34px 30px;
+
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.tw-card:hover {
+  transform: translateY(-6px);
+}
+
+/* the two big rounded corners from the reference */
+.tw-card-a {
+  border-radius: 0 0 0 64px;
+}
+
+.tw-card-c {
+  border-radius: 0 64px 0 0;
+}
+
+.tw-card-light {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 45%),
+    linear-gradient(180deg, #d4dfea, #c3d3e2);
+}
+
+.tw-card-dark {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(23, 105, 170, 0.45), transparent 60%),
+    linear-gradient(160deg, #071b31, #0c2c4b 55%, #0d3857);
+
+  box-shadow: 0 30px 60px rgba(7, 27, 49, 0.3);
+}
+
+.tw-card-light:hover {
+  box-shadow: 0 24px 50px rgba(16, 33, 61, 0.14);
+}
+
+.tw-card-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--tw-blue);
+  color: #ffffff;
+}
+
+.tw-card-dark .tw-card-icon {
+  background: #ffffff;
+  color: var(--tw-blue);
+}
+
+.tw-card h3 {
+  margin: 28px 0 10px;
+
+  color: var(--tw-navy);
+
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+
+.tw-card p {
+  max-width: 300px;
+
+  margin: 0;
+
+  color: var(--tw-muted);
+
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.tw-card-dark h3 {
+  color: #ffffff;
+}
+
+.tw-card-dark p {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* =========================================================
+   MINI UI CARD (cropped at the bottom)
+========================================================= */
+
+.tw-mock {
+  position: absolute;
+
+  left: 50%;
+  bottom: -34px;
+
+  width: 78%;
+
+  padding: 16px 16px 40px;
+
+  border-radius: 18px;
+
+  background: #ffffff;
+  color: var(--tw-navy);
+
+  box-shadow: 0 22px 44px rgba(7, 27, 49, 0.22);
+
+  transform: translateX(-50%) rotate(var(--rot, 0deg));
+
+  animation: tw-float 5s ease-in-out infinite;
+}
+
+.tw-card-b .tw-mock {
+  animation-delay: -1.5s;
+}
+
+.tw-card-c .tw-mock {
+  animation-delay: -3s;
+}
+
+@keyframes tw-float {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px) rotate(var(--rot, 0deg));
+  }
+}
+
+.tw-mock-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tw-mock-logo {
+  flex: none;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--tw-navy);
+  color: #ffffff;
+}
+
+.tw-mock-head strong {
+  display: block;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tw-mock small {
+  display: block;
+
+  color: #8191a3;
+
+  font-size: 9.5px;
+}
+
+.tw-mock-fields {
+  display: flex;
+  justify-content: space-between;
+
+  margin: 14px 0 12px;
+}
+
+.tw-mock-fields strong {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tw-mock-fields > div:last-child {
+  text-align: right;
+}
+
+/* list in card 1 */
+
+.tw-mock-list {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.tw-mock-list li {
+  display: flex;
   align-items: center;
   gap: 9px;
 
-  padding: 7px 15px;
+  padding: 8px 0;
 
-  margin-bottom: 17px;
-
-  border: 1px solid rgba(23, 105, 170, 0.18);
-
-  border-radius: 50px;
-
-  background: rgba(255, 255, 255, 0.7);
-
-  color: #1769aa;
-
-  font-size: 10px;
-  font-weight: 800;
-
-  letter-spacing: 2px;
+  border-top: 1px solid #e8eef3;
 }
 
-.technology-eyebrow::before {
-  content: "";
-
-  width: 7px;
-  height: 7px;
-
-  border-radius: 50%;
-
-  background: #16b894;
-
-  box-shadow:
-    0 0 0 5px rgba(22, 184, 148, 0.1);
-}
-
-.technology-heading h2 {
-  margin: 0;
-
-  color: #10213d;
-
-  font-size: clamp(38px, 5vw, 65px);
-
-  font-weight: 850;
-
-  line-height: 1.05;
-
-  letter-spacing: -2.5px;
-}
-
-.technology-heading h2 span {
-  color: #1769aa;
-
-  margin-left: 8px;
-}
-
-.technology-heading p {
-  max-width: 680px;
-
-  margin: 20px auto 0;
-
-  color: #65788d;
-
-  font-size: 16px;
-
-  line-height: 1.75;
-}
-
-
-/* =========================================================
-   COMMAND CENTER
-========================================================= */
-
-.technology-ecosystem {
-  position: relative;
-
-  width: min(1200px, 100%);
-
-  height: 570px;
-
-  margin: 0 auto;
-
-  overflow: hidden;
-
-  border-radius: 30px;
-
-  background: #f7f9fb;
-
-  border:
-    1px solid rgba(16, 33, 61, 0.12);
-
-  box-shadow:
-    0 30px 70px rgba(16, 33, 61, 0.12);
-
-  display: grid;
-
-  grid-template-columns: 43% 57%;
-
-  isolation: isolate;
-}
-
-
-/* =========================================================
-   GRID BACKGROUND
-========================================================= */
-
-.ecosystem-grid {
-  position: absolute;
-
-  inset: 0;
-
-  opacity: 0.35;
-
-  background-image:
-    linear-gradient(
-      rgba(23, 105, 170, 0.045) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(23, 105, 170, 0.045) 1px,
-      transparent 1px
-    );
-
-  background-size: 38px 38px;
-
-  z-index: -1;
-}
-
-
-/* =========================================================
-   CONNECTION LINES
-   TURN THEM INTO HORIZONTAL DATA STREAMS
-========================================================= */
-
-.connection-lines {
-  position: absolute;
-
-  left: 40%;
-  right: 5%;
-
-  top: 0;
-  bottom: 0;
-
-  z-index: 1;
-
-  pointer-events: none;
-}
-
-.line {
-  position: absolute;
-
-  left: 0;
-
-  width: 100%;
-
-  height: 1px;
-
-  transform: none !important;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(23, 105, 170, 0),
-      rgba(23, 105, 170, 0.18),
-      rgba(23, 105, 170, 0.45),
-      rgba(22, 184, 148, 0.45),
-      rgba(22, 184, 148, 0)
-    );
-}
-
-.line::after {
-  content: "";
-
-  position: absolute;
-
-  top: -3px;
-  left: 0;
-
-  width: 7px;
-  height: 7px;
-
-  border-radius: 50%;
-
-  background: #1769aa;
-
-  box-shadow:
-    0 0 14px rgba(23, 105, 170, 0.8);
-
-  animation:
-    commandData 3s linear infinite;
-}
-
-.line-one {
-  top: 27%;
-}
-
-.line-two {
-  top: 39%;
-}
-
-.line-three {
-  top: 51%;
-}
-
-.line-four {
-  top: 63%;
-}
-
-.line-five {
-  top: 75%;
-}
-
-@keyframes commandData {
-
-  0% {
-    left: 0;
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    left: 100%;
-    opacity: 0;
-  }
-}
-
-
-/* =========================================================
-   VPROTECH CORE
-   NOW A RECTANGULAR COMMAND PANEL
-========================================================= */
-
-.technology-core {
-  position: absolute;
-
-  left: 35px;
-  top: 35px;
-
-  width: 390px;
-  height: 500px;
-
-  transform: none !important;
-
-  border-radius: 26px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #071b31,
-      #0c2c4b 55%,
-      #0d3857
-    );
-
-  border:
-    1px solid rgba(255, 255, 255, 0.10);
-
-  box-shadow:
-    0 25px 55px rgba(7, 27, 49, 0.30);
+.tw-mini-icon {
+  flex: none;
+
+  width: 26px;
+  height: 26px;
 
   display: flex;
-
   align-items: center;
-
-  justify-content: flex-start;
-
-  flex-direction: column;
-
-  padding: 45px 35px;
-
-  z-index: 10;
-
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   CORE DECORATION
-========================================================= */
-
-.technology-core::before {
-  content: "";
-
-  position: absolute;
-
-  width: 300px;
-  height: 300px;
-
-  right: -120px;
-  top: -100px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(23, 105, 170, 0.35),
-      transparent 70%
-    );
-}
-
-.technology-core::after {
-  content: "";
-
-  position: absolute;
-
-  width: 260px;
-  height: 260px;
-
-  left: -130px;
-  bottom: -130px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(22, 184, 148, 0.16),
-      transparent 70%
-    );
-}
-
-
-/* =========================================================
-   REMOVE OLD RINGS
-========================================================= */
-
-.core-ring {
-  display: none;
-}
-
-
-/* =========================================================
-   CORE ICON
-========================================================= */
-
-.core-icon {
-  position: relative;
-
-  width: 76px;
-  height: 76px;
-
-  margin-bottom: 25px;
-
-  border-radius: 22px;
-
-  display: flex;
-
-  align-items: center;
-
   justify-content: center;
 
-  color: #ffffff;
+  border-radius: 8px;
 
-  background:
-    linear-gradient(
-      145deg,
-      #1769aa,
-      #168da0
-    );
-
-  border:
-    1px solid rgba(255, 255, 255, 0.18);
-
-  box-shadow:
-    0 15px 35px rgba(23, 105, 170, 0.35);
-
-  z-index: 2;
+  background: #e4eff6;
+  color: var(--tw-blue);
 }
 
-
-/* =========================================================
-   CORE CONTENT
-========================================================= */
-
-.core-content {
-  position: relative;
-
-  z-index: 2;
-
-  display: flex;
-
-  align-items: center;
-
-  flex-direction: column;
-}
-
-.core-content strong {
-  color: #ffffff;
-
-  font-size: 28px;
-
-  font-weight: 850;
-
-  letter-spacing: 2px;
-}
-
-.core-content span {
-  margin-top: 7px;
-
-  color: rgba(255, 255, 255, 0.58);
-
-  font-size: 12px;
-}
-
-
-/* =========================================================
-   SYSTEM ACTIVE
-========================================================= */
-
-.core-status {
-  position: relative;
-
-  z-index: 2;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 7px;
-
-  margin-top: 22px;
-
-  padding: 7px 12px;
-
-  border-radius: 50px;
-
-  background:
-    rgba(22, 184, 148, 0.12);
-
-  border:
-    1px solid rgba(22, 184, 148, 0.22);
-
-  color: #43d7b5;
-
-  font-size: 9px;
-
-  font-weight: 800;
-
-  letter-spacing: 1.3px;
-}
-
-.core-status span {
-  width: 6px;
-  height: 6px;
-
-  border-radius: 50%;
-
-  background: #28d4ae;
-
-  box-shadow:
-    0 0 10px rgba(40, 212, 174, 0.8);
-
-  animation:
-    activePulse 1.6s infinite;
-}
-
-@keyframes activePulse {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.4;
-  }
-}
-
-
-/* =========================================================
-   TECHNOLOGY NODES
-   RIGHT SIDE DASHBOARD CARDS
-========================================================= */
-
-.technology-node {
-  position: absolute;
-
-  width: 250px;
-
-  min-height: 82px;
-
-  padding: 16px 18px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-
-  border:
-    1px solid rgba(16, 33, 61, 0.10);
-
-  border-radius: 17px;
-
-  background:
-    rgba(255, 255, 255, 0.92);
-
-  box-shadow:
-    0 15px 35px rgba(16, 33, 61, 0.08);
-
-  z-index: 12;
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.technology-node:hover {
-  box-shadow:
-    0 20px 45px rgba(23, 105, 170, 0.15);
-}
-
-
-/* =========================================================
-   NODE ICON
-========================================================= */
-
-.node-icon {
-  flex: 0 0 45px;
-
-  width: 45px;
-  height: 45px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 13px;
-
-  color: #1769aa;
-
-  background:
-    #e5f0f6;
-}
-
-.technology-node strong {
+.tw-mock-list strong {
   display: block;
 
-  color: #10213d;
-
-  font-size: 14px;
-
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.technology-node > div:nth-child(2) span {
-  display: block;
-
-  margin-top: 4px;
-
-  color: #7a8b9d;
-
-  font-size: 10px;
-}
-
-
-/* =========================================================
-   CONNECTED LABEL
-========================================================= */
-
-.node-active {
-  position: absolute;
-
-  right: 13px;
-
-  bottom: 10px;
+.tw-mock-list em {
+  margin-left: auto;
 
   display: flex;
-
   align-items: center;
-
   gap: 5px;
 
-  color: #0b9f7e;
+  color: var(--tw-blue);
 
-  font-size: 7px;
-
+  font-size: 8.5px;
+  font-style: normal;
   font-weight: 800;
 }
 
-.node-active span {
+.tw-mock-list em::before {
+  content: "";
+
   width: 5px;
   height: 5px;
 
   border-radius: 50%;
 
-  background: #16b894;
+  background: var(--tw-blue);
 }
 
+/* bars in card 2 */
 
-/* =========================================================
-   NODE POSITIONS
-========================================================= */
+.tw-bars {
+  margin-top: 16px;
 
-.node-cloud {
-  left: 48%;
-  top: 14%;
+  display: grid;
+  gap: 12px;
 }
 
-.node-data {
-  left: 48%;
-  top: 31%;
-}
-
-.node-app {
-  left: 48%;
-  top: 48%;
-}
-
-.node-security {
-  left: 48%;
-  top: 65%;
-}
-
-.node-users {
-  left: auto;
-  right: 5%;
-  bottom: 5%;
-
-  transform: none !important;
-}
-
-
-/* =========================================================
-   PERFORMANCE PANEL
-========================================================= */
-
-.technology-status-panel {
-  position: absolute;
-
-  left: auto;
-
-  top: 6%;
-  right: 5%;
-
-  width: 230px;
-
-  padding: 17px;
-
-  border:
-    1px solid rgba(16, 33, 61, 0.10);
-
-  border-radius: 18px;
-
-  background:
-    rgba(255, 255, 255, 0.94);
-
-  box-shadow:
-    0 15px 35px rgba(16, 33, 61, 0.08);
-
-  z-index: 15;
-}
-
-
-/* =========================================================
-   STATUS HEADER
-========================================================= */
-
-.status-panel-header {
+.tw-bars-row {
   display: flex;
-
-  align-items: center;
-
   justify-content: space-between;
 
-  padding-bottom: 2px;
-
-  margin-bottom: 12px;
-
-  border-bottom:
-    1px solid #e9eef2;
+  margin-bottom: 5px;
 }
 
-.status-panel-header div {
-  display: flex;
-
-  flex-direction: column;
-}
-
-.status-panel-header span {
-  color: #8291a2;
-
-  font-size: 8px;
-
-  font-weight: 800;
-
-  letter-spacing: 1.2px;
-}
-
-.status-panel-header strong {
-  margin-top: 4px;
-
-  color: #10213d;
-
-  font-size: 13px;
-}
-
-.status-panel-header > svg {
-  color: #1769aa;
-}
-
-
-/* =========================================================
-   STATUS ITEMS
-========================================================= */
-
-.status-item {
-  margin-bottom: 12px;
-}
-
-.status-item:last-child {
-  margin-bottom: 0;
-}
-
-.status-item > div:first-child {
-  display: flex;
-
-  justify-content: space-between;
-
-  margin-bottom: 6px;
-}
-
-.status-item span {
-  color: #718297;
-
+.tw-bars-row strong {
   font-size: 10px;
 }
 
-.status-item strong {
-  color: #10213d;
-
-  font-size: 10px;
-}
-
-.status-bar {
-  width: 100%;
+.tw-bar {
+  display: block;
 
   height: 5px;
 
@@ -794,550 +411,100 @@
   background: #dfe7ec;
 }
 
-.status-bar span {
+.tw-bar span {
   display: block;
 
   height: 100%;
 
   border-radius: inherit;
 
-  background:
-    linear-gradient(
-      90deg,
-      #1769aa,
-      #16b894
-    );
+  background: linear-gradient(90deg, #1769aa, #35a3d8);
 }
 
+.tw-barcode {
+  height: 54px;
 
-/* =========================================================
-   FLOATING CARDS
-   NOW USED AS SMALL STATUS BADGES
-========================================================= */
+  margin-top: 18px;
 
-.floating-tech-card {
-  position: absolute;
-
-  min-width: 145px;
-
-  padding: 10px 13px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-
-  border:
-    1px solid rgba(16, 33, 61, 0.09);
-
-  border-radius: 13px;
-
-  background:
-    #ffffff;
-
-  box-shadow:
-    0 12px 30px rgba(16, 33, 61, 0.08);
-
-  z-index: 16;
+  background: repeating-linear-gradient(
+    90deg,
+    #10213d 0 2px,
+    transparent 2px 4px,
+    #10213d 4px 5px,
+    transparent 5px 8px,
+    #10213d 8px 11px,
+    transparent 11px 13px,
+    #10213d 13px 14px,
+    transparent 14px 17px
+  );
 }
 
-.floating-tech-card svg {
-  color: #1769aa;
-}
+/* chart in card 3 */
 
-.floating-tech-card div {
-  display: flex;
-
-  flex-direction: column;
-}
-
-.floating-tech-card strong {
-  color: #10213d;
-
-  font-size: 10px;
-}
-
-.floating-tech-card span {
-  margin-top: 2px;
-
-  color: #8593a2;
-
-  font-size: 7px;
-}
-
-
-/* =========================================================
-   FLOATING POSITIONS
-========================================================= */
-
-.card-protected {
-  left: 45%;
-  bottom: 7%;
-}
-
-.card-optimized {
-  left: 62%;
-  bottom: 7%;
-}
-
-.card-scalable {
-  right: 5%;
-  bottom: 7%;
-}
-
-
-/* =========================================================
-   FEATURE ROW
-========================================================= */
-
-.technology-feature-row {
-  width: min(1100px, 100%);
-
-  margin: 30px auto 0;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 18px;
-}
-
-.technology-feature {
-  min-height: 78px;
-
-  padding: 16px 19px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-
-  border:
-    1px solid rgba(16, 33, 61, 0.10);
-
-  border-radius: 16px;
-
-  background:
-    rgba(255, 255, 255, 0.75);
-
-  box-shadow:
-    0 10px 28px rgba(16, 33, 61, 0.06);
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.technology-feature:hover {
-  transform: translateY(-4px);
-
-  box-shadow:
-    0 18px 35px rgba(16, 33, 61, 0.10);
-}
-
-.feature-icon {
-  flex: 0 0 42px;
-
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 12px;
-
-  color: #1769aa;
-
-  background:
-    #e4eff5;
-}
-
-.technology-feature strong {
+.tw-chart {
   display: block;
 
-  color: #10213d;
+  width: 100%;
+  height: 90px;
 
-  font-size: 13px;
+  margin-top: 6px;
 }
-
-.technology-feature span {
-  display: block;
-
-  margin-top: 4px;
-
-  color: #78899b;
-
-  font-size: 10px;
-
-  line-height: 1.5;
-}
-
 
 /* =========================================================
    TABLET
 ========================================================= */
 
-@media (max-width: 1000px) {
-
-  .technology-ecosystem {
-    height: 650px;
+@media (max-width: 960px) {
+  .tw-head {
+    grid-template-columns: 1fr;
+    gap: 18px;
   }
 
-  .technology-core {
-    left: 25px;
-
-    width: 330px;
+  .tw-head-text {
+    margin-left: 0;
   }
 
-  .technology-node {
-    width: 220px;
+  .tw-cards {
+    grid-template-columns: 1fr;
   }
 
-  .node-cloud,
-  .node-data,
-  .node-app,
-  .node-security {
-    left: 47%;
+  .tw-card {
+    height: 460px;
   }
 
-  .technology-status-panel {
-    right: 3%;
-
-    width: 205px;
+  .tw-mock {
+    width: min(340px, 78%);
   }
 }
-
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media (max-width: 700px) {
-
+@media (max-width: 600px) {
   .technology-visual-section {
-    padding:
-      65px
-      12px
-      60px;
+    padding: 64px 14px 64px;
   }
 
-  .technology-heading {
-    margin-bottom: 30px;
+  .tw-card {
+    padding: 28px 22px;
   }
 
-  .technology-heading h2 {
-    font-size: 37px;
-
-    letter-spacing: -1.5px;
+  .tw-card-a {
+    border-radius: 0 0 0 48px;
   }
 
-  .technology-heading h2 span {
-    display: block;
-
-    margin:
-      5px
-      0
-      0;
-  }
-
-  .technology-heading p {
-    font-size: 13px;
-  }
-
-
-  /* Main dashboard */
-
-  .technology-ecosystem {
-    height: 950px;
-
-    display: block;
-
-    border-radius: 24px;
-  }
-
-
-  /* Core */
-
-  .technology-core {
-    left: 12px;
-    right: 12px;
-
-    top: 20px;
-
-    width: auto;
-    height: 255px;
-
-    padding: 25px;
-
-    border-radius: 22px;
-  }
-
-  .core-icon {
-    width: 58px;
-    height: 58px;
-
-    margin-bottom: 15px;
-  }
-
-  .core-content strong {
-    font-size: 20px;
-  }
-
-
-  /* Performance */
-
-  .technology-status-panel {
-    top: 295px;
-
-    left: 12px;
-    right: 12px;
-
-    width: auto;
-  }
-
-
-  /* Nodes */
-
-  .technology-node {
-    width: calc(50% - 18px);
-
-    min-height: 80px;
-  }
-
-  .node-cloud {
-    left: 12px;
-    top: 435px;
-  }
-
-  .node-data {
-    left: auto;
-    right: 12px;
-    top: 435px;
-  }
-
-  .node-app {
-    left: 12px;
-    top: 535px;
-  }
-
-  .node-security {
-    left: auto;
-    right: 12px;
-    top: 535px;
-  }
-
-  .node-users {
-    left: 12px;
-    right: 12px;
-
-    bottom: 125px;
-
-    width: auto;
-  }
-
-
-  /* Floating badges */
-
-  .floating-tech-card {
-    min-width: 100px;
-
-    padding: 8px;
-  }
-
-  .card-protected {
-    left: 12px;
-    bottom: 45px;
-  }
-
-  .card-optimized {
-    left: 50%;
-
-    transform:
-      translateX(-50%);
-  }
-
-  .card-scalable {
-    right: 12px;
-    bottom: 45px;
-  }
-
-
-  /* Disable desktop connection positioning */
-
-  .connection-lines {
-    display: none;
-  }
-
-
-  /* Features */
-
-  .technology-feature-row {
-    grid-template-columns: 1fr;
-
-    gap: 12px;
+  .tw-card-c {
+    border-radius: 0 48px 0 0;
   }
 }
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 430px) {
-
-  .technology-heading h2 {
-    font-size: 32px;
-  }
-
-  .technology-ecosystem {
-    height: 920px;
-  }
-
-  .technology-node {
-    width: calc(50% - 15px);
-
-    padding: 10px;
-
-    min-height: 75px;
-  }
-
-  .node-icon {
-    flex-basis: 34px;
-
-    width: 34px;
-    height: 34px;
-  }
-
-  .technology-node strong {
-    font-size: 10px;
-  }
-
-  .technology-node > div:nth-child(2) span {
-    font-size: 7px;
-  }
-
-  .technology-status-panel {
-    top: 295px;
-  }
-
-  .card-protected {
-    left: 8px;
-  }
-
-  .card-scalable {
-    right: 8px;
-  }
-}
-
-
-/* =========================================================
-   ACCESSIBILITY
-========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
-  .line::after,
-  .core-status span {
+  .tw-mock {
     animation: none !important;
   }
 
-  .technology-node,
-  .technology-feature {
+  .tw-card {
     transition: none;
-  }
-}
-
-
-/* =========================================================
-   BOX SIZING
-========================================================= */
-
-.technology-visual-section,
-.technology-visual-section *,
-.technology-visual-section *::before,
-.technology-visual-section *::after {
-  box-sizing: border-box;
-}
-
-/* =========================================================
-   TECHNOLOGY CORE IMAGE
-========================================================= */
-/* =========================================================
-   TECHNOLOGY IMAGE - BLEND BACKGROUND INTO CORE
-========================================================= */
-
-.core-visual {
-  position: absolute;
-
-  left: 50%;
-  bottom: 25px;
-
-  width: 330px;
-  height: 230px;
-
-  transform: translateX(-50%);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: transparent;
-
-  border: none;
-  border-radius: 0;
-
-  overflow: visible;
-
-  z-index: 3;
-
-  animation: technologyImageFloat 4s ease-in-out infinite;
-}
-
-.core-visual img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;
-
-  display: block;
-
-  background: transparent;
-
-  border: none;
-  border-radius: 0;
-
-  /*
-    Makes the dark/blue image background blend
-    into the dark VPROTECH panel.
-  */
-  mix-blend-mode: screen;
-
-  opacity: 0.95;
-
-  transition:
-    transform 0.5s ease,
-    opacity 0.5s ease;
-}
-
-.technology-core:hover .core-visual img {
-  transform: scale(1.04);
-
-  opacity: 1;
-}
-
-@keyframes technologyImageFloat {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  50% {
-    transform: translateX(-50%) translateY(-6px);
   }
 }
