@@ -620,3 +620,178 @@ body.menu-open {
     transition: none !important;
   }
 }
+
+
+
+/* =========================================================
+   EXPLORE DROPDOWN
+   Paste this at the VERY END of Navbar.css
+   ========================================================= */
+
+.nav-dropdown {
+  position: relative;
+}
+
+/* the button reuses .nav-link, just reset native button styles */
+.nav-dropdown-toggle {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-chevron {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s ease;
+}
+
+.nav-dropdown.open .nav-chevron {
+  transform: rotate(180deg);
+}
+
+/* ---------- Desktop dropdown panel ---------- */
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+
+  min-width: 240px;
+  margin: 0;
+  padding: 8px;
+
+  list-style: none;
+  flex-direction: column;
+  gap: 2px;
+
+  background: #ffffff;
+  border: 1px solid var(--nav-border);
+  border-radius: 22px;
+  box-shadow: var(--nav-shadow);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 6px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+
+  z-index: 10;
+}
+
+/* invisible bridge so hover is not lost between button and panel */
+.nav-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+
+.nav-dropdown-menu li {
+  width: 100%;
+}
+
+.nav-dropdown-menu .nav-link {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 14px;
+}
+
+/* icons always visible inside the dropdown, even on laptop widths */
+.nav-dropdown-menu .nav-link-icon {
+  display: block;
+}
+
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+/* open on hover for mouse users (desktop only) */
+@media (min-width: 1041px) and (hover: hover) {
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  .nav-dropdown:hover .nav-chevron {
+    transform: rotate(180deg);
+  }
+}
+
+/* ---------- Mobile / tablet: accordion inside the drawer ---------- */
+
+@media (max-width: 1040px) {
+  .nav-dropdown-toggle {
+    width: 100%;
+  }
+
+  .nav-dropdown-toggle .nav-chevron {
+    margin-left: auto;
+    width: 18px;
+    height: 18px;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+
+    min-width: 0;
+    max-height: 0;
+    padding: 0 0 0 14px;
+    overflow: hidden;
+
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+
+    transition: max-height 0.3s ease;
+  }
+
+  .nav-dropdown-menu::before {
+    display: none;
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu {
+    max-height: 320px;
+    padding: 4px 0 4px 14px;
+    transform: none;
+  }
+
+  .nav-dropdown-menu .nav-link {
+    height: 46px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+/* ---------- Accessibility ---------- */
+
+.nav-dropdown-toggle:focus-visible {
+  outline: 2px solid var(--nav-blue);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-dropdown-menu,
+  .nav-chevron {
+    transition: none !important;
+  }
+}

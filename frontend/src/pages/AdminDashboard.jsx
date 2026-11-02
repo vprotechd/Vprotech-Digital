@@ -8,6 +8,8 @@ import { userService, contactAdminService } from "../services/api";
 import { teamService } from "../services/api";
 import ConfirmDialog from "../components/common/ConfirmDialog"; 
 import AdminOffers from "./admin/AdminOffers";
+import AdmissionManagement from "./admin/AdmissionManagement";
+
 import {
   getAdminInternshipPrograms,
   createInternshipProgram,
@@ -949,7 +951,15 @@ const filteredApplications = applications.filter(app => {
   <span>Applications</span>
   {appStats.pending > 0 && <span className="badge">{appStats.pending}</span>}
 </button>
-        </nav>
+  </nav>
+
+  <button
+  className={`nav-item ${activeTab === "admissions" ? "active" : ""}`}
+  onClick={() => setActiveTab("admissions")}
+>
+  <GraduationCap size={20} />
+  <span>Admissions</span>
+</button>
 
         <button className="sidebar-logout" onClick={handleLogout}>
           <LogOut size={20} />
@@ -2485,6 +2495,7 @@ const filteredApplications = applications.filter(app => {
 
         {/* ===== APPLICATIONS TAB ===== */}
 {activeTab === "applications" && (
+  
   <div className="applications-section">
     <div className="section-header">
       <h2>Job Applications</h2>
@@ -2610,6 +2621,11 @@ const filteredApplications = applications.filter(app => {
       )}
     </div>
   </div>
+)}
+
+{/* ===== ADMISSION MANAGEMENT TAB ===== */}
+{activeTab === "admissions" && (
+  <AdmissionManagement />
 )}
 
 

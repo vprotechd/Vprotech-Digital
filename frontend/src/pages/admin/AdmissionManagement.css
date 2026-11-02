@@ -1,0 +1,280 @@
+
+/* =========================================
+   ADMISSION MANAGEMENT
+========================================= */
+
+.admission-management {
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  color: #243247;
+  box-sizing: border-box;
+}
+
+/* HEADER */
+
+.admission-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.admission-header h2 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.admission-header p {
+  margin: 7px 0 0;
+  color: #7b8798;
+  font-size: 14px;
+}
+
+.admission-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* HEADER BUTTONS */
+
+.export-excel-btn,
+.admission-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.export-excel-btn {
+  background: #1769d2;
+  color: #fff;
+}
+
+.export-excel-btn:hover {
+  background: #1055b0;
+  transform: translateY(-1px);
+}
+
+.export-excel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.admission-refresh-btn {
+  background: #edf3fb;
+  color: #285b99;
+  border: 1px solid #dce7f5;
+}
+
+.admission-refresh-btn:hover {
+  background: #e0ebfa;
+}
+
+/* TOTAL ADMISSIONS CARD */
+
+.admission-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 25px;
+  margin-bottom: 22px;
+  background: #fff;
+  border: 1px solid #e7edf5;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(25, 50, 85, 0.04);
+}
+
+.admission-total h3 {
+  margin: 0;
+  color: #1769d2;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.admission-total p {
+  margin: 5px 0 0;
+  color: #758398;
+  font-size: 14px;
+}
+
+/* TABLE WRAPPER */
+
+.admission-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #e5ebf2;
+  border-radius: 12px;
+  box-shadow: 0 3px 14px rgba(25, 50, 85, 0.04);
+}
+
+/* TABLE */
+
+.admission-table {
+  width: 100%;
+  min-width: 1900px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.admission-table thead {
+  background: #f3f7fc;
+}
+
+.admission-table th {
+  padding: 15px 14px;
+  color: #42536a;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  border-bottom: 1px solid #e3eaf2;
+}
+
+.admission-table td {
+  padding: 14px;
+  color: #526176;
+  border-bottom: 1px solid #edf1f6;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+.admission-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.admission-table tbody tr:hover {
+  background: #f8fbff;
+}
+
+.admission-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admission-table td:first-child,
+.admission-table th:first-child {
+  text-align: center;
+}
+
+/* LONG TEXT */
+
+.admission-table td:nth-child(18),
+.admission-table td:nth-child(19),
+.admission-table td:nth-child(20),
+.admission-table td:nth-child(13) {
+  min-width: 180px;
+  max-width: 260px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* EMPTY RECORDS */
+
+.admission-empty {
+  padding: 35px 15px !important;
+  text-align: center;
+  color: #8a97a8 !important;
+  font-size: 14px;
+}
+
+/* RECORD COUNT */
+
+.admission-record-count {
+  margin: 16px 2px 0;
+  color: #7c899a;
+  font-size: 13px;
+}
+
+/* LOADING */
+
+.admission-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  color: #1769d2;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* SCROLLBAR */
+
+.admission-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.admission-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f4f8;
+  border-radius: 10px;
+}
+
+.admission-table-wrapper::-webkit-scrollbar-thumb {
+  background: #c5d1df;
+  border-radius: 10px;
+}
+
+.admission-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #9eafc3;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .admission-management {
+    padding: 15px;
+  }
+
+  .admission-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admission-header h2 {
+    font-size: 21px;
+  }
+
+  .admission-header-actions {
+    width: 100%;
+  }
+
+  .admission-header-actions button {
+    flex: 1;
+  }
+
+  .admission-total {
+    padding: 18px;
+  }
+
+  .admission-table {
+    min-width: 1800px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admission-management {
+    padding: 10px;
+  }
+
+  .admission-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admission-header-actions button {
+    width: 100%;
+  }
+}

@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../assets/imagesss.png";
 import {
   FiMenu,
   FiX,
-  FiSearch,
   FiHome,
   FiInfo,
   FiBookOpen,
@@ -15,8 +14,11 @@ import {
   FiMail,
   FiLayers,
   FiClipboard,
+  FiFileText,
   FiSettings,
   FiArrowUpRight,
+  FiChevronDown,
+  FiCompass,
 } from "react-icons/fi";
 
 // =========================================================
@@ -28,22 +30,42 @@ const ADMIN_LINKS = [
   { to: "/admin/jobs", label: "Manage Jobs", icon: FiBriefcase },
 ];
 
-const MAIN_LINKS = [
+// Links shown directly in the navbar (before the Explore dropdown)
+const LINKS_BEFORE_EXPLORE = [
   { to: "/", label: "Home", icon: FiHome, end: true },
   { to: "/about", label: "About", icon: FiInfo },
   { to: "/courses", label: "Courses", icon: FiBookOpen },
   { to: "/services", label: "Services", icon: FiGrid },
-  { to: "/blogs", label: "Blogs", icon: FiEdit3 },
+];
+
+// Links shown directly in the navbar (after the Explore dropdown)
+const LINKS_AFTER_EXPLORE = [
   { to: "/careers", label: "Careers", icon: FiBriefcase },
   { to: "/contact", label: "Contact", icon: FiMail },
+];
+
+// Links inside the "Explore" dropdown
+// NOTE: change "/admission" if your admission form route is different
+const EXPLORE_LINKS = [
+  { to: "/blogs", label: "Blogs", icon: FiEdit3 },
   { to: "/portfolio", label: "Portfolio", icon: FiLayers },
+  { to: "/admission-form", label: "Admission Form", icon: FiFileText },
   { to: "/internship", label: "Start Assessment", icon: FiClipboard },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [exploreOpen, setExploreOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const exploreRef = useRef(null);
+  const location = useLocation();
+
+  // Explore button looks "active" when any of its pages is open
+  const exploreActive = EXPLORE_LINKS.some(({ to }) =>
+    location.pathname.startsWith(to)
+  );
 
   // =========================================================
   // CHECK ADMIN LOGIN
@@ -93,7 +115,36 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
+  // =========================================================
+  // CLOSE EXPLORE DROPDOWN: outside click + Escape key
+  // =========================================================
+
+  useEffect(() => {
+    if (!exploreOpen) return undefined;
+
+    const handleOutside = (e) => {
+      if (exploreRef.current && !exploreRef.current.contains(e.target)) {
+        setExploreOpen(false);
+      }
+    };
+
+    const handleKey = (e) => {
+      if (e.key === "Escape") setExploreOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleOutside);
+    document.addEventListener("keydown", handleKey);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutside);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [exploreOpen]);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setExploreOpen(false);
+  };
 
   // =========================================================
   // LOGOUT (kept for later use)
@@ -152,12 +203,36 @@ export default function Navbar() {
             {isSuperAdmin &&
               ADMIN_LINKS.map((item) => renderLink(item, "admin-nav-item"))}
 
-            {MAIN_LINKS.map((item) => renderLink(item))}
+            {LINKS_BEFORE_EXPLORE.map((item) => renderLink(item))}
+
+            {/* EXPLORE DROPDOWN */}
+            <li
+              ref={exploreRef}
+              className={`nav-dropdown ${exploreOpen ? "open" : ""}`}
+            >
+              <button
+                type="button"
+                className={`nav-link nav-dropdown-toggle ${
+                  exploreActive ? "active" : ""
+                }`}
+                onClick={() => setExploreOpen((prev) => !prev)}
+                aria-haspopup="true"
+                aria-expanded={exploreOpen}
+              >
+                <FiCompass className="nav-link-icon" aria-hidden="true" />
+                <span>Explore</span>
+                <FiChevronDown className="nav-chevron" aria-hidden="true" />
+              </button>
+
+              <ul className="nav-dropdown-menu">
+                {EXPLORE_LINKS.map((item) => renderLink(item))}
+              </ul>
+            </li>
+
+            {LINKS_AFTER_EXPLORE.map((item) => renderLink(item))}
 
             {/* MOBILE ONLY BUTTONS */}
             <li className="mobile-only-actions">
-             
-
               <Link
                 to="/register"
                 className="mobile-start-button"
@@ -172,7 +247,7 @@ export default function Navbar() {
           {/* RIGHT SIDE ACTIONS */}
           <div className="navbar-actions">
             {/* HIGHLIGHTED CTA */}
-            <Link to="/register" className="get-started-button">          
+            <Link to="/register" className="get-started-button">
               <span className="cta-label">Register For Internship</span>
               <FiArrowUpRight size={17} />
             </Link>

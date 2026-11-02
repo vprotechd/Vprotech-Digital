@@ -25,7 +25,8 @@
     "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^7.18.1",
     "swiper": "^14.0.6",
-    "three": "^0.186.1"
+    "three": "^0.186.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",

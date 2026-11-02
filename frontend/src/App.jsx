@@ -54,6 +54,8 @@ import AdminTestDetails from "./pages/admin/AdminTestDetails";
 import EditTest from "./pages/admin/EditTest";
 import AdminTestAttempts from "./pages/admin/AdminTestAttempts";
 import AdminTestAttemptDetails from "./pages/admin/AdminTestAttemptDetails";
+import AdmissionManagement from "./pages/admin/AdmissionManagement";
+import AdmissionForm from "./pages/AdmissionForm";
 
 
 import Portfolio from "./pages/Portfolio";
@@ -196,6 +198,21 @@ function App() {
       <AdminTestAttemptDetails />
     </ProtectedRoute>
   }
+/>
+
+<Route
+  path="/admin/admissions"
+  element={
+    <ProtectedRoute adminOnly>
+      <AdmissionManagement />
+    </ProtectedRoute>
+  }
+/>
+
+
+<Route
+  path="/admission-form"
+  element={<AdmissionForm />}
 />
 
                     <Route
