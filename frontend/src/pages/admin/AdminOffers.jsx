@@ -35,6 +35,18 @@ import revitImage from "../../assets/images/courses/revit.jpg";
 import matlabImage from "../../assets/images/courses/matlab.jpg";
 import embeddedSystemImage from "../../assets/images/courses/embedded-system.jpg";
 import roboticsImage from "../../assets/images/courses/robotics.jpg";
+import fullStackImage from "../../assets/images/courses/fulls.jpg";
+import ethicalHackingImage from "../../assets/images/courses/ethical.jpg";
+import cyberSecurityImage from "../../assets/images/courses/cyber.jpg";
+import dataAnalyticsImage from "../../assets/images/courses/data-analytics.jpg";
+import webGraphicsImage from "../../assets/images/courses/web-graphics.jpg";
+import appDevelopmentImage from "../../assets/images/courses/app-development.jpg";
+import flutterImage from "../../assets/images/courses/flutter.jpg";
+import primaveraImage from "../../assets/images/courses/primavera.jpg";
+import etabsImage from "../../assets/images/courses/etabs.jpg";
+import vlsiVhdlImage from "../../assets/images/courses/vlsi-vhdl.jpg";
+import plcScadaImage from "../../assets/images/courses/plc-scada.jpg";
+
 
 import "./AdminOffers.css";
 
@@ -168,6 +180,62 @@ const courses = [
     slug: "robotics",
     image: roboticsImage,
   },
+
+  {
+  name: "Full Stack Development",
+  slug: "full-stack",
+  image: fullStackImage,
+},
+{
+  name: "Ethical Hacking",
+  slug: "ethical-hacking",
+  image: ethicalHackingImage,
+},
+{
+  name: "Cyber Security",
+  slug: "cyber-security",
+  image: cyberSecurityImage,
+},
+{
+  name: "Data Analytics",
+  slug: "data-analytics",
+  image: dataAnalyticsImage,
+},
+{
+  name: "Web Graphics",
+  slug: "web-graphics",
+  image: webGraphicsImage,
+},
+{
+  name: "App Development",
+  slug: "app-development",
+  image: appDevelopmentImage,
+},
+{
+  name: "Flutter",
+  slug: "flutter",
+  image: flutterImage,
+},
+{
+  name: "Primavera",
+  slug: "primavera",
+  image: primaveraImage,
+},
+{
+  name: "ETABS",
+  slug: "etabs",
+  image: etabsImage,
+},
+{
+  name: "VLSI & VHDL",
+  slug: "vlsi-vhdl",
+  image: vlsiVhdlImage,
+},
+{
+  name: "PLC & SCADA",
+  slug: "plc-scada",
+  image: plcScadaImage,
+},
 ];
 
 // ============================================

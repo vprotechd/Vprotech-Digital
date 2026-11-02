@@ -494,10 +494,6 @@ export const offerService = {
   getPopupOffers: async () => {
     const response = await api.get("/offers/popup", {
       params: { _cacheBust: Date.now() },
-      headers: {
-        "Cache-Control": "no-cache",
-        Pragma: "no-cache",
-      },
     });
     return response.data;
   },
