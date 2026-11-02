@@ -26,6 +26,12 @@ const api = axios.create({
 // Add token to requests if it exists
 api.interceptors.request.use(
   (config) => {
+    const requestPath = config.url?.split("?")[0].replace(/\/+$/, "");
+    if (requestPath === "/offers/popup") {
+      config.headers.delete("Authorization");
+      return config;
+    }
+
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -486,7 +492,13 @@ export const applicationService = {
 
 export const offerService = {
   getPopupOffers: async () => {
-    const response = await api.get("/offers/popup");
+    const response = await api.get("/offers/popup", {
+      params: { _cacheBust: Date.now() },
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
+    });
     return response.data;
   },
 

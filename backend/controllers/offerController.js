@@ -3,6 +3,8 @@ import Offer from "../models/Offer.js";
 
 export const getPopupOffers = asyncHandler(async (req, res) => {
   try {
+    res.set("Cache-Control", "no-store");
+
     const now = new Date();
 
     console.log("====================================");
