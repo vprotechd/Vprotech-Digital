@@ -143,9 +143,12 @@ const OffersPopup = () => {
           return;
         }
 
-        const activeOffers = Array.isArray(response.data)
-          ? response.data
-          : [];
+        const responseData = response.data;
+        const activeOffers = Array.isArray(responseData)
+          ? responseData
+          : Array.isArray(responseData?.data)
+            ? responseData.data
+            : [];
 
         if (activeOffers.length === 0) {
           return;
