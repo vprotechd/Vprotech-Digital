@@ -22,6 +22,7 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
+
 // Add token to requests if it exists
 api.interceptors.request.use(
   (config) => {

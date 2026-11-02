@@ -31,14 +31,9 @@ export const getPopupOffers = asyncHandler(async (req, res) => {
     );
 
     const offers = await Offer.find({
-      // Must be active
-      isActive: true,
-
-      // Popup must be enabled
-      $or: [
-        { showPopup: true },
-        { showPopup: { $exists: false } },
-      ],
+      // Match the admin UI defaults for older records while respecting explicit opt-outs.
+      isActive: { $ne: false },
+      showPopup: { $ne: false },
 
       // Start date
       $and: [
