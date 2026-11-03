@@ -511,7 +511,7 @@ export default function DomainsCourses() {
 },   
 
 {
-  name: 'Web Graphic Design',
+  name: 'Web Graphic Design/ UI & UX',
   image: '/assets/images/courses/web-graphics.jpg',
   icon: <Palette size={24} />,
   desc: 'Creative web design, graphic design, and visual communication',

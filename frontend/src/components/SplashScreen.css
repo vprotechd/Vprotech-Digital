@@ -1,301 +1,52 @@
-
 /* ============================================================
-   VPROTECH PROFESSIONAL SPLASH SCREEN
+   VPROTECH SPLASH SCREEN - PARTICLE GLOBE
+   White background so the logo colours show correctly
 ============================================================ */
 
 .vpro-splash {
   position: fixed;
-
   inset: 0;
-
   z-index: 999999;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at center,
-      #111827 0%,
-      #080d18 45%,
-      #030712 100%
-    );
-
-  color: #ffffff;
-}
-
-
-/* ============================================================
-   BACKGROUND LIGHT
-============================================================ */
-
-.vpro-splash-light {
-  position: absolute;
-
-  width: 700px;
-  height: 700px;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(37, 99, 235, 0.14) 0%,
-      rgba(37, 99, 235, 0.05) 35%,
-      transparent 70%
-    );
-
-  pointer-events: none;
-}
-
-
-.vpro-splash-light-orb {
-  position: absolute;
-
-  width: 320px;
-  height: 320px;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(32, 180, 134, 0.08),
-      transparent 70%
-    );
-
-  filter: blur(20px);
-
-  pointer-events: none;
-}
-
-
-/* ============================================================
-   CONTENT
-============================================================ */
-
-.vpro-splash-content {
-  position: relative;
-
-  z-index: 5;
-
-  width: min(90%, 420px);
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-}
-
-
-/* ============================================================
-   LOGO CONTAINER
-============================================================ */
-
-.vpro-splash-logo-container {
-  position: relative;
-
-  width: 210px;
-  height: 210px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-}
-
-
-/* ============================================================
-   OUTER RING
-============================================================ */
-
-.vpro-splash-outer-ring {
-  position: absolute;
-
-  width: 185px;
-  height: 185px;
-
-  border-radius: 50%;
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  border-top-color: rgba(37, 99, 235, 0.9);
-
-  border-right-color: rgba(32, 180, 134, 0.6);
-
-  box-shadow:
-    0 0 25px rgba(37, 99, 235, 0.12),
-    inset 0 0 25px rgba(37, 99, 235, 0.05);
-}
-
-
-/* ============================================================
-   LOGO GLOW
-============================================================ */
-
-.vpro-splash-logo-glow {
-  position: absolute;
-
-  width: 145px;
-  height: 145px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(37, 99, 235, 0.18),
-      transparent 70%
-    );
-
-  filter: blur(12px);
-}
-
-
-/* ============================================================
-   LOGO
-============================================================ */
-
-.vpro-splash-logo-img {
-  position: relative;
-
-  z-index: 3;
-
-  width: 125px;
-  height: auto;
-
-  max-height: 125px;
-
-  object-fit: contain;
-
-  user-select: none;
-
-  filter:
-    drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3))
-    drop-shadow(0 0 18px rgba(37, 99, 235, 0.15));
-}
-
-
-/* ============================================================
-   LOADING AREA
-============================================================ */
-
-.vpro-splash-loading {
-  margin-top: 18px;
-
-  width: 100%;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 14px;
-}
-
-
-/* ============================================================
-   DOTS
-============================================================ */
-
-.vpro-splash-dots {
-  display: flex;
-
-  align-items: center;
-
-  gap: 6px;
-}
-
-.vpro-splash-dots span {
-  display: block;
-
-  width: 5px;
-  height: 5px;
-
-  border-radius: 50%;
-
   background: #ffffff;
-
-  box-shadow:
-    0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 
 /* ============================================================
-   PERCENTAGE
+   CANVAS
 ============================================================ */
 
-.vpro-splash-percentage {
-  min-width: 38px;
-
-  font-size: 11px;
-
-  font-weight: 600;
-
-  letter-spacing: 1px;
-
-  color: rgba(255, 255, 255, 0.6);
-
-  font-variant-numeric: tabular-nums;
-}
-
-
-/* ============================================================
-   PROGRESS BAR
-============================================================ */
-
-.vpro-splash-progress {
-  position: relative;
-
-  width: min(300px, 75%);
-
-  height: 2px;
-
-  margin-top: 18px;
-
-  overflow: hidden;
-
-  border-radius: 100px;
-
-  background: rgba(255, 255, 255, 0.1);
-}
-
-
-.vpro-splash-progress-fill {
+.vpro-splash-stage {
   position: absolute;
-
-  left: 0;
-  top: 0;
-
+  inset: 0;
+  width: 100%;
   height: 100%;
+}
 
-  border-radius: inherit;
+.vpro-splash-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
-  background:
-    linear-gradient(
-      90deg,
-      #1557d6,
-      #2563eb,
-      #20b486
-    );
 
-  box-shadow:
-    0 0 12px rgba(37, 99, 235, 0.55);
+/* ============================================================
+   FALLBACK LOGO
+   Used when WebGL is unavailable or reduced motion is on
+============================================================ */
 
-  transition: width 0.08s linear;
+.vpro-splash-fallback-logo {
+  position: relative;
+  width: min(320px, 70vw);
+  height: auto;
+  object-fit: contain;
+  user-select: none;
 }
 
 
@@ -305,31 +56,23 @@
 
 .vpro-splash-corner {
   position: absolute;
-
   width: 70px;
   height: 70px;
-
-  opacity: 0.35;
-
   pointer-events: none;
 }
-
 
 .corner-top-left {
   top: 28px;
   left: 28px;
-
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid rgba(15, 23, 42, 0.14);
+  border-left: 1px solid rgba(15, 23, 42, 0.14);
 }
-
 
 .corner-bottom-right {
   right: 28px;
   bottom: 28px;
-
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: 1px solid rgba(15, 23, 42, 0.14);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.14);
 }
 
 
@@ -338,31 +81,6 @@
 ============================================================ */
 
 @media (max-width: 600px) {
-
-  .vpro-splash-logo-container {
-    width: 175px;
-    height: 175px;
-  }
-
-  .vpro-splash-outer-ring {
-    width: 155px;
-    height: 155px;
-  }
-
-  .vpro-splash-logo-glow {
-    width: 120px;
-    height: 120px;
-  }
-
-  .vpro-splash-logo-img {
-    width: 105px;
-    max-height: 105px;
-  }
-
-  .vpro-splash-progress {
-    width: 230px;
-  }
-
   .vpro-splash-corner {
     width: 45px;
     height: 45px;
@@ -378,4 +96,3 @@
     bottom: 18px;
   }
 }
-
