@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   FiPhone,
@@ -6,8 +7,9 @@ import {
   FiLinkedin,
   FiFacebook,
   FiInstagram,
-    FiYoutube,
+  FiYoutube,
 } from "react-icons/fi";
+
 import { Link } from "react-router-dom";
 import "./Footer.css";
 
@@ -27,12 +29,11 @@ const SOCIALS = [
     href: "https://www.instagram.com/vprotech_digitalx/",
     icon: FiInstagram,
   },
-
   {
-  label: "YouTube",
-  href: "https://www.youtube.com/@vprotechdigital5980",
-  icon: FiYoutube,
-},
+    label: "YouTube",
+    href: "https://www.youtube.com/@vprotechdigital5980",
+    icon: FiYoutube,
+  },
 ];
 
 const QUICK_LINKS = [
@@ -41,14 +42,20 @@ const QUICK_LINKS = [
   { to: "/blogs", label: "Blogs" },
   { to: "/careers", label: "Careers" },
   { to: "/contact", label: "Contact" },
-  { to: "/portfolio", label: "Portfolio"},
+  { to: "/portfolio", label: "Portfolio" },
+];
+
+const LEGAL_LINKS = [
+  { to: "/privacy-policy", label: "Privacy Policy" },
+  { to: "/terms-and-conditions", label: "Terms & Conditions" },
 ];
 
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* ================= BRAND / SOCIAL ================= */}
+
+        {/* BRAND / SOCIAL */}
 
         <div className="footer-col footer-brand">
           <h3 className="footer-label">
@@ -71,12 +78,13 @@ export default function Footer() {
           </div>
 
           <p className="footer-description">
-            Empowering students and businesses through <strong>IT training</strong>,
-            software development, web solutions, AI and digital marketing.
+            Empowering students and businesses through{" "}
+            <strong>IT training</strong>, software development, web solutions,
+            AI and digital marketing.
           </p>
         </div>
 
-        {/* ================= QUICK LINKS ================= */}
+        {/* QUICK LINKS */}
 
         <div className="footer-col">
           <h3 className="footer-label">Quick Links</h3>
@@ -92,7 +100,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* ================= CONTACT ================= */}
+        {/* CONTACT */}
 
         <div className="footer-col">
           <h3 className="footer-label">Contact Us</h3>
@@ -132,7 +140,23 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ================= GIANT WORDMARK ================= */}
+      {/* LEGAL LINKS */}
+
+      <div className="footer-legal">
+        <div className="footer-legal-links">
+          {LEGAL_LINKS.map(({ to, label }) => (
+            <Link key={to} to={to} className="footer-legal-link">
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        <p className="footer-legal-copyright">
+          © {new Date().getFullYear()} VProTech Digital. All rights reserved.
+        </p>
+      </div>
+
+      {/* GIANT WORDMARK */}
 
       <div className="footer-wordmark" aria-hidden="true">
         Vprotech Digital

@@ -57,6 +57,9 @@ import AdminTestAttemptDetails from "./pages/admin/AdminTestAttemptDetails";
 import AdmissionManagement from "./pages/admin/AdmissionManagement";
 import AdmissionForm from "./pages/AdmissionForm";
 
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+
 
 import Portfolio from "./pages/Portfolio";
 import PortfolioCard from "./components/PortfolioCard";
@@ -159,6 +162,17 @@ function App() {
 
 <Route path="/portfolio" element={<Portfolio />} />
 
+
+{/* Legal Pages */}
+<Route
+  path="/privacy-policy"
+  element={<PrivacyPolicy />}
+/>
+
+<Route
+  path="/terms-and-conditions"
+  element={<TermsConditions />}
+/>
 
 
 <Route

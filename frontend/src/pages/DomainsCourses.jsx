@@ -508,7 +508,7 @@ export default function DomainsCourses() {
     'Visualize data through charts and reports',
     'Make data-driven business decisions'
   ]
-},   
+},
 
 {
   name: 'Web Graphic Design/ UI & UX',
