@@ -6,21 +6,30 @@ import * as THREE from "three";
 
 import "./SplashScreen.css";
 
-// Logo (the particles are built from this image)
-import logoImage from "../assets/lll.png";
+// FULL logo (icon + "proTech digital") - the particles are built from this image.
+// Save the new logo as: src/assets/logo-full.png
+import logoImage from "../assets/imagess.png";
 
 /* ============================================================
-   PARTICLE GLOBE -> LOGO SPLASH SCREEN
+   PARTICLE GLOBE -> FULL LOGO SPLASH SCREEN
 
    1. Thousands of particles start as a slowly spinning globe.
-   2. They spring into place and form the VProTech logo.
+   2. They spring into place and form the complete VProTech logo
+      (V icon + "proTech" + "digital").
    3. The crisp logo fades in over the particles.
    4. The splash fades out and the page (hero) is revealed.
 
    Requires:  npm install three   (framer-motion is already used)
 ============================================================ */
 
-const COLUMNS = 190; // particle columns (rows are derived from logo aspect)
+// More columns = sharper text such as the thin "digital" word
+const COLUMNS = 240;
+
+// Largest share of the screen the logo may use (half-width / half-height
+// in camera units; the camera is 2 units tall)
+const MAX_HALF_WIDTH = 0.95;
+const MAX_HALF_HEIGHT = 0.55;
+const MOBILE_WIDTH_FILL = 0.46; // half-width as a fraction of screen aspect
 
 /* ------------------------------------------------------------
    SHADERS
@@ -264,6 +273,9 @@ function ParticleLogo({ src, onFail, onSettled }) {
 
       texture = new THREE.Texture(image);
       texture.colorSpace = THREE.SRGBColorSpace;
+      texture.generateMipmaps = false;
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
       texture.needsUpdate = true;
 
       overlayGeometry = new THREE.PlaneGeometry(1, 1);
@@ -286,11 +298,12 @@ function ParticleLogo({ src, onFail, onSettled }) {
       const tilt = -0.28;
 
       const layout = (aspect) => {
-        let halfWidth = Math.min(0.7, aspect * 0.7);
+        // Fit the WHOLE logo (icon + text) inside the screen
+        let halfWidth = Math.min(MAX_HALF_WIDTH, aspect * MOBILE_WIDTH_FILL * 2);
         let halfHeight = halfWidth / imageAspect;
 
-        if (halfHeight > 0.5) {
-          halfHeight = 0.5;
+        if (halfHeight > MAX_HALF_HEIGHT) {
+          halfHeight = MAX_HALF_HEIGHT;
           halfWidth = halfHeight * imageAspect;
         }
 
@@ -426,9 +439,9 @@ function ParticleLogo({ src, onFail, onSettled }) {
 ------------------------------------------------------------ */
 
 // How long the finished logo stays on screen before the page opens
-const HOLD_AFTER_LOGO = 350; // ms
+const HOLD_AFTER_LOGO = 900; // ms (a little longer so the full logo can be read)
 
-export default function SplashScreen({ duration = 4500, onComplete }) {
+export default function SplashScreen({ duration = 5000, onComplete }) {
   const [visible, setVisible] = useState(true);
   const [failed, setFailed] = useState(false);
 
@@ -452,7 +465,7 @@ export default function SplashScreen({ duration = 4500, onComplete }) {
   useEffect(() => {
     const timer = setTimeout(
       () => setVisible(false),
-      reduceMotion || failed ? 1400 : duration
+      reduceMotion || failed ? 1800 : duration
     );
 
     return () => clearTimeout(timer);

@@ -410,7 +410,7 @@ export default function Register() {
                 </span>
 
                 <h2>
-                  Create <span>Account</span>
+                  Enroll <span>Now</span>
                 </h2>
 
                 <p>
@@ -694,7 +694,7 @@ export default function Register() {
                 ) : (
                   <>
                     <GraduationCap size={19} />
-                    Create Account
+                   Enroll Now
                     <ArrowRight size={18} />
                   </>
                 )}
@@ -705,7 +705,7 @@ export default function Register() {
 
             {/* Login */}
 
-            <div className="register-login">
+            {/* <div className="register-login">
 
               <span>
                 Already have an account?
@@ -716,7 +716,7 @@ export default function Register() {
                 <ArrowRight size={14} />
               </Link>
 
-            </div>
+            </div> */}
 
           </div>
         </motion.main>

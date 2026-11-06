@@ -20,6 +20,7 @@ export default function TermsConditions() {
           using the website, you agree to use it lawfully and responsibly.
         </p>
       </header>
+      
 
       <section style={sectionStyle}>
         <h2>Website information and services</h2>

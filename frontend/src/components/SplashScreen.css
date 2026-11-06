@@ -1,5 +1,5 @@
 /* ============================================================
-   VPROTECH SPLASH SCREEN - PARTICLE GLOBE
+   VPROTECH SPLASH SCREEN - PARTICLE GLOBE -> FULL LOGO
    White background so the logo colours show correctly
 ============================================================ */
 
@@ -37,13 +37,13 @@
 
 
 /* ============================================================
-   FALLBACK LOGO
+   FALLBACK LOGO (full logo)
    Used when WebGL is unavailable or reduced motion is on
 ============================================================ */
 
 .vpro-splash-fallback-logo {
   position: relative;
-  width: min(320px, 70vw);
+  width: min(460px, 82vw);
   height: auto;
   object-fit: contain;
   user-select: none;
