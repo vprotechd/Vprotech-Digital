@@ -2,10 +2,40 @@ import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import aboutImage from "../../assets/aboutt.jpg";
 
+import { mediaService } from "../../services/api";
+import { useEffect, useState } from "react";
+
 import "./GoldenSection.css";
 
 export default function GoldenSection() {
   const reduceMotion = useReducedMotion();
+
+  const [image, setImage] = useState(aboutImage);
+
+useEffect(() => {
+  let isMounted = true;
+
+  const loadAboutImage = async () => {
+    try {
+      const response = await mediaService.getMedia();
+      const aboutMedia = response.media?.find(
+        (item) => item.key === "about_main"
+      );
+
+      if (isMounted && aboutMedia?.imageUrl) {
+        setImage(aboutMedia.imageUrl);
+      }
+    } catch (error) {
+      console.error("Failed to load About image:", error);
+    }
+  };
+
+  loadAboutImage();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
 
   return (
     <section className="golden-section" aria-labelledby="golden-title">
@@ -38,7 +68,7 @@ export default function GoldenSection() {
           transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
         >
           <img
-            src={aboutImage}
+            src={image}
             alt="Team collaborating around a table in a meeting room"
             className="golden-image"
           />

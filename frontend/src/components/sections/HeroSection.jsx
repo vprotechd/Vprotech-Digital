@@ -16,6 +16,8 @@ import bg3 from "../../assets/slides/photo-3.jpg";
 import bg4 from "../../assets/slides/photo-4.jpg";
 import bg5 from "../../assets/slides/photo-5.jpg";
 
+import { mediaService } from "../../services/api";
+
 import "./HeroSection.css";
 
 /* ============================================================
@@ -65,23 +67,57 @@ const fadeUp = (delay = 0) => ({
 export default function HeroSection() {
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+const [paused, setPaused] = useState(false);
+const [slides, setSlides] = useState(BG_SLIDES);
+
+// Load homepage images from Cloudinary
+useEffect(() => {
+  let isMounted = true;
+
+  const loadMedia = async () => {
+    try {
+      const response = await mediaService.getMedia();
+      const mediaItems = response.media || [];
+
+      const cloudinaryImages = new Map(
+        mediaItems.map((item) => [item.key, item.imageUrl])
+      );
+
+      const updatedSlides = BG_SLIDES.map(
+        (fallback, index) =>
+          cloudinaryImages.get(`home_hero_${index + 1}`) || fallback
+      );
+
+      if (isMounted) {
+        setSlides(updatedSlides);
+      }
+    } catch (error) {
+      console.error("Failed to load homepage slider images:", error);
+    }
+  };
+
+  loadMedia();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
 
   /* auto-advance, one slide at a time */
   useEffect(() => {
     if (paused) return undefined;
     const id = setInterval(() => {
-      setActive((i) => (i + 1) % BG_SLIDES.length);
+     setActive((i) => (i + 1) % slides.length);
     }, SLIDE_INTERVAL);
     return () => clearInterval(id);
-  }, [paused, active]);
+ }, [paused, active, slides.length]);
 
-  const slideState = (i) => {
-    if (i === active) return "is-active";
-    if (i === (active - 1 + BG_SLIDES.length) % BG_SLIDES.length)
-      return "is-prev";
-    return "is-next";
-  };
+ const slideState = (i) => {
+  if (i === active) return "is-active";
+  if (i === (active - 1 + slides.length) % slides.length)
+    return "is-prev";
+  return "is-next";
+};
 
   return (
     <section className="vh-section">
@@ -94,7 +130,7 @@ export default function HeroSection() {
       >
         {/* sliding full-size background */}
         <div className="vh-bg" aria-hidden="true">
-          {BG_SLIDES.map((src, i) => (
+          {slides.map((src, i) => (
             <div
               key={src}
               className={`vh-bg-slide ${slideState(i)}`}
@@ -141,7 +177,7 @@ export default function HeroSection() {
 
         {/* slider dots */}
         <div className="vh-dots">
-          {BG_SLIDES.map((_, i) => (
+          {slides.map((_, i) => (
             <button
               key={i}
               type="button"

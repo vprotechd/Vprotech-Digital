@@ -4,19 +4,32 @@
 import axios from "axios";
 
 
-// / ✅ Both URLs defined
+// // / ✅ Both URLs defined
+// const LOCAL_API = "http://localhost:5000/api";
+// const PRODUCTION_API = "https://vprotech-digital1.onrender.com/api";
+
+// // ✅ Toggle between local and production (change this to switch)
+// const USE_LOCAL = true; // 👈 Set to true for local, false for production
+
+// // ✅ The actual URL being used
+// const API_URL = USE_LOCAL ? LOCAL_API : PRODUCTION_API;
+
+
+
+
 const LOCAL_API = "http://localhost:5000/api";
 const PRODUCTION_API = "https://vprotech-digital1.onrender.com/api";
 
-// ✅ Toggle between local and production (change this to switch)
-const USE_LOCAL = false; // 👈 Set to true for local, false for production
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? LOCAL_API : PRODUCTION_API);
 
-// ✅ The actual URL being used
-const API_URL = USE_LOCAL ? LOCAL_API : PRODUCTION_API;
+export { API_URL };
 
-console.log(`🔗 API URL: ${API_URL}`); // ✅ Shows which URL is active
+console.log(`🔗 API URL: ${API_URL}`);
 
-export { API_URL }; 
+
+
 
 const api = axios.create({
   baseURL: API_URL,
@@ -528,6 +541,39 @@ export const offerService = {
     return response.data;
   },
 };
+
+
+
+
+// ============ MEDIA MANAGER SERVICES ============
+export const mediaService = {
+  // Get all website images (public)
+  getMedia: async () => {
+    const response = await api.get("/media");
+    return response.data;
+  },
+
+  // Upload or replace an image (admin only)
+  uploadMedia: async (data) => {
+    const formData = new FormData();
+
+    formData.append("image", data.imageFile);
+    formData.append("key", data.key);
+    formData.append("section", data.section);
+    formData.append("alt", data.alt || "");
+    formData.append("order", data.order ?? 0);
+
+    const response = await api.post("/media/upload", formData);
+    return response.data;
+  },
+
+  // Delete an image (admin only)
+  deleteMedia: async (key) => {
+    const response = await api.delete(`/media/${encodeURIComponent(key)}`);
+    return response.data;
+  },
+};
+
 
 
 export default api;

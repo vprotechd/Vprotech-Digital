@@ -9,6 +9,7 @@ import { teamService } from "../services/api";
 import ConfirmDialog from "../components/common/ConfirmDialog"; 
 import AdminOffers from "./admin/AdminOffers";
 import AdmissionManagement from "./admin/AdmissionManagement";
+import MediaManager from "./admin/MediaManager";
 
 import {
   getAdminInternshipPrograms,
@@ -44,6 +45,7 @@ import {
   Edit,
   Eye,
   LayoutDashboard,
+  Image as ImageIcon,
   GraduationCap,
   Star,
   TrendingUp,
@@ -914,6 +916,16 @@ const filteredApplications = applications.filter(app => {
             <FileText size={20} />
             <span>Blogs</span>
           </button>
+
+
+
+          <button
+  className={`nav-item ${activeTab === "media" ? "active" : ""}`}
+  onClick={() => setActiveTab("media")}
+>
+  <ImageIcon size={20} />
+  <span>Media Manager</span>
+</button>
 
 
           <button
@@ -2626,6 +2638,12 @@ const filteredApplications = applications.filter(app => {
 {/* ===== ADMISSION MANAGEMENT TAB ===== */}
 {activeTab === "admissions" && (
   <AdmissionManagement />
+)}
+
+
+{/* ===== MEDIA MANAGER TAB ===== */}
+{activeTab === "media" && (
+  <MediaManager />
 )}
 
 

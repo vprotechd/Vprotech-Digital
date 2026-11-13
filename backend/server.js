@@ -19,6 +19,7 @@ import testRoutes from "./routes/testRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
 import testAttemptRoutes from "./routes/testAttemptRoutes.js";
 import admissionRoutes from "./routes/admissionRoutes.js";
+import mediaRoutes from "./routes/mediaRoutes.js";
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ app.use("/api/tests", testRoutes);
 app.use("/api", questionRoutes);
 app.use("/api/test-attempts", testAttemptRoutes);
 app.use("/api/admissions", admissionRoutes);
+app.use("/api/media", mediaRoutes);
 
 // Test route
 app.get("/api/test", (req, res) => {
