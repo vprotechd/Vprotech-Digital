@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -9,13 +9,21 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import buildingImage from "../../assets/items.png";
+/* 5 background images: put them in src/assets/slides/ */
+import bg1 from "../../assets/slides/photo-1.jpg";
+import bg2 from "../../assets/slides/photo-2.jpg";
+import bg3 from "../../assets/slides/photo-3.jpg";
+import bg4 from "../../assets/slides/photo-4.jpg";
+import bg5 from "../../assets/slides/photo-5.jpg";
 
 import "./HeroSection.css";
 
 /* ============================================================
    CONTENT
 ============================================================ */
+
+const BG_SLIDES = [bg1, bg2, bg3, bg4, bg5];
+const SLIDE_INTERVAL = 5000; // ms between slides
 
 const STRATEGIES = [
   {
@@ -56,12 +64,46 @@ const fadeUp = (delay = 0) => ({
 
 export default function HeroSection() {
   const navigate = useNavigate();
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  /* auto-advance, one slide at a time */
+  useEffect(() => {
+    if (paused) return undefined;
+    const id = setInterval(() => {
+      setActive((i) => (i + 1) % BG_SLIDES.length);
+    }, SLIDE_INTERVAL);
+    return () => clearInterval(id);
+  }, [paused, active]);
+
+  const slideState = (i) => {
+    if (i === active) return "is-active";
+    if (i === (active - 1 + BG_SLIDES.length) % BG_SLIDES.length)
+      return "is-prev";
+    return "is-next";
+  };
 
   return (
     <section className="vh-section">
       {/* ================= BANNER ================= */}
 
-      <div className="vh-banner">
+      <div
+        className="vh-banner"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        {/* sliding full-size background */}
+        <div className="vh-bg" aria-hidden="true">
+          {BG_SLIDES.map((src, i) => (
+            <div
+              key={src}
+              className={`vh-bg-slide ${slideState(i)}`}
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+          <div className="vh-bg-overlay" />
+        </div>
+
         <div className="vh-content">
           <motion.p className="vh-eyebrow" {...fadeUp(0.05)}>
             Innovation. Sustainability. Impact.
@@ -97,19 +139,18 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        <motion.div
-          className="vh-visual"
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
-        >
-          <img
-            src={buildingImage}
-            alt="VProTech Digital"
-            className="vh-image"
-            draggable="false"
-          />
-        </motion.div>
+        {/* slider dots */}
+        <div className="vh-dots">
+          {BG_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              className={`vh-dot ${i === active ? "is-active" : ""}`}
+              onClick={() => setActive(i)}
+            />
+          ))}
+        </div>
       </div>
 
       {/* ================= STRATEGIES ================= */}

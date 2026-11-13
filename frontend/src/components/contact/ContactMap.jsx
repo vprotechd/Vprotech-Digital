@@ -71,7 +71,7 @@ headingContainer:{
 },
 
 tag:{
-  color:"#4F46E5",
+  color:"#1769e0",
   fontWeight:"700",
   letterSpacing:"3px",
   marginBottom:"15px",
@@ -87,7 +87,7 @@ heading:{
 },
 
 highlight:{
-  color:"#4F46E5",
+  color:"#1769e0",
 },
 
 description:{

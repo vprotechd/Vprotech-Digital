@@ -1,10 +1,18 @@
-package.json
-package-lock.json
-dist
-build
-.env
+# Dependencies
 node_modules/
-backend/node_modules/
-frontend/node_modules/
+**/node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build files
+dist/
+build/
+
 # Uploads
 uploads/
+**/uploads/
+# Private uploaded resumes
+backend/services/resumes/

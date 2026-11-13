@@ -10,9 +10,7 @@
   --vh-ink: #0e1a2b;
 
   width: 100%;
-
   padding: 104px 28px 64px;
-
   background: #ffffff;
 }
 
@@ -26,7 +24,6 @@
 
   max-width: 1380px;
   min-height: clamp(520px, 76vh, 660px);
-
   margin: 0 auto;
 
   display: flex;
@@ -34,47 +31,108 @@
 
   border-radius: 32px;
 
-  background:
-    linear-gradient(
-      100deg,
-      #051633 0%,
-      #082a5c 42%,
-      #0f4a93 72%,
-      #2b73bd 100%
-    );
-}
-
-/* soft light behind the building */
-.vh-banner::before {
-  content: "";
-
-  position: absolute;
-  right: -8%;
-  top: -20%;
-
-  width: 60%;
-  height: 140%;
-
-  background: radial-gradient(
-    ellipse at 50% 50%,
-    rgba(120, 180, 255, 0.28),
-    transparent 65%
-  );
-
-  pointer-events: none;
+  /* fallback while images load */
+  background: #051633;
 }
 
 /* thin inner edge */
 .vh-banner::after {
   content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
 
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+/* ============================================================
+   SLIDING BACKGROUND (full banner)
+============================================================ */
+
+.vh-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.vh-bg-slide {
   position: absolute;
   inset: 0;
 
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-  pointer-events: none;
+  /* waiting slides sit off-screen right, no animation */
+  transform: translateX(100%);
+  transition: none;
+  will-change: transform;
+}
+
+.vh-bg-slide.is-active {
+  transform: translateX(0);
+  transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.vh-bg-slide.is-prev {
+  transform: translateX(-100%);
+  transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* dark navy overlay: strong behind the text, lighter on the right
+   so the photos still show clearly */
+.vh-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 14, 34, 0.9) 0%,
+      rgba(5, 22, 51, 0.82) 38%,
+      rgba(5, 22, 51, 0.45) 70%,
+      rgba(5, 22, 51, 0.25) 100%
+    ),
+    linear-gradient(0deg, rgba(4, 14, 34, 0.55) 0%, transparent 35%);
+}
+
+/* dots */
+.vh-dots {
+  position: absolute;
+  z-index: 3;
+
+  left: clamp(32px, 6vw, 96px);
+  bottom: 78px;
+
+  display: flex;
+  gap: 8px;
+}
+
+.vh-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+
+  border: none;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.vh-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.vh-dot.is-active {
+  width: 28px;
+  background: #ffffff;
 }
 
 /* ============================================================
@@ -86,23 +144,23 @@
   z-index: 2;
 
   width: 52%;
-
   padding: 64px 0 90px clamp(32px, 6vw, 96px);
 }
 
 .vh-eyebrow {
   margin: 0 0 22px;
 
-  color: rgba(255, 255, 255, 0.72);
+  color: #ffffff;
 
   font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.02em;
+
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
 .vh-title {
   margin: 0;
-
   max-width: 600px;
 
   color: #ffffff;
@@ -112,23 +170,25 @@
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -0.02em;
+
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
 
 .vh-title em {
-  color: #c4dcff;
-
+  color: #9fd0ff;
   font-style: italic;
 }
 
 .vh-description {
   max-width: 500px;
-
   margin: 24px 0 0;
 
-  color: rgba(255, 255, 255, 0.78);
+  color: #ffffff;
 
   font-size: 17px;
   line-height: 1.7;
+
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================================
@@ -171,7 +231,6 @@
 
 .vh-btn-primary {
   border: 1px solid #ffffff;
-
   background: #ffffff;
   color: #082a5c;
 }
@@ -179,7 +238,6 @@
 .vh-btn-primary:hover {
   background: #e6f0ff;
   border-color: #e6f0ff;
-
   transform: translateY(-1px);
 }
 
@@ -192,65 +250,16 @@
 }
 
 .vh-btn-outline {
-  border: 1px solid rgba(255, 255, 255, 0.5);
-
-  background: transparent;
+  border: 1px solid #ffffff;
+  background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
+
+  backdrop-filter: blur(4px);
 }
 
 .vh-btn-outline:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #ffffff;
-
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
-}
-
-/* ============================================================
-   BUILDING IMAGE
-============================================================ */
-
-.vh-visual {
-  position: absolute;
-  z-index: 1;
-
-  top: 0;
-  right: 2%;
-
-  /* base of the building stays above the strategies panel */
-  bottom: 64px;
-
-  width: 62%;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-
-  pointer-events: none;
-}
-
-/*
-  build.png has empty (transparent) space around the building,
-  so the image is drawn taller than its box. The empty top part
-  is clipped by the banner, the building itself stays visible.
-  If you trim build.png (see notes), change height to 92%.
-*/
-.vh-image {
-  display: block;
-
-  flex-shrink: 0;
-
-  height: 80%;
-  width: auto;
-  margin-top:15%;
-
-  max-width: none;
-
-  object-fit: contain;
-  object-position: right bottom;
-
-  user-select: none;
-
-  filter: drop-shadow(0 24px 40px rgba(2, 10, 30, 0.45));
 }
 
 /* ============================================================
@@ -262,28 +271,23 @@
   z-index: 3;
 
   max-width: 1180px;
-
   margin: -52px auto 0;
-
   padding: 30px 32px 22px;
 
   border: 1px solid #e4e9f2;
   border-radius: 24px;
 
   background: #ffffff;
-
   box-shadow: 0 24px 60px rgba(10, 30, 70, 0.12);
 }
 
 .vh-strategies-head {
   margin-bottom: 18px;
-
   text-align: center;
 }
 
 .vh-strategies-head span {
   display: block;
-
   margin-bottom: 8px;
 
   color: var(--vh-blue);
@@ -307,7 +311,6 @@
 
 .vh-strategies-head h2 em {
   color: var(--vh-blue);
-
   font-style: italic;
 }
 
@@ -365,21 +368,18 @@
 
 .vh-strategy-body strong {
   color: var(--vh-ink);
-
   font-size: 15px;
   font-weight: 600;
 }
 
 .vh-strategy-body small {
   color: #5f6b7d;
-
   font-size: 13px;
   line-height: 1.5;
 }
 
 .vh-strategy-arrow {
   flex-shrink: 0;
-
   margin-left: auto;
 
   color: var(--vh-blue);
@@ -426,45 +426,30 @@
 
   .vh-banner {
     min-height: 0;
-
-    flex-direction: column;
-    align-items: stretch;
-
     border-radius: 26px;
   }
 
   .vh-content {
     width: 100%;
-
-    padding: 48px 28px 8px;
+    padding: 56px 28px 100px;
   }
 
-  .vh-visual {
-    position: relative;
-
-    top: auto;
-    right: auto;
-    bottom: auto;
-
-    width: 96%;
-    height: auto;
-
-    align-self: flex-end;
-
-    margin-top: 12px;
-    padding-bottom: 36px;
+  /* more even overlay on small screens: text spans full width */
+  .vh-bg-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(4, 14, 34, 0.8) 0%,
+      rgba(5, 22, 51, 0.75) 100%
+    );
   }
 
-  .vh-image {
-    width: 100%;
-    height: auto;
-
-    max-width: 100%;
+  .vh-dots {
+    left: 28px;
+    bottom: 58px;
   }
 
   .vh-strategies {
     margin-top: -28px;
-
     padding: 24px 14px 12px;
   }
 
@@ -490,7 +475,6 @@
   .vh-strategy {
     border-left: none;
     border-top: 1px solid #e4e9f2;
-
     padding: 16px 10px;
   }
 
@@ -508,7 +492,13 @@
   .vh-btn,
   .vh-btn-primary svg,
   .vh-strategy,
-  .vh-strategy-arrow {
+  .vh-strategy-arrow,
+  .vh-dot {
     transition: none !important;
+  }
+
+  .vh-bg-slide.is-active,
+  .vh-bg-slide.is-prev {
+    transition-duration: 0.01s;
   }
 }

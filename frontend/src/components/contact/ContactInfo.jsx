@@ -132,7 +132,7 @@ const styles = {
   },
 
   tag: {
-    color: "#4F46E5",
+    color: "#1769e0",
     letterSpacing: "4px",
     fontWeight: "800",
     fontSize: "13px",
@@ -148,7 +148,7 @@ const styles = {
   },
 
   highlight: {
-    color: "#4F46E5",
+    color: "#1769e0",
   },
 
   subHeading: {
@@ -187,7 +187,7 @@ const styles = {
     height: "72px",
     borderRadius: "18px",
     margin: "0 auto 24px",
-    background: "linear-gradient(135deg, #4F46E5, #6366F1)",
+    background: "linear-gradient(135deg, #1769e0, #1769e0)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

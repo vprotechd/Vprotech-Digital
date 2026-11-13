@@ -117,7 +117,7 @@ export default function StatsSection() {
   const stats = [
     {
       icon: FolderKanban,
-      value: 250,
+      value: 40,
       suffix: "+",
       label: "Projects Delivered",
       description: "Web, mobile & enterprise builds shipped end-to-end.",
@@ -125,7 +125,7 @@ export default function StatsSection() {
     },
     {
       icon: Users,
-      value: 180,
+      value: 25,
       suffix: "+",
       label: "Happy Clients",
       description: "Startups, SMEs & enterprises across 12 industries.",
@@ -133,7 +133,7 @@ export default function StatsSection() {
     },
     {
       icon: Briefcase,
-      value: 1200,
+      value: 10000,
       suffix: "+",
       label: "Students Trained",
       description: "Upskilled through our industry-focused courses.",

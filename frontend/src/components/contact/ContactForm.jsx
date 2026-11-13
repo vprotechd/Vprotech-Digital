@@ -48,7 +48,7 @@ const toastStyles = {
 
   info: {
     style: {
-      background: "#8b5cf6",
+      background: "#1769e0",
       color: "#fff",
       padding: "16px 24px",
       borderRadius: "12px",
@@ -271,7 +271,7 @@ export default function ContactForm() {
     },
 
     tag: {
-      color: "#4F46E5",
+      color: "#1769e0",
       letterSpacing: "3px",
       fontWeight: "800",
       marginBottom: "15px",
@@ -288,7 +288,7 @@ export default function ContactForm() {
     },
 
     highlight: {
-      color: "#4F46E5",
+      color: "#1769e0",
     },
 
     description: {
@@ -343,7 +343,7 @@ export default function ContactForm() {
       border: "none",
       borderRadius: "50px",
       background:
-        "linear-gradient(135deg, #4F46E5, #6366F1)",
+        "linear-gradient(135deg, #1769e0, #6366F1)",
       color: "#fff",
       fontWeight: "700",
       fontSize: isMobile ? "16px" : "17px",
