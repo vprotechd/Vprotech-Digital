@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import fullstack from "../assets/full.jpg";
 import mechanical from "../assets/design.jpg";
 import internship from "../assets/interior.jpg";
 import servicesBg from "../assets/services.jpg";
-
+import { mediaService } from "../services/api";
 import "./Services.css";
 
 const services = [
@@ -19,6 +19,7 @@ const services = [
     title: "Web Development",
     category: "WEB SOLUTIONS",
     desc: "Custom web applications, e-commerce websites, real estate platforms, hotel booking systems and business management solutions.",
+    imageKey: "services_web",
     img: custom,
     path: "/webdevelopment",
     features: [
@@ -33,6 +34,7 @@ const services = [
     title: "Android App Development",
     category: "MOBILE SOLUTIONS",
     desc: "Custom Android applications designed for startups, businesses and organizations with smooth, reliable digital experiences.",
+    imageKey: "services_mobile",
     img: expertiseBg,
     path: "/mobile-apps",
     features: [
@@ -47,6 +49,7 @@ const services = [
     title: "Digital Marketing",
     category: "DIGITAL GROWTH",
     desc: "Data-driven digital marketing strategies that help businesses improve visibility, connect with customers and generate leads.",
+    imageKey: "services_marketing",
     img: digital,
     path: "/digital-marketing",
     features: [
@@ -61,6 +64,7 @@ const services = [
     title: "Logo Designing",
     category: "BRAND IDENTITY",
     desc: "Creative logo and visual identity solutions designed to give your business a professional and memorable brand presence.",
+    imageKey: "services_logo",
     img: fullstack,
     path: "/logo-designing",
     features: [
@@ -75,6 +79,7 @@ const services = [
     title: "Website Design",
     category: "UI / UX DESIGN",
     desc: "Beautiful, responsive and user-focused website designs created to represent your brand and provide an engaging experience.",
+    imageKey: "services_website_design",
     img: mechanical,
     path: "/website-design",
     features: [
@@ -89,6 +94,7 @@ const services = [
     title: "Interior Designing",
     category: "SPACE DESIGN",
     desc: "Thoughtful residential and commercial interior design solutions that combine functionality, aesthetics and modern design.",
+    imageKey: "services_interior",
     img: internship,
     path: "/interior-designing",
     features: [
@@ -140,7 +146,45 @@ const fadeUp = {
 };
 
 export default function Services() {
+
   const navigate = useNavigate();
+
+
+const [cloudinaryImages, setCloudinaryImages] = useState({});
+
+useEffect(() => {
+  let isMounted = true;
+
+  const loadServiceImages = async () => {
+    try {
+      const response = await mediaService.getMedia();
+      const mediaItems = response.media || [];
+
+      const imageMap = {};
+
+      mediaItems.forEach((item) => {
+        if (item.key.startsWith("services_")) {
+          imageMap[item.key] = item.imageUrl;
+        }
+      });
+
+      if (isMounted) {
+        setCloudinaryImages(imageMap);
+      }
+    } catch (error) {
+      console.error("Failed to load Services images:", error);
+    }
+  };
+
+  loadServiceImages();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
+
+
 
   const handleExplore = (path) => {
     navigate(path);
@@ -163,7 +207,7 @@ export default function Services() {
       <section
         className="services-hero"
         style={{
-          backgroundImage: `url("${servicesBg}")`,
+       backgroundImage: `url("${cloudinaryImages.services_hero || servicesBg}")`,
         }}
       >
         <div className="services-hero-overlay"></div>
@@ -402,7 +446,7 @@ export default function Services() {
                 <div className="service-card-image">
 
                   <img
-                    src={service.img}
+                    src={cloudinaryImages[service.imageKey] || service.img}
                     alt={service.title}
                   />
 

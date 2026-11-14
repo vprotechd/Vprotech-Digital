@@ -1,10 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { mediaService } from "../../services/api";
 
 import internshipImg from "../../assets/imagesss.png";
 
 export default function InternshipSection() {
+
+const [image, setImage] = useState(internshipImg);
+
+useEffect(() => {
+  let isMounted = true;
+
+  const loadInternshipImage = async () => {
+    try {
+      const response = await mediaService.getMedia();
+      const mediaItems = response.media || [];
+
+      const internshipMedia = mediaItems.find(
+        (item) => item.key === "career_internship"
+      );
+
+      if (isMounted && internshipMedia?.imageUrl) {
+        setImage(internshipMedia.imageUrl);
+      }
+    } catch (error) {
+      console.error("Failed to load Internship image:", error);
+    }
+  };
+
+  loadInternshipImage();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
   return (
     <section style={styles.section}>
       <div style={styles.container}>
@@ -65,18 +96,18 @@ export default function InternshipSection() {
           viewport={{ once: true }}
         >
           <motion.img
-            src={internshipImg}
-            alt="Internship"
-            style={styles.image}
-            animate={{
-              y: [0, -15, 0],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
+  src={image}
+  alt="Internship"
+  style={styles.image}
+  animate={{
+    y: [0, -15, 0],
+  }}
+  transition={{
+    duration: 5,
+    repeat: Infinity,
+    ease: "easeInOut",
+  }}
+/>
         </motion.div>
 
       </div>

@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import officeImg from '../../assets/vvv.png';
+import { mediaService } from '../../services/api';
 
 export default function AboutContentSection() {
+
+const [image, setImage] = useState(officeImg);
+
+useEffect(() => {
+  let isMounted = true;
+
+  const loadAboutContentImage = async () => {
+    try {
+      const response = await mediaService.getMedia();
+
+      const aboutMedia = response.media?.find(
+        (item) => item.key === 'about_content'
+      );
+
+      if (isMounted && aboutMedia?.imageUrl) {
+        setImage(aboutMedia.imageUrl);
+      }
+    } catch (error) {
+      console.error('Failed to load About Content image:', error);
+    }
+  };
+
+  loadAboutContentImage();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
+
   return (
     <section className="about-section">
       <div className="about-container">
@@ -57,7 +88,7 @@ export default function AboutContentSection() {
           viewport={{ once: true }}
         >
           <motion.img
-            src={officeImg}
+            src={image}
             alt="VProTech Digital Office"
             className="about-image"
             initial={{ opacity: 0, x: 80, scale: 0.9 }}

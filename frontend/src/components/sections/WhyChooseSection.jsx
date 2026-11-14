@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import aboutBg from '../../assets/about.jpg';
 import modern from '../../assets/modern.jpg';
@@ -6,16 +6,79 @@ import aiml from '../../assets/ai&image.jpg';
 import marketing from '../../assets/markting.jpg';
 import devops from '../../assets/devops.jpg';
 import cyber from '../../assets/cyber.jpg';
+import { mediaService } from '../../services/api';
 
 export default function WhyChooseSection() {
   const features = [
-    { img: aboutBg, title: "Custom Software & Development", desc: "We build secure, scalable custom software solutions designed to streamline your business operations and drive digital growth." },
-    { img: modern, title: "Modern Web & Mobile Apps", desc: "We create responsive websites and high-performance mobile applications using the latest technologies for exceptional user experiences." },
-    { img: aiml, title: "Internship & Training", desc: "We provide custom software development services alongside industry-aligned internship and professional training programs." },
-    { img: marketing, title: "AI & Digital Marketing", desc: "From AI-powered automation to SEO, social media marketing and branding, we help businesses achieve sustainable digital growth." },
-    { img: devops, title: "Cloud & DevOps Solutions", desc: "We implement secure cloud infrastructure, CI/CD pipelines, and DevOps practices that improve deployment speed, reliability, and business scalability." },
-    { img: cyber, title: "Cyber Security Services", desc: "Protect your business with advanced cybersecurity solutions including network protection, data security, threat monitoring, and secure application development." }
-  ];
+  {
+    img: cloudinaryImages.why_choose_1 || aboutBg,
+    title: "Custom Software & Development",
+    desc: "We build secure, scalable custom software solutions designed to streamline your business operations and drive digital growth."
+  },
+  {
+    img: cloudinaryImages.why_choose_2 || modern,
+    title: "Modern Web & Mobile Apps",
+    desc: "We create responsive websites and high-performance mobile applications using the latest technologies for exceptional user experiences."
+  },
+  {
+    img: cloudinaryImages.why_choose_3 || aiml,
+    title: "Internship & Training",
+    desc: "We provide custom software development services alongside industry-aligned internship and professional training programs."
+  },
+  {
+    img: cloudinaryImages.why_choose_4 || marketing,
+    title: "AI & Digital Marketing",
+    desc: "From AI-powered automation to SEO, social media marketing and branding, we help businesses achieve sustainable digital growth."
+  },
+  {
+    img: cloudinaryImages.why_choose_5 || devops,
+    title: "Cloud & DevOps Solutions",
+    desc: "We implement secure cloud infrastructure, CI/CD pipelines, and DevOps practices that improve deployment speed, reliability, and business scalability."
+  },
+  {
+    img: cloudinaryImages.why_choose_6 || cyber,
+    title: "Cyber Security Services",
+    desc: "Protect your business with advanced cybersecurity solutions including network protection, data security, threat monitoring, and secure application development."
+  }
+];
+
+
+const [cloudinaryImages, setCloudinaryImages] = useState({});
+
+useEffect(() => {
+  let isMounted = true;
+
+  const loadWhyChooseImages = async () => {
+    try {
+      const response = await mediaService.getMedia();
+      const mediaItems = response.media || [];
+
+      const imageMap = {};
+
+      mediaItems.forEach((item) => {
+        if (item.key.startsWith('why_choose_')) {
+          imageMap[item.key] = item.imageUrl;
+        }
+      });
+
+      if (isMounted) {
+        setCloudinaryImages(imageMap);
+      }
+    } catch (error) {
+      console.error('Failed to load Why Choose images:', error);
+    }
+  };
+
+  loadWhyChooseImages();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
+
+
+
 
   return (
     <section className="why-section">

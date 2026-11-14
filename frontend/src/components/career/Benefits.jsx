@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "./Benefits.css"; // ✅ Import CSS file
+import { mediaService } from "../../services/api";
 
 import growth from "../../assets/growth.jpg";
 import learning from "../../assets/continu.jpg";
@@ -9,46 +10,78 @@ import innovation from "../../assets/innovation.jpg";
 import internship from "../../assets/intern.jpg";
 import technology from "../../assets/modernn.jpg";
 
-const benefits = [
-  {
-    title: "Career Growth",
-    image: growth,
-    description:
-      "Grow with structured career paths, mentorship, and continuous opportunities to enhance your professional journey.",
-  },
-  {
-    title: "Continuous Learning",
-    image: learning,
-    description:
-      "Access workshops, live projects, certifications, and the latest technologies to keep your skills ahead of the industry.",
-  },
-  {
-    title: "Friendly Culture",
-    image: culture,
-    description:
-      "Collaborate with supportive teammates in a workplace that values creativity, innovation, and mutual respect.",
-  },
-  {
-    title: "Innovation First",
-    image: innovation,
-    description:
-      "Work on AI, cloud computing, modern web applications, and innovative digital solutions for global clients.",
-  },
-  {
-    title: "Internship Programs",
-    image: internship,
-    description:
-      "Gain practical experience through industry-oriented internships guided by experienced professionals.",
-  },
-  {
-    title: "Modern Technologies",
-    image: technology,
-    description:
-      "Build solutions using React, Node.js, MERN Stack, AI, DevOps, Cloud, and emerging technologies.",
-  },
-];
-
 export default function Benefits() {
+  const [cloudinaryImages, setCloudinaryImages] = useState({});
+
+  const benefits = [
+    {
+      title: "Career Growth",
+      image: cloudinaryImages.benefits_growth || growth,
+      description:
+        "Grow with structured career paths, mentorship, and continuous opportunities to enhance your professional journey.",
+    },
+    {
+      title: "Continuous Learning",
+      image: cloudinaryImages.benefits_learning || learning,
+      description:
+        "Access workshops, live projects, certifications, and the latest technologies to keep your skills ahead of the industry.",
+    },
+    {
+      title: "Friendly Culture",
+      image: cloudinaryImages.benefits_culture || culture,
+      description:
+        "Collaborate with supportive teammates in a workplace that values creativity, innovation, and mutual respect.",
+    },
+    {
+      title: "Innovation First",
+      image: cloudinaryImages.benefits_innovation || innovation,
+      description:
+        "Work on AI, cloud computing, modern web applications, and innovative digital solutions for global clients.",
+    },
+    {
+      title: "Internship Programs",
+      image: cloudinaryImages.benefits_internship || internship,
+      description:
+        "Gain practical experience through industry-oriented internships guided by experienced professionals.",
+    },
+    {
+      title: "Modern Technologies",
+      image: cloudinaryImages.benefits_technology || technology,
+      description:
+        "Build solutions using React, Node.js, MERN Stack, AI, DevOps, Cloud, and emerging technologies.",
+    },
+  ];
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadBenefitsImages = async () => {
+      try {
+        const response = await mediaService.getMedia();
+        const mediaItems = response.media || [];
+        const imageMap = {};
+
+        mediaItems.forEach((item) => {
+          if (item.key.startsWith("benefits_")) {
+            imageMap[item.key] = item.imageUrl;
+          }
+        });
+
+        if (isMounted) {
+          setCloudinaryImages(imageMap);
+        }
+      } catch (error) {
+        console.error("Failed to load Benefits images:", error);
+      }
+    };
+
+    loadBenefitsImages();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="benefits-section">
       <motion.div

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Award, Calendar, MapPin, Briefcase, Users } from 'lucide-react';
 import founderImage from '../../assets/Rajat Vprotech.png';
+import { mediaService } from '../../services/api';
 
 const leftVariants = {
   hidden: { opacity: 0, x: -80, rotate: -5 },
@@ -62,6 +63,35 @@ const stats = [
 ];
 
 export default function FounderSection() {
+
+const [image, setImage] = useState(founderImage);
+
+useEffect(() => {
+  let isMounted = true;
+
+  const loadFounderImage = async () => {
+    try {
+      const response = await mediaService.getMedia();
+
+      const founderMedia = response.media?.find(
+        (item) => item.key === 'founder_main'
+      );
+
+      if (isMounted && founderMedia?.imageUrl) {
+        setImage(founderMedia.imageUrl);
+      }
+    } catch (error) {
+      console.error('Failed to load Founder image:', error);
+    }
+  };
+
+  loadFounderImage();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
   return (
     <section className="founder-section">
       <div className="founder-container">
@@ -76,7 +106,7 @@ export default function FounderSection() {
           <div className="founder-image-wrapper">
             <div className="founder-image-container">
               <img
-                src={founderImage}
+                src={image}
                 alt="Founder - VProTech Digital"
                 className="founder-image"
                 loading="lazy"
