@@ -389,7 +389,7 @@ await User.updateOne(
   { $set: { lastLogin: new Date() } }
 );
 
-  console.log("✅ Login successful:", email);
+  console.log("Login successful:", email);
 
   res.status(200).json({
     success: true,

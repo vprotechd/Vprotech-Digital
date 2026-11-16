@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   BookOpen,
@@ -75,6 +76,12 @@ export default function CoursesPage() {
                 Explore Courses
                 <ArrowRight size={18} />
               </a>
+
+
+                <Link to="/admission-form" className="courses-primary-btn">
+    Admission Form
+    <ArrowRight size={18} />
+  </Link>
 
               <div className="courses-hero-note">
                 <GraduationCap size={18} />

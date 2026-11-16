@@ -40,7 +40,8 @@ const LINKS_BEFORE_EXPLORE = [
 
 // Links shown directly in the navbar (after the Explore dropdown)
 const LINKS_AFTER_EXPLORE = [
-  { to: "/careers", label: "Careers", icon: FiBriefcase },
+  // { to: "/careers", label: "Careers", icon: FiBriefcase },
+   { to: "/portfolio", label: "Portfolio", icon: FiLayers },
   { to: "/contact", label: "Contact", icon: FiMail },
 ];
 
@@ -48,7 +49,7 @@ const LINKS_AFTER_EXPLORE = [
 // NOTE: change "/admission" if your admission form route is different
 const EXPLORE_LINKS = [
   { to: "/blogs", label: "Blogs", icon: FiEdit3 },
-  { to: "/portfolio", label: "Portfolio", icon: FiLayers },
+    { to: "/careers", label: "Careers", icon: FiBriefcase },
   { to: "/admission-form", label: "Admission Form", icon: FiFileText },
   { to: "/internship", label: "Start Assessment", icon: FiClipboard },
 ];

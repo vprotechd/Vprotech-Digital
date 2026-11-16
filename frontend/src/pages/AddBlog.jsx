@@ -41,6 +41,7 @@ const categories = [
   "Digital Marketing",
   "Career Tips",
   "Internships",
+  "Other",
 ];
 
 export default function AddBlog() {
@@ -75,6 +76,7 @@ export default function AddBlog() {
     isPublished: true,
     featured: false,
   });
+  const [customCategory, setCustomCategory] = useState("");
   const [tagInput, setTagInput] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -120,10 +122,12 @@ export default function AddBlog() {
   
 
   const handleEditBlog = (blog) => {
+    const hasPredefinedCategory =
+      categories.includes(blog.category) && blog.category !== "Other";
     setEditingBlog(blog);
     setFormData({
       title: blog.title || "",
-      category: blog.category || "",
+      category: hasPredefinedCategory ? blog.category : "Other",
       description: blog.description || "",
       content: blog.content || "",
       image: blog.image || "",
@@ -133,6 +137,7 @@ export default function AddBlog() {
       isPublished: blog.isPublished !== undefined ? blog.isPublished : true,
       featured: blog.featured || false,
     });
+    setCustomCategory(hasPredefinedCategory ? "" : blog.category || "");
     setImagePreview(blog.image || "");
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -157,6 +162,7 @@ export default function AddBlog() {
       isPublished: true,
       featured: false,
     });
+    setCustomCategory("");
     setTagInput("");
     setImagePreview("");
     setImageFile(null);
@@ -239,7 +245,10 @@ export default function AddBlog() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.title || !formData.category || !formData.description || !formData.content) {
+    const category =
+      formData.category === "Other" ? customCategory.trim() : formData.category;
+
+    if (!formData.title || !category || !formData.description || !formData.content) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -248,6 +257,8 @@ export default function AddBlog() {
     try {
       const submitData = {
         ...formData,
+        imageFile,
+        category,
         author: formData.author || user?.name || "VProTech Digital",
         readTime: formData.readTime || "5 min read",
       };
@@ -337,6 +348,9 @@ export default function AddBlog() {
     
     return matchesSearch && matchesStatus && matchesCategory;
   });
+  const blogCategories = [
+    ...new Set([...categories, ...blogs.map((blog) => blog.category).filter(Boolean)]),
+  ];
 
   const formatDate = (date) => {
     if (!date) return "N/A";
@@ -498,7 +512,7 @@ export default function AddBlog() {
                   >
                     All
                   </button>
-                  {categories.map((cat) => (
+                  {blogCategories.map((cat) => (
                     <button
                       key={cat}
                       className={`category-tab ${filterCategory === cat ? "active" : ""}`}
@@ -681,6 +695,21 @@ export default function AddBlog() {
                     </option>
                   ))}
                 </select>
+                {formData.category === "Other" && (
+                  <>
+                    <label htmlFor="customCategory">Custom Category *</label>
+                    <input
+                      id="customCategory"
+                      type="text"
+                      name="customCategory"
+                      value={customCategory}
+                      onChange={(e) => setCustomCategory(e.target.value)}
+                      placeholder="Enter a custom category"
+                      maxLength={80}
+                      required
+                    />
+                  </>
+                )}
               </div>
 
               <div className="form-group">

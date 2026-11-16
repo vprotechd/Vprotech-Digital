@@ -12,16 +12,8 @@ const blogSchema = new mongoose.Schema(
     category: {
       type: String,
       required: [true, "Please select a category"],
-      enum: [
-        "Artificial Intelligence",
-        "Web Development",
-        "Mobile Apps",
-        "Cloud Computing",
-        "Cyber Security",
-        "Digital Marketing",
-        "Career Tips",
-        "Internships",
-      ],
+      trim: true,
+      maxlength: [80, "Category cannot be more than 80 characters"],
     },
     description: {
       type: String,

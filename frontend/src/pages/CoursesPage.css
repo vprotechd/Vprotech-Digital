@@ -11,6 +11,9 @@
   color: #10213d;
 }
 
+
+
+
 /* =========================================================
    HERO
 ========================================================= */
@@ -143,19 +146,21 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 22px;
-  border-radius: 12px;
+  padding: 14px 32px;
+  border-radius: 10px;
   background: #1769aa;
   color: #ffffff;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 400;
   box-shadow: 0 12px 30px rgba(23, 105, 170, 0.25);
   transition: 0.3s ease;
+ 
 }
 
 .courses-primary-btn:hover {
   transform: translateY(-3px);
   background: #12578f;
+  
 }
 
 .courses-hero-note {
@@ -165,6 +170,19 @@
   color: #52647b;
   font-size: 14px;
   font-weight: 600;
+}
+
+
+.courses-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  white-space: nowrap;   /* keeps text on one line */
+  width: auto;           /* remove any fixed width */
+  min-width: 190px;      /* optional: gives a minimum size */
+  padding: 10 32px;
 }
 
 /* =========================================================

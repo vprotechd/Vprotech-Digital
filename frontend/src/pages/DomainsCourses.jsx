@@ -105,6 +105,231 @@ export default function DomainsCourses() {
 
   const courses = {
     cse: [
+{ 
+        name: 'Artificial Intelligence', 
+        image: '/assets/images/courses/artificial-intelligence.jpg',
+        icon: <Cpu size={24} />, 
+        desc: 'AI concepts and real-world applications', 
+        color: '#F472B6',
+        duration: '10 Months',
+        students: '120+',
+        level: 'Advanced',
+        overview: 'Learn artificial intelligence concepts, neural networks, natural language processing, computer vision, and build AI applications.',
+        curriculum: [
+          'AI Fundamentals',
+          'Neural Networks',
+          'Deep Learning',
+          'Natural Language Processing',
+          'Computer Vision',
+          'Reinforcement Learning',
+          'AI Ethics & Safety',
+          'AI Project'
+        ],
+        outcomes: [
+          'Build AI-powered applications',
+          'Work with neural networks',
+          'Implement NLP solutions',
+          'Create computer vision systems',
+          'Understand AI ethics'
+        ]
+      },
+
+
+       { 
+        name: 'Machine Learning', 
+        image: '/assets/images/courses/machine-learning.jpg',
+        icon: <Brain size={24} />, 
+        desc: 'AI and machine learning algorithms', 
+        color: '#10B981',
+        duration: '6 Months & 45 days',
+        students: '200+',
+        level: 'Advanced',
+        overview: 'Learn machine learning algorithms, data preprocessing, model building, and deployment. Build real-world AI applications.',
+        curriculum: [
+          'Mathematics for ML',
+          'Python for Data Science',
+          'Data Preprocessing',
+          'Supervised Learning',
+          'Unsupervised Learning',
+          'Deep Learning',
+          'Neural Networks',
+          'Model Deployment',
+          'ML Project'
+        ],
+        outcomes: [
+          'Build machine learning models',
+          'Work with real-world data',
+          'Deploy ML applications',
+          'Understand AI concepts',
+          'Create intelligent systems'
+        ]
+      },
+
+
+       { 
+        name: 'Data Science', 
+        image: '/assets/images/courses/data-science.jpg',
+        icon: <Database size={24} />, 
+        desc: 'Data analytics and visualization techniques', 
+        color: '#14B8A6',
+        duration: '6 Months & 45 days',
+        students: '180+',
+        level: 'Advanced',
+        overview: 'Learn data science techniques including data analysis, visualization, statistics, and predictive modeling. Use Python and real-world datasets.',
+        curriculum: [
+          'Data Science Fundamentals',
+          'Statistics for Data Science',
+          'Data Visualization',
+          'Exploratory Data Analysis',
+          'Machine Learning for Data Science',
+          'SQL for Data Science',
+          'Big Data Technologies',
+          'Data Science Project'
+        ],
+        outcomes: [
+          'Analyze complex datasets',
+          'Create data visualizations',
+          'Build predictive models',
+          'Work with big data',
+          'Drive data-based decisions'
+        ]
+      },
+      
+{
+  name: 'Data Analytics',
+  image: '/assets/images/courses/data-analytics.jpg',
+  icon: <ChartNoAxesCombined size={24} />,
+  desc: 'Data analysis, visualization, and business intelligence',
+  color: '#8B5CF6',
+  duration: '6 Months & 45 days',
+  students: '250+',
+  level: 'Intermediate',
+  overview: 'Learn to collect, clean, analyze, and visualize data to make informed business decisions. Master Excel, SQL, Python, Power BI, and data visualization techniques through practical exercises and real-world projects.',
+  curriculum: [
+    'Introduction to Data Analytics',
+    'Microsoft Excel & Advanced Excel',
+    'Data Cleaning & Data Preprocessing',
+    'SQL & Database Management',
+    'Python for Data Analytics',
+    'NumPy & Pandas',
+    'Exploratory Data Analysis',
+    'Data Visualization Techniques',
+    'Power BI & Interactive Dashboards',
+    'Statistical Analysis Fundamentals',
+    'Business Intelligence & Reporting',
+    'Real-World Data Analytics Projects'
+  ],
+  outcomes: [
+    'Collect, clean, and analyze datasets',
+    'Perform data analysis using Python and SQL',
+    'Create interactive dashboards using Power BI',
+    'Generate meaningful business insights',
+    'Visualize data through charts and reports',
+    'Make data-driven business decisions'
+  ]
+},
+
+
+  {
+  name: 'Full Stack Development',
+  image: '/assets/images/courses/fulls.jpg',
+  icon: <Globe size={24} />,
+  desc: 'Complete frontend and backend web development',
+  color: '#3B82F6',
+  duration: '6 Months & 45 days',
+  students: '450+',
+  level: 'Intermediate',
+  overview: 'Learn complete web development from frontend to backend. Master HTML, CSS, JavaScript, React, Node.js, Express.js, and databases to build dynamic, responsive, and fully functional web applications.',
+  curriculum: [
+    'HTML5 & CSS3 Fundamentals',
+    'JavaScript & ES6+ Features',
+    'Responsive Web Design',
+    'React.js Fundamentals',
+    'Components, Props & Hooks',
+    'State Management & Routing',
+    'Node.js Fundamentals',
+    'Express.js & REST APIs',
+    'MongoDB & Database Management',
+    'Authentication & Authorization',
+    'Frontend & Backend Integration',
+    'Live Projects & Deployment'
+  ],
+  outcomes: [
+    'Build responsive and interactive websites',
+    'Develop dynamic frontend applications',
+    'Create backend APIs and services',
+    'Manage databases and application data',
+    'Implement authentication and authorization',
+    'Develop and deploy complete full-stack projects'
+  ]
+},
+
+
+  {
+  name: 'MERN Stack Development',
+  image: '/assets/images/courses/javascript.jpg',
+  icon: <Globe size={24} />,
+  desc: 'Full-stack web development using MongoDB, Express, React, and Node.js',
+  color: '#10B981',
+  duration: '6 Months & 45 days',
+  students: '450+',
+  level: 'Intermediate',
+  overview: 'Master full-stack web development with MongoDB, Express.js, React.js, and Node.js. Learn to build responsive frontend applications, develop secure backend APIs, manage databases, and create complete real-world web applications.',
+  curriculum: [
+    'HTML5, CSS3 & JavaScript',
+    'ES6+ JavaScript Features',
+    'React.js Fundamentals',
+    'Components, Props & Hooks',
+    'State Management & Context API',
+    'React Router & Navigation',
+    'Node.js Fundamentals',
+    'Express.js & REST APIs',
+    'MongoDB & Mongoose',
+    'Authentication & Authorization',
+    'Full-Stack Application Development',
+    'Deployment & Live Projects'
+  ],
+  outcomes: [
+    'Build responsive React applications',
+    'Develop backend APIs using Node.js and Express.js',
+    'Design and manage MongoDB databases',
+    'Implement authentication and authorization',
+    'Integrate frontend with backend APIs',
+    'Develop and deploy complete MERN stack projects'
+  ]
+},
+     
+   { 
+        name: 'Digital Marketing', 
+        image: '/assets/images/courses/digital-marketing.jpg',
+        icon: <Megaphone size={24} />, 
+        desc: 'SEO, Social Media, and online marketing strategies', 
+        color: '#EC4899',
+        duration: '6 Months & 45 days',
+        students: '300+',
+        level: 'Beginner',
+        overview: 'Master the art of digital marketing. This course covers SEO, social media marketing, content marketing, email marketing, and analytics.',
+        curriculum: [
+          'Digital Marketing Fundamentals',
+          'Search Engine Optimization (SEO)',
+          'Social Media Marketing',
+          'Content Marketing Strategy',
+          'Email Marketing Campaigns',
+          'Google Analytics',
+          'Pay-Per-Click Advertising',
+          'Conversion Rate Optimization',
+          'Digital Marketing Strategy'
+        ],
+        outcomes: [
+          'Create effective digital marketing strategies',
+          'Optimize websites for search engines',
+          'Run social media campaigns',
+          'Analyze marketing data',
+          'Build brand awareness online'
+        ]
+      },
+
+
       { 
         name: 'C/C++', 
         image: '/assets/images/courses/c-cpp.jpg',
@@ -167,35 +392,7 @@ export default function DomainsCourses() {
           'Understand web design principles'
         ]
       },
-      { 
-        name: 'Digital Marketing', 
-        image: '/assets/images/courses/digital-marketing.jpg',
-        icon: <Megaphone size={24} />, 
-        desc: 'SEO, Social Media, and online marketing strategies', 
-        color: '#EC4899',
-        duration: '6 Months & 45 days',
-        students: '300+',
-        level: 'Beginner',
-        overview: 'Master the art of digital marketing. This course covers SEO, social media marketing, content marketing, email marketing, and analytics.',
-        curriculum: [
-          'Digital Marketing Fundamentals',
-          'Search Engine Optimization (SEO)',
-          'Social Media Marketing',
-          'Content Marketing Strategy',
-          'Email Marketing Campaigns',
-          'Google Analytics',
-          'Pay-Per-Click Advertising',
-          'Conversion Rate Optimization',
-          'Digital Marketing Strategy'
-        ],
-        outcomes: [
-          'Create effective digital marketing strategies',
-          'Optimize websites for search engines',
-          'Run social media campaigns',
-          'Analyze marketing data',
-          'Build brand awareness online'
-        ]
-      },
+      
       { 
         name: 'Java/Python', 
         image: '/assets/images/courses/java-python.jpg',
@@ -226,219 +423,7 @@ export default function DomainsCourses() {
           'Deploy applications'
         ]
       },
-      {
-  name: 'MERN Stack Development',
-  image: '/assets/images/courses/javascript.jpg',
-  icon: <Globe size={24} />,
-  desc: 'Full-stack web development using MongoDB, Express, React, and Node.js',
-  color: '#10B981',
-  duration: '6 Months & 45 days',
-  students: '450+',
-  level: 'Intermediate',
-  overview: 'Master full-stack web development with MongoDB, Express.js, React.js, and Node.js. Learn to build responsive frontend applications, develop secure backend APIs, manage databases, and create complete real-world web applications.',
-  curriculum: [
-    'HTML5, CSS3 & JavaScript',
-    'ES6+ JavaScript Features',
-    'React.js Fundamentals',
-    'Components, Props & Hooks',
-    'State Management & Context API',
-    'React Router & Navigation',
-    'Node.js Fundamentals',
-    'Express.js & REST APIs',
-    'MongoDB & Mongoose',
-    'Authentication & Authorization',
-    'Full-Stack Application Development',
-    'Deployment & Live Projects'
-  ],
-  outcomes: [
-    'Build responsive React applications',
-    'Develop backend APIs using Node.js and Express.js',
-    'Design and manage MongoDB databases',
-    'Implement authentication and authorization',
-    'Integrate frontend with backend APIs',
-    'Develop and deploy complete MERN stack projects'
-  ]
-},
-      { 
-        name: 'Machine Learning', 
-        image: '/assets/images/courses/machine-learning.jpg',
-        icon: <Brain size={24} />, 
-        desc: 'AI and machine learning algorithms', 
-        color: '#10B981',
-        duration: '6 Months & 45 days',
-        students: '200+',
-        level: 'Advanced',
-        overview: 'Learn machine learning algorithms, data preprocessing, model building, and deployment. Build real-world AI applications.',
-        curriculum: [
-          'Mathematics for ML',
-          'Python for Data Science',
-          'Data Preprocessing',
-          'Supervised Learning',
-          'Unsupervised Learning',
-          'Deep Learning',
-          'Neural Networks',
-          'Model Deployment',
-          'ML Project'
-        ],
-        outcomes: [
-          'Build machine learning models',
-          'Work with real-world data',
-          'Deploy ML applications',
-          'Understand AI concepts',
-          'Create intelligent systems'
-        ]
-      },
-     {
-  name: 'Full Stack Development',
-  image: '/assets/images/courses/fulls.jpg',
-  icon: <Globe size={24} />,
-  desc: 'Complete frontend and backend web development',
-  color: '#3B82F6',
-  duration: '6 Months & 45 days',
-  students: '450+',
-  level: 'Intermediate',
-  overview: 'Learn complete web development from frontend to backend. Master HTML, CSS, JavaScript, React, Node.js, Express.js, and databases to build dynamic, responsive, and fully functional web applications.',
-  curriculum: [
-    'HTML5 & CSS3 Fundamentals',
-    'JavaScript & ES6+ Features',
-    'Responsive Web Design',
-    'React.js Fundamentals',
-    'Components, Props & Hooks',
-    'State Management & Routing',
-    'Node.js Fundamentals',
-    'Express.js & REST APIs',
-    'MongoDB & Database Management',
-    'Authentication & Authorization',
-    'Frontend & Backend Integration',
-    'Live Projects & Deployment'
-  ],
-  outcomes: [
-    'Build responsive and interactive websites',
-    'Develop dynamic frontend applications',
-    'Create backend APIs and services',
-    'Manage databases and application data',
-    'Implement authentication and authorization',
-    'Develop and deploy complete full-stack projects'
-  ]
-},
-      { 
-        name: 'Networking', 
-        image: '/assets/images/courses/networking.jpg',
-        icon: <Network size={24} />, 
-        desc: 'Computer networks and security fundamentals', 
-        color: '#8B5CF6',
-        duration: '6 Months & 45 days',
-        students: '250+',
-        level: 'Beginner',
-        overview: 'Master networking concepts including TCP/IP, routing, switching, network security, and troubleshooting. Prepare for certification.',
-        curriculum: [
-          'Network Fundamentals',
-          'OSI Model & TCP/IP',
-          'IP Addressing & Subnetting',
-          'Routing & Switching',
-          'Network Security',
-          'Firewall Management',
-          'Wireless Networks',
-          'Network Troubleshooting'
-        ],
-        outcomes: [
-          'Configure network devices',
-          'Implement network security',
-          'Troubleshoot network issues',
-          'Understand networking protocols',
-          'Prepare for certification'
-        ]
-      },
-      { 
-        name: 'Data Science', 
-        image: '/assets/images/courses/data-science.jpg',
-        icon: <Database size={24} />, 
-        desc: 'Data analytics and visualization techniques', 
-        color: '#14B8A6',
-        duration: '6 Months & 45 days',
-        students: '180+',
-        level: 'Advanced',
-        overview: 'Learn data science techniques including data analysis, visualization, statistics, and predictive modeling. Use Python and real-world datasets.',
-        curriculum: [
-          'Data Science Fundamentals',
-          'Statistics for Data Science',
-          'Data Visualization',
-          'Exploratory Data Analysis',
-          'Machine Learning for Data Science',
-          'SQL for Data Science',
-          'Big Data Technologies',
-          'Data Science Project'
-        ],
-        outcomes: [
-          'Analyze complex datasets',
-          'Create data visualizations',
-          'Build predictive models',
-          'Work with big data',
-          'Drive data-based decisions'
-        ]
-      },
-      { 
-        name: 'Artificial Intelligence', 
-        image: '/assets/images/courses/artificial-intelligence.jpg',
-        icon: <Cpu size={24} />, 
-        desc: 'AI concepts and real-world applications', 
-        color: '#F472B6',
-        duration: '10 Months',
-        students: '120+',
-        level: 'Advanced',
-        overview: 'Learn artificial intelligence concepts, neural networks, natural language processing, computer vision, and build AI applications.',
-        curriculum: [
-          'AI Fundamentals',
-          'Neural Networks',
-          'Deep Learning',
-          'Natural Language Processing',
-          'Computer Vision',
-          'Reinforcement Learning',
-          'AI Ethics & Safety',
-          'AI Project'
-        ],
-        outcomes: [
-          'Build AI-powered applications',
-          'Work with neural networks',
-          'Implement NLP solutions',
-          'Create computer vision systems',
-          'Understand AI ethics'
-        ]
-      },
 
-      {
-  name: 'Ethical Hacking',
-  image: '/assets/images/courses/ethical.jpg',
-  icon: <Shield size={24} />,
-  desc: 'Cybersecurity, penetration testing, and ethical hacking techniques',
-  color: '#8B5CF6',
-  duration: '6 Months & 45 days',
-  students: '150+',
-  level: 'Intermediate',
-  overview: 'Learn ethical hacking and cybersecurity techniques to identify vulnerabilities, secure computer networks, and protect digital systems. Gain practical experience in penetration testing, network security, and security assessment using industry-standard tools.',
-  curriculum: [
-    'Introduction to Cybersecurity',
-    'Networking Fundamentals',
-    'Linux Fundamentals',
-    'Operating System Security',
-    'Information Gathering & Reconnaissance',
-    'Vulnerability Assessment',
-    'Web Application Security',
-    'Penetration Testing Fundamentals',
-    'Network Security & Monitoring',
-    'Cryptography Fundamentals',
-    'Security Tools & Techniques',
-    'Practical Security Projects'
-  ],
-  outcomes: [
-    'Understand cybersecurity principles',
-    'Identify security vulnerabilities',
-    'Perform authorized penetration testing',
-    'Analyze network and system security',
-    'Understand web application security',
-    'Apply security measures to protect digital systems'
-  ]
-},
 
 
 {
@@ -476,39 +461,77 @@ export default function DomainsCourses() {
 },
 
 
-{
-  name: 'Data Analytics',
-  image: '/assets/images/courses/data-analytics.jpg',
-  icon: <ChartNoAxesCombined size={24} />,
-  desc: 'Data analysis, visualization, and business intelligence',
+ {
+  name: 'Ethical Hacking',
+  image: '/assets/images/courses/ethical.jpg',
+  icon: <Shield size={24} />,
+  desc: 'Cybersecurity, penetration testing, and ethical hacking techniques',
   color: '#8B5CF6',
   duration: '6 Months & 45 days',
-  students: '250+',
+  students: '150+',
   level: 'Intermediate',
-  overview: 'Learn to collect, clean, analyze, and visualize data to make informed business decisions. Master Excel, SQL, Python, Power BI, and data visualization techniques through practical exercises and real-world projects.',
+  overview: 'Learn ethical hacking and cybersecurity techniques to identify vulnerabilities, secure computer networks, and protect digital systems. Gain practical experience in penetration testing, network security, and security assessment using industry-standard tools.',
   curriculum: [
-    'Introduction to Data Analytics',
-    'Microsoft Excel & Advanced Excel',
-    'Data Cleaning & Data Preprocessing',
-    'SQL & Database Management',
-    'Python for Data Analytics',
-    'NumPy & Pandas',
-    'Exploratory Data Analysis',
-    'Data Visualization Techniques',
-    'Power BI & Interactive Dashboards',
-    'Statistical Analysis Fundamentals',
-    'Business Intelligence & Reporting',
-    'Real-World Data Analytics Projects'
+    'Introduction to Cybersecurity',
+    'Networking Fundamentals',
+    'Linux Fundamentals',
+    'Operating System Security',
+    'Information Gathering & Reconnaissance',
+    'Vulnerability Assessment',
+    'Web Application Security',
+    'Penetration Testing Fundamentals',
+    'Network Security & Monitoring',
+    'Cryptography Fundamentals',
+    'Security Tools & Techniques',
+    'Practical Security Projects'
   ],
   outcomes: [
-    'Collect, clean, and analyze datasets',
-    'Perform data analysis using Python and SQL',
-    'Create interactive dashboards using Power BI',
-    'Generate meaningful business insights',
-    'Visualize data through charts and reports',
-    'Make data-driven business decisions'
+    'Understand cybersecurity principles',
+    'Identify security vulnerabilities',
+    'Perform authorized penetration testing',
+    'Analyze network and system security',
+    'Understand web application security',
+    'Apply security measures to protect digital systems'
   ]
 },
+
+
+
+
+    
+      { 
+        name: 'Networking', 
+        image: '/assets/images/courses/networking.jpg',
+        icon: <Network size={24} />, 
+        desc: 'Computer networks and security fundamentals', 
+        color: '#8B5CF6',
+        duration: '6 Months & 45 days',
+        students: '250+',
+        level: 'Beginner',
+        overview: 'Master networking concepts including TCP/IP, routing, switching, network security, and troubleshooting. Prepare for certification.',
+        curriculum: [
+          'Network Fundamentals',
+          'OSI Model & TCP/IP',
+          'IP Addressing & Subnetting',
+          'Routing & Switching',
+          'Network Security',
+          'Firewall Management',
+          'Wireless Networks',
+          'Network Troubleshooting'
+        ],
+        outcomes: [
+          'Configure network devices',
+          'Implement network security',
+          'Troubleshoot network issues',
+          'Understand networking protocols',
+          'Prepare for certification'
+        ]
+      },
+     
+
+
+     
+
 
 {
   name: 'Web Graphic Design/ UI & UX',
@@ -620,8 +643,6 @@ export default function DomainsCourses() {
     'Develop and deploy real-world Flutter projects'
   ]
 },
-
-
 
 ],
 

@@ -34,6 +34,10 @@ export default function Blogs() {
     "Digital Marketing",
     "Career Tips",
     "Internships",
+    "Other",
+  ];
+  const blogCategories = [
+    ...new Set([...categories, ...blogs.map((blog) => blog.category).filter(Boolean)]),
   ];
 
   /* =========================================================
@@ -220,7 +224,7 @@ export default function Blogs() {
         <div className="container">
           <div className="filter-row">
             <div className="category-filters">
-              {categories.map((cat) => (
+              {blogCategories.map((cat) => (
                 <button
                   key={cat}
                   className={`category-btn ${

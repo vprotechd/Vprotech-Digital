@@ -96,7 +96,7 @@ function App() {
 
         <Navbar />
         <CustomCursor />
-        
+{/*         
         <Toaster 
           position="top-right"
           toastOptions={{
@@ -123,7 +123,7 @@ function App() {
             },
           }}
         />
- 
+  */}
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />

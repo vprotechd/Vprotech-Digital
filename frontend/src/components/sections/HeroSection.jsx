@@ -25,7 +25,7 @@ import "./HeroSection.css";
 ============================================================ */
 
 const BG_SLIDES = [bg1, bg2, bg3, bg4, bg5];
-const SLIDE_INTERVAL = 5000; // ms between slides
+const SLIDE_INTERVAL = 3000; // ms between slides (2 seconds)
 
 const STRATEGIES = [
   {
@@ -67,7 +67,7 @@ const fadeUp = (delay = 0) => ({
 export default function HeroSection() {
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
-const [paused, setPaused] = useState(false);
+
 const [slides, setSlides] = useState(BG_SLIDES);
 
 // Load homepage images from Cloudinary
@@ -104,13 +104,12 @@ useEffect(() => {
 }, []);
 
   /* auto-advance, one slide at a time */
-  useEffect(() => {
-    if (paused) return undefined;
-    const id = setInterval(() => {
-     setActive((i) => (i + 1) % slides.length);
-    }, SLIDE_INTERVAL);
-    return () => clearInterval(id);
- }, [paused, active, slides.length]);
+useEffect(() => {
+  const id = setInterval(() => {
+    setActive((i) => (i + 1) % slides.length);
+  }, SLIDE_INTERVAL);
+  return () => clearInterval(id);
+}, [slides.length]);
 
  const slideState = (i) => {
   if (i === active) return "is-active";

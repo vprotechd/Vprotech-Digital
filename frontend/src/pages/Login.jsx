@@ -91,7 +91,7 @@ if (data.success) {
     setLoading(false);
 
     if (result.success) {
-      toast.success("🎉 Login successful! Welcome back!");
+      toast.success("Login successful! Welcome back!");
 
       setTimeout(() => {
         navigate("/");

@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
     folder: 'vprotech/blogs',
     allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
     transformation: [
-      { width: 1200, height: 630, crop: 'fill' },
+      { width: 1200, height: 630, crop: 'limit' },
       { quality: 'auto' }
     ],
   },
