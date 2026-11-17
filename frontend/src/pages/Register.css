@@ -1512,3 +1512,34 @@
     animation: none;
   }
 }
+
+
+
+
+/* Remove browser's default password reveal icon */
+.register-input-wrapper input::-ms-reveal,
+.register-input-wrapper input::-ms-clear {
+  display: none;
+}
+
+/* Keep only the custom eye icon */
+.register-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 5px;
+}
+
+/* Reserve space for the custom eye icon */
+.register-input-wrapper input {
+  padding-right: 45px;
+}

@@ -1,16 +1,14 @@
-// src/pages/Login.jsx
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
-import { authService } from "../services/api";
 import {
   Mail,
   Lock,
   ArrowRight,
   LogIn,
-  Sparkles,
   ShieldCheck,
   Code2,
   Rocket,
@@ -18,7 +16,6 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
-import { API_URL } from "../services/api";
 import "./Login.css";
 
 export default function Login() {
@@ -26,9 +23,6 @@ export default function Login() {
   const { login } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [showResendVerification, setShowResendVerification] = useState(false);
-  const [unverifiedEmail, setUnverifiedEmail] = useState("");
-  const [resending, setResending] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -43,79 +37,42 @@ export default function Login() {
     });
   };
 
-  const resendVerification = async () => {
-    if (!unverifiedEmail) {
-      toast.error("No email to resend verification to");
-      return;
-    }
-
-    setResending(true);
-
-    try {
-const data = await authService.resendVerification(
-  unverifiedEmail.trim().toLowerCase()
-);
-if (data.success) {
-        toast.success(
-          "Verification email resent! Please check your inbox."
-        );
-        setShowResendVerification(false);
-      } else {
-        toast.error(
-          data.message || "Failed to resend verification email"
-        );
-      }
-    } catch (error) {
-      toast.error("Network error. Please try again.");
-    } finally {
-      setResending(false);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email || !formData.password) {
+    if (!formData.email.trim() || !formData.password) {
       toast.error("Please fill all required fields");
       return;
     }
 
     setLoading(true);
 
-    // EXISTING LOGIN API / AUTH FUNCTIONALITY
-    const result = await login(
-      formData.email,
-      formData.password
-    );
+    try {
+      const result = await login(
+        formData.email.trim().toLowerCase(),
+        formData.password
+      );
 
-    setLoading(false);
+      if (result?.success) {
+        toast.success("Login successful! Welcome back!");
 
-    if (result.success) {
-      toast.success("Login successful! Welcome back!");
-
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
-    } else {
-      if (
-        result.error &&
-        result.error
-          .toLowerCase()
-          .includes("verify your email")
-      ) {
-        setUnverifiedEmail(formData.email);
-        setShowResendVerification(true);
-
-        toast.error("Please verify your email first.");
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       } else {
-        toast.error(result.error || "Login failed");
+        toast.error(result?.error || "Login failed. Please try again.");
       }
+    } catch (error) {
+      toast.error(
+        error?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <main className="login-page">
-
       <Toaster position="top-right" />
 
       {/* BACKGROUND */}
@@ -126,11 +83,7 @@ if (data.success) {
       </div>
 
       <div className="login-layout">
-
-        {/* =====================================================
-            LEFT BRAND AREA
-        ===================================================== */}
-
+        {/* LEFT BRAND AREA */}
         <motion.section
           className="login-showcase"
           initial={{
@@ -145,11 +98,7 @@ if (data.success) {
             duration: 0.7,
           }}
         >
-
           <div className="showcase-top">
-
-           
-
             <h1>
               Build.
               <br />
@@ -163,13 +112,10 @@ if (data.success) {
               and explore technology, creativity and
               industry-focused learning.
             </p>
-
           </div>
 
           {/* FEATURE LIST */}
-
           <div className="showcase-features">
-
             <div className="showcase-feature">
               <div className="showcase-feature-icon">
                 <Code2 size={19} />
@@ -208,21 +154,15 @@ if (data.success) {
                 </span>
               </div>
             </div>
-
           </div>
 
           <div className="showcase-bottom">
             <div className="showcase-line"></div>
             <span>VPROTECH DIGITAL</span>
           </div>
-
         </motion.section>
 
-
-        {/* =====================================================
-            LOGIN AREA
-        ===================================================== */}
-
+        {/* LOGIN AREA */}
         <motion.section
           className="login-panel"
           initial={{
@@ -238,19 +178,14 @@ if (data.success) {
             delay: 0.1,
           }}
         >
-
           <div className="login-box">
-
             {/* HEADER */}
-
             <div className="login-header">
-
               <div className="login-icon">
                 <LogIn size={21} />
               </div>
 
               <div className="login-heading">
-
                 <span className="login-mini-label">
                   ACCOUNT ACCESS
                 </span>
@@ -262,77 +197,21 @@ if (data.success) {
                 <p>
                   Sign in to continue to your VProTech account.
                 </p>
-
               </div>
-
             </div>
 
-
-            {/* VERIFICATION */}
-
-            {showResendVerification && (
-              <motion.div
-                className="verification-warning"
-                initial={{
-                  opacity: 0,
-                  height: 0,
-                  y: -10,
-                }}
-                animate={{
-                  opacity: 1,
-                  height: "auto",
-                  y: 0,
-                }}
-              >
-
-                <div className="verification-warning-icon">
-                  ⚠
-                </div>
-
-                <div className="verification-warning-content">
-
-                  <strong>
-                    Email verification required
-                  </strong>
-
-                  <p>
-                    We sent a verification link to{" "}
-                    <b>{unverifiedEmail}</b>
-                  </p>
-
-                  <button
-                    type="button"
-                    onClick={resendVerification}
-                    disabled={resending}
-                  >
-                    {resending
-                      ? "Sending..."
-                      : "Resend verification email"}
-                  </button>
-
-                </div>
-
-              </motion.div>
-            )}
-
-
-            {/* FORM */}
-
+            {/* LOGIN FORM */}
             <form
               onSubmit={handleSubmit}
               className="login-form"
             >
-
               {/* EMAIL */}
-
               <div className="login-field">
-
                 <label htmlFor="email">
                   Email Address
                 </label>
 
                 <div className="login-input-wrapper">
-
                   <Mail
                     className="login-input-icon"
                     size={19}
@@ -347,30 +226,18 @@ if (data.success) {
                     onChange={handleChange}
                     required
                   />
-
                 </div>
-
               </div>
 
-
               {/* PASSWORD */}
-
               <div className="login-field">
-
                 <div className="password-label-row">
-
                   <label htmlFor="password">
                     Password
                   </label>
-
-                  <Link to="/forgot-password">
-                    Forgot password?
-                  </Link>
-
                 </div>
 
                 <div className="login-input-wrapper">
-
                   <Lock
                     className="login-input-icon"
                     size={19}
@@ -378,11 +245,7 @@ if (data.success) {
 
                   <input
                     id="password"
-                    type={
-                      showPassword
-                        ? "text"
-                        : "password"
-                    }
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Enter your password"
                     value={formData.password}
@@ -408,16 +271,11 @@ if (data.success) {
                       <Eye size={18} />
                     )}
                   </button>
-
                 </div>
-
               </div>
 
-
               {/* TRUST ROW */}
-
               <div className="login-trust-row">
-
                 <span>
                   <CheckCircle2 size={15} />
                   Secure account access
@@ -427,18 +285,14 @@ if (data.success) {
                   <ShieldCheck size={15} />
                   Protected
                 </span>
-
               </div>
 
-
               {/* LOGIN BUTTON */}
-
               <button
                 type="submit"
                 className="login-btn"
                 disabled={loading}
               >
-
                 {loading ? (
                   <>
                     <span className="login-spinner"></span>
@@ -450,16 +304,11 @@ if (data.success) {
                     <ArrowRight size={19} />
                   </>
                 )}
-
               </button>
-
             </form>
 
-
             {/* REGISTER */}
-
             <div className="login-register">
-
               <span>
                 Don't have an account?
               </span>
@@ -468,15 +317,10 @@ if (data.success) {
                 Create an account
                 <ArrowRight size={15} />
               </Link>
-
             </div>
-
           </div>
-
         </motion.section>
-
       </div>
-
     </main>
   );
 }

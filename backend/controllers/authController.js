@@ -14,13 +14,10 @@ import {
 
 
 // ============ REGISTER WITH AUTO-VERIFICATION ============
-// ============ REGISTER WITH EMAIL VERIFICATION ============
+
 const register = asyncHandler(async (req, res) => {
   const { name, email, phone, domain, password } = req.body;
 
-  console.log("📝 Register:", email);
-
-  // Validate required fields
   if (!name || !email || !phone || !domain || !password) {
     return res.status(400).json({
       success: false,
@@ -30,24 +27,15 @@ const register = asyncHandler(async (req, res) => {
 
   const normalizedEmail = email.trim().toLowerCase();
 
-  // Check if email already exists
   const userExists = await User.findOne({ email: normalizedEmail });
 
   if (userExists) {
-    // If existing account is unverified, allow a new registration
-    // by removing the old account first.
-    if (!userExists.isVerified) {
-      await User.deleteOne({ _id: userExists._id });
-      console.log("🗑️ Removed previous unverified account:", normalizedEmail);
-    } else {
-      return res.status(400).json({
-        success: false,
-        message: "User already exists with this email",
-      });
-    }
+    return res.status(400).json({
+      success: false,
+      message: "User already exists with this email",
+    });
   }
 
-  // Check phone number
   const phoneExists = await User.findOne({ phone });
 
   if (phoneExists) {
@@ -57,77 +45,23 @@ const register = asyncHandler(async (req, res) => {
     });
   }
 
-  // Hash password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  // Generate verification token
-  const verificationToken = crypto.randomBytes(32).toString("hex");
-
-  // Store only the hashed token in database
-  const verificationTokenHash = crypto
-    .createHash("sha256")
-    .update(verificationToken)
-    .digest("hex");
-
-  // Create user as UNVERIFIED and INACTIVE
   const user = await User.create({
     name,
     email: normalizedEmail,
     phone,
     domain,
     password: hashedPassword,
-
-    // IMPORTANT:
-    // User cannot login until email is verified.
-    isActive: false,
-    isVerified: false,
-
-    verificationToken: verificationTokenHash,
-    verificationTokenExpires: Date.now() + 24 * 60 * 60 * 1000,
+    isActive: true,
+    isVerified: true,
+    verifiedAt: new Date(),
   });
 
-  // Create verification URL
-  const verificationUrl =
-    `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
-
-  console.log("📧 Sending verification email to:", user.email);
-
-  // Send verification email
-  const emailResult = await sendVerificationEmail(
-    user.email,
-    verificationUrl,
-    user.name
-  );
-
-  // If email could not be sent, remove the newly created account
-  if (!emailResult || !emailResult.success) {
-    await User.deleteOne({ _id: user._id });
-
-    console.error(
-      "❌ Verification email could not be sent:",
-      emailResult?.error || "Unknown email error"
-    );
-
-    return res.status(500).json({
-      success: false,
-      message:
-        "Registration failed because the verification email could not be sent. Please try again.",
-    });
-  }
-
-  console.log(
-    "✅ User registered. Verification email sent to:",
-    user.email
-  );
-
-  // IMPORTANT:
-  // Do NOT return a JWT here.
-  // The user must verify the email first.
   return res.status(201).json({
     success: true,
-    message:
-      "Registration successful! Please check your email and click the verification link to activate your account.",
+    message: "Registration successful! You can now login.",
     user: {
       id: user._id,
       name: user.name,
@@ -137,8 +71,10 @@ const register = asyncHandler(async (req, res) => {
       role: user.role,
       isVerified: user.isVerified,
     },
+    token: generateToken(user._id),
   });
 });
+
 
 // controllers/authController.js - Fix verifyEmail
 // ============ VERIFY EMAIL ============
@@ -335,63 +271,53 @@ const resendVerificationEmail = asyncHandler(async (req, res) => {
 });
 
 // ============ LOGIN (Check if verified) ============
+
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
-  console.log("🔐 Login:", email);
 
   if (!email || !password) {
     return res.status(400).json({
       success: false,
-      message: "Please provide email and password"
+      message: "Please provide email and password",
     });
   }
 
-  const user = await User.findOne({ email: email.toLowerCase() });
+  const user = await User.findOne({
+    email: email.trim().toLowerCase(),
+  });
+
   if (!user) {
-    console.log("❌ User not found:", email);
     return res.status(401).json({
       success: false,
-      message: "Invalid email or password"
-    });
-  }
-
-  // Check if email is verified
-  if (!user.isVerified) {
-    console.log("❌ User not verified:", email);
-    return res.status(401).json({
-      success: false,
-      message: "Please verify your email first. Check your inbox for the verification link."
+      message: "Invalid email or password",
     });
   }
 
   if (!user.isActive) {
-    console.log("❌ User inactive:", email);
     return res.status(401).json({
       success: false,
-      message: "Your account has been deactivated"
+      message: "Your account has been deactivated",
     });
   }
 
-  const isPasswordMatch = await bcrypt.compare(password, user.password);
-  console.log("✅ Password match:", isPasswordMatch);
+  const isPasswordMatch = await bcrypt.compare(
+    password,
+    user.password
+  );
 
   if (!isPasswordMatch) {
-    console.log("❌ Password mismatch:", email);
     return res.status(401).json({
       success: false,
-      message: "Invalid email or password"
+      message: "Invalid email or password",
     });
   }
 
-await User.updateOne(
-  { _id: user._id },
-  { $set: { lastLogin: new Date() } }
-);
+  await User.updateOne(
+    { _id: user._id },
+    { $set: { lastLogin: new Date() } }
+  );
 
-  console.log("Login successful:", email);
-
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Login successful",
     user: {
@@ -406,7 +332,6 @@ await User.updateOne(
     token: generateToken(user._id),
   });
 });
-
 
 
 
