@@ -13,6 +13,17 @@ import eduVistaImage from "../assets/portfolio/EduVista.png";
 import fitAuraImage from "../assets/portfolio/FitAura.png";
 import mindBloomImage from "../assets/portfolio/MindBloom.png";
 import calmoraImage from "../assets/portfolio/Pastel.png";
+import triporaImage from "../assets/portfolio/tripora.png";
+import skillnestImage from "../assets/portfolio/skillnest.png";
+import estateflowImage from "../assets/portfolio/EstateFow.png";
+import workBridgeImage from "../assets/portfolio/WorkBridge.png";
+import stayVistaImage from "../assets/portfolio/stayvista.png";
+import styleNestImage from "../assets/portfolio/stylest.png";
+import spendWiseImage from "../assets/portfolio/spendwise.png";
+import fitTrackImage from "../assets/portfolio/fittrack.png";
+import hireFlowImage from "../assets/portfolio/hireflow.png";
+import buySphereImage from "../assets/portfolio/buyshere.png";
+
 
 const projects = [
   {
@@ -229,6 +240,290 @@ const projects = [
     ],
     image: calmoraImage,
   },
+
+  {
+  id: 11,
+  title: "Tripora",
+  category: "Website Development",
+  type: "TRAVEL PLANNING PLATFORM",
+  description:
+    "A travel platform designed to help users discover destinations, plan trips, and explore travel experiences.",
+  overview:
+    "Tripora allows users to explore popular destinations, create personalized travel itineraries, and manage their bookings.",
+  highlights: [
+    "Explore popular travel destinations worldwide.",
+    "Create personalized travel itineraries.",
+    "View destination details, images, and reviews.",
+    "Manage trips, dates, and travel bookings.",
+    "Features a modern interface with blue, teal, and coral colors.",
+  ],
+  technologies: [
+    "React.js",
+    "JavaScript",
+    "Tailwind CSS",
+    "Responsive Web Design",
+  ],
+  image: triporaImage,
+},
+
+{
+  id: 12,
+  title: "SkillNest",
+  category: "Website Development",
+  type: "ONLINE LEARNING PLATFORM",
+  description:
+    "An online learning platform designed to help students explore courses, develop new skills, and track their learning progress.",
+  overview:
+    "SkillNest provides access to online courses, learning resources, and interactive lessons through a simple and user-friendly interface.",
+  highlights: [
+    "Explore courses across multiple learning categories.",
+    "Access video lessons and learning resources.",
+    "Track course progress and learning activities.",
+    "View course details, ratings, and modules.",
+    "Features a clean interface with blue and white colors.",
+  ],
+  technologies: [
+    "React.js",
+    "JavaScript",
+    "Tailwind CSS",
+    "Responsive Web Design",
+  ],
+  image: skillnestImage,
+},
+
+{
+  id: 13,
+  title: "EstateFlow",
+  category: "Website Development",
+  type: "PROPERTY MANAGEMENT PLATFORM",
+  description:
+    "A real estate platform designed to help users explore properties, find suitable homes, and connect with property agents.",
+  overview:
+    "EstateFlow allows users to browse property listings, view detailed property information, compare options, and manage property inquiries through a modern and user-friendly interface.",
+  highlights: [
+    "Explore properties for buying, selling, and renting.",
+    "Search and filter properties by location and type.",
+    "View property details, images, and specifications.",
+    "Connect with agents and manage property inquiries.",
+    "Features a clean interface with blue and white colors.",
+  ],
+  technologies: [
+    "React.js",
+    "JavaScript",
+    "Tailwind CSS",
+    "Responsive Web Design",
+  ],
+  image: estateflowImage,
+},
+
+
+{
+  id: 14,
+  title: "WorkBridge",
+  category: "Web Development",
+  type: "Freelancing marketplace",
+  description:
+    "A modern freelancing marketplace connecting clients with skilled freelancers, making it easier to discover talent, post projects, and collaborate on professional work.",
+  overview:
+    "Designed to provide a smooth platform where clients can find suitable freelancers and freelancers can showcase their skills, explore opportunities, and manage project collaborations.",
+  highlights: [
+    "Connects clients with freelancers across different skill categories.",
+    "Provides freelancer profiles to showcase skills, experience, and portfolios.",
+    "Allows clients to explore talent and post project opportunities.",
+    "Uses a modern, responsive interface for desktop and mobile screens.",
+  ],
+  technologies: ["React", "JavaScript", "Node.js", "MongoDB", "CSS", "Responsive Design"],
+  image: workBridgeImage,
+},
+
+
+{
+  id: 15,
+  title: "StayVista",
+  category: "Web Development",
+  type: "HOTEL BOOKING PLATFORM",
+  description:
+    "A modern hotel booking website designed to help users discover hotels, explore rooms, compare prices, and book comfortable stays with ease.",
+  overview:
+    "StayVista provides a seamless hotel reservation experience with hotel listings, advanced search filters, room details, booking management, and user authentication. Its clean interface, attractive hotel imagery, and responsive layout make finding and booking accommodations simple across desktop and mobile devices.",
+  highlights: [
+    "Allows users to search and explore hotels by location.",
+    "Includes hotel listings with room details, prices, and ratings.",
+    "Provides advanced filters for price, location, and amenities.",
+    "Offers hotel details with image galleries and room availability.",
+    "Supports secure user authentication and booking management.",
+    "Includes a user dashboard to manage hotel reservations.",
+    "Features an admin panel to manage hotels, rooms, and bookings.",
+    "Uses a modern, responsive design for all screen sizes.",
+  ],
+  technologies: [
+    "React",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "CSS",
+    "Responsive Design",
+  ],
+  image: stayVistaImage,
+},
+
+
+{
+  id: 16,
+  title: "StyleNest",
+  category: "Web Development",
+  type: "FASHION E-COMMERCE WEBSITE",
+  description:
+    "A modern fashion e-commerce website designed to provide users with a seamless online shopping experience, allowing them to explore trendy clothing, accessories, and lifestyle products.",
+  overview:
+    "StyleNest offers an engaging online shopping platform with product categories, detailed product pages, advanced filtering, shopping cart, wishlist, and order management. Its elegant design, attractive product imagery, and responsive layout create a smooth shopping experience across desktop and mobile devices.",
+  highlights: [
+    "Provides separate shopping categories for men, women, and accessories.",
+    "Includes product listings with images, prices, ratings, and discounts.",
+    "Offers advanced product search, sorting, and filtering options.",
+    "Features detailed product pages with size and color selection.",
+    "Includes shopping cart and wishlist functionality.",
+    "Supports user authentication and profile management.",
+    "Provides order placement and order tracking features.",
+    "Includes an admin dashboard to manage products, users, and orders.",
+    "Uses a modern, responsive design for all screen sizes.",
+  ],
+  technologies: [
+    "React",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "CSS",
+    "Responsive Design",
+  ],
+  image: styleNestImage,
+},
+
+
+{
+  id: 17,
+  title: "SpendWise",
+  category: "App Development",
+  type: "PERSONAL FINANCE & EXPENSE TRACKER APP",
+  description:
+    "A smart expense tracking mobile application designed to help users manage their finances, monitor daily spending, track income, and maintain better budgeting habits.",
+  overview:
+    "SpendWise provides an easy-to-use financial management platform with expense tracking, income monitoring, budget planning, transaction history, and spending analytics. Its clean interface, interactive charts, and organized expense categories help users understand their spending patterns and manage their money efficiently.",
+  highlights: [
+    "Allows users to track daily income and expenses.",
+    "Includes a dashboard displaying total balance, income, and spending.",
+    "Provides expense categorization for food, travel, shopping, and bills.",
+    "Features interactive charts for monthly spending analysis.",
+    "Offers budget planning and financial goal tracking.",
+    "Includes transaction history with detailed records.",
+    "Supports adding, editing, and deleting transactions.",
+    "Provides personalized spending insights and progress tracking.",
+    "Uses a modern, responsive mobile-friendly interface.",
+  ],
+  technologies: [
+    "React Native",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "CSS",
+    "Responsive Design",
+  ],
+  image: spendWiseImage,
+},
+
+
+
+{
+  id: 18,
+  title: "FitTrack",
+  category: "App Development",
+  type: "FITNESS & WORKOUT TRACKING MOBILE APP",
+  description:
+    "A modern fitness tracking mobile application designed to help users maintain a healthy lifestyle by tracking daily activities, following workout plans, monitoring calories, and achieving personal fitness goals.",
+  overview:
+    "FitTrack provides an interactive fitness platform with personalized workout plans, activity tracking, progress monitoring, and fitness insights. Its clean interface, workout categories, visual analytics, and personalized dashboard help users stay motivated and track their fitness journey effectively.",
+  highlights: [
+    "Provides personalized workout plans for different fitness levels.",
+    "Includes cardio, yoga, strength training, and full-body workouts.",
+    "Tracks daily steps, calories burned, and workout duration.",
+    "Features an interactive dashboard for monitoring fitness progress.",
+    "Offers weekly and monthly activity reports with visual charts.",
+    "Includes workout history and daily fitness goals.",
+    "Tracks workout streaks and personal achievements.",
+    "Provides user profiles and personalized fitness insights.",
+    "Uses a modern, responsive and user-friendly mobile interface.",
+  ],
+  technologies: [
+    "React Native",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "CSS",
+    "Responsive Design",
+  ],
+  image: fitTrackImage,
+},
+
+
+{
+  id: 19,
+  title: "HireFlow",
+  category: "App Development",
+  type: "JOB SEARCH & RECRUITMENT MOBILE APP",
+  description:
+    "A modern job search and recruitment mobile application designed to connect job seekers with career opportunities by allowing users to explore job listings, discover companies, apply for positions, and manage their job applications through a seamless mobile experience.",
+  overview:
+    "HireFlow provides an interactive recruitment platform with job discovery, advanced search filters, detailed job descriptions, application tracking, and personalized user profiles. Its clean interface, organized job listings, company information, and intuitive navigation help candidates find suitable opportunities and manage their career journey efficiently.",
+  highlights: [
+    "Provides an interactive dashboard for discovering job opportunities.",
+    "Includes job listings from multiple companies and industries.",
+    "Features search functionality for finding jobs and companies.",
+  ],
+  technologies: [
+    "React Native",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "CSS",
+    "Responsive Design",
+  ],
+  image: hireFlowImage,
+},
+
+
+{
+  id: 20,
+  title: "BuySphere",
+  category: "Web Development",
+  type: "E-COMMERCE & ONLINE SHOPPING WEBSITE",
+  description:
+    "A modern e-commerce website designed to provide users with a seamless online shopping experience by allowing them to explore products, browse categories, compare prices, manage shopping carts, and place orders through an intuitive and user-friendly platform.",
+  overview:
+    "BuySphere provides a complete online shopping platform with product listings, category-based navigation, advanced search, shopping cart management, wishlist functionality, and order tracking. Its modern interface, responsive product displays, secure checkout experience, and personalized user dashboard make online shopping convenient and efficient.",
+  highlights: [
+    "Provides an interactive homepage featuring popular and trending products.",
+    "Includes multiple product categories for easy navigation.",
+    "Features product search and advanced filtering options.",
+   
+  ],
+  technologies: [
+    "React.js",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "CSS",
+    "Responsive Design",
+  ],
+  image: buySphereImage,
+},
+
+
 ];
 
 const categories = ["All", "Web Development", "Mobile App"];
