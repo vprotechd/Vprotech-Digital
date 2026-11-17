@@ -8,7 +8,7 @@ import "./SplashScreen.css";
 
 // FULL logo (icon + "proTech digital") - the particles are built from this image.
 // Save the new logo as: src/assets/logo-full.png
-import logoImage from "../assets/imagess.png";
+import logoImage from "../assets/vprotech-seo-banner.png";
 
 /* ============================================================
    PARTICLE GLOBE -> FULL LOGO SPLASH SCREEN
