@@ -114,9 +114,9 @@ export default function Footer() {
             </li>
 
             <li>
-              <a href="tel:+918146759497" className="footer-link with-icon">
+              <a href="tel:+911724639508" className="footer-link with-icon">
                 <FiPhone />
-                <span>+91 81467 59497</span>
+                <span>+91 1724639508</span>
               </a>
             </li>
 

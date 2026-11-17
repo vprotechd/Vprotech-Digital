@@ -16,7 +16,7 @@ const contactInfo = [
   {
     icon: <FaPhoneAlt />,
     title: "Call Us",
-    value: ["+91 8894110026", "+91 8146759497", "+91 1724639508"],
+    value: ["+91 8894110026", "+91 1724639508"],
     type: "phone",
   },
   {
