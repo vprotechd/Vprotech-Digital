@@ -559,16 +559,82 @@
 }
 
 @media (max-width: 480px) {
+  .team-section {
+    padding: 48px 0;
+  }
+
+  .team-container {
+    padding: 8px 16px;
+  }
+
+  .team-header {
+    margin-bottom: 48px;
+  }
+
   .team-header h2 {
-    font-size: 28px;
+    font-size: clamp(24px, 7vw, 30px);
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  .team-header p {
+    font-size: 14px;
+    line-height: 1.6;
   }
   
-  .team-tag {
+  .department-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .filter-btn {
+    min-width: 0;
+    padding: 8px 6px;
+    background: #fff;
+    border-color: #c7d2fe;
+    color: #334155;
     font-size: 12px;
-    padding: 4px 16px;
+  }
+
+  .filter-btn.active {
+    color: #fff;
   }
   
   .team-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .team-card-content {
+    padding: 16px;
+  }
+
+  .admin-card-actions {
+    top: 8px;
+    left: 8px;
+    gap: 6px;
+  }
+
+  .admin-action-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .modal-content {
+    box-sizing: border-box;
+    width: calc(100% - 32px);
+    margin: 0;
+    padding: 24px 18px;
+  }
+
+  .modal-actions {
+    gap: 8px;
+  }
+
+  .modal-actions button {
+    flex: 1;
+    padding: 8px 12px;
   }
 }

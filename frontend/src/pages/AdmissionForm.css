@@ -380,6 +380,10 @@
     padding: 75px 6% 85px;
   }
 
+  .admission-hero h1 {
+    margin-top: 10px;
+  }
+
   .admission-form-section {
     width: 94%;
     padding: 25px 20px;

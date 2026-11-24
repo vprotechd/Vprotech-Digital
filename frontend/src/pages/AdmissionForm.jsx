@@ -176,10 +176,7 @@ const AdmissionForm = () => {
 
       <section className="admission-hero">
         <div className="admission-hero-content">
-          <span className="admission-eyebrow">
-            VPROTECH DIGITAL
-          </span>
-
+        
           <h1>
             Start Your <span>Learning Journey</span>
           </h1>

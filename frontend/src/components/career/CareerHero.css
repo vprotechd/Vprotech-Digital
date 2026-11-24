@@ -757,6 +757,7 @@
     font-size: clamp(32px, 9vw, 40px);
     line-height: 1.15;
     letter-spacing: -0.7px;
+    margin-top: 10px;
     margin-bottom: 18px;
   }
 

@@ -1267,7 +1267,7 @@
   }
 
   .register-showcase-top h1 {
-    margin: 20px 0 14px;
+    margin: clamp(26px, 8vw, 36px) 0 14px;
 
     font-size: 37px;
 
