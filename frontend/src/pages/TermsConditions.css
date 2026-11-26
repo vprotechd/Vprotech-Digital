@@ -1,68 +1,117 @@
-
 /* =========================================
    TERMS & CONDITIONS PAGE
+   Responsive + clears the fixed floating navbar
 ========================================= */
 
 .terms-conditions-page {
+  /* space reserved for the fixed navbar (pill height + its top offset + breathing room) */
+  --tc-nav-space: 124px;
+
   width: 100%;
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 100px 30px 70px;
   box-sizing: border-box;
+
+  padding: var(--tc-nav-space) 30px 80px;
+
   color: #252525;
   line-height: 1.8;
 }
 
-/* HEADER */
+.terms-conditions-page *,
+.terms-conditions-page *::before,
+.terms-conditions-page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
 
 .terms-conditions-page header {
-  margin-bottom: 45px;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #e3e9f2;
 }
 
 .terms-conditions-page h1 {
-  margin: 0 0 18px;
+  margin: 0 0 16px;
   color: #172b4d;
-  font-size: clamp(32px, 4vw, 46px);
+  font-size: clamp(30px, 4.5vw, 46px);
   font-weight: 750;
   line-height: 1.2;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
 }
 
 .terms-conditions-page header p {
-  margin: 0;
+  margin: 0 0 12px;
   color: #5f6b7a;
-  font-size: 17px;
+  font-size: clamp(15px, 1.8vw, 17px);
   line-height: 1.8;
 }
 
-/* CONTENT SECTIONS */
+.terms-conditions-page header p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================
+   CONTENT SECTIONS
+========================================= */
 
 .terms-conditions-page section {
-  margin-top: 35px;
+  margin-top: 36px;
 }
 
 .terms-conditions-page section h2 {
   margin: 0 0 12px;
   color: #1d3557;
-  font-size: 25px;
+  font-size: clamp(19px, 2.6vw, 25px);
   font-weight: 700;
   line-height: 1.4;
 }
 
+.terms-conditions-page h3 {
+  margin: 22px 0 8px;
+  color: #172b4d;
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
 .terms-conditions-page section p {
-  margin: 0;
+  margin: 0 0 14px;
   color: #526071;
-  font-size: 16px;
+  font-size: clamp(14px, 1.7vw, 16px);
   line-height: 1.9;
 }
 
-/* LINKS */
+.terms-conditions-page ul {
+  margin: 0 0 16px;
+  padding-left: 22px;
+}
+
+.terms-conditions-page li {
+  margin-bottom: 8px;
+  color: #526071;
+  font-size: clamp(14px, 1.7vw, 16px);
+  line-height: 1.8;
+}
+
+.terms-conditions-page li::marker {
+  color: #2563eb;
+}
+
+/* =========================================
+   LINKS (long emails / URLs wrap on phones)
+========================================= */
 
 .terms-conditions-page a {
   color: #2563eb;
   font-weight: 600;
   text-decoration: none;
   overflow-wrap: anywhere;
+  word-break: break-word;
   transition: color 0.2s ease;
 }
 
@@ -71,92 +120,99 @@
   text-decoration: underline;
 }
 
+.terms-conditions-page a:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* =========================================
-   TABLET RESPONSIVE
+   LARGE SCREENS
 ========================================= */
+
+@media (min-width: 1400px) {
+  .terms-conditions-page {
+    max-width: 1100px;
+  }
+}
+
+/* =========================================
+   TABLET (navbar is a bit shorter here)
+========================================= */
+
+@media (max-width: 1040px) {
+  .terms-conditions-page {
+    --tc-nav-space: 110px;
+  }
+}
 
 @media (max-width: 768px) {
   .terms-conditions-page {
-    padding: 85px 24px 55px;
+    --tc-nav-space: 104px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 60px;
   }
 
   .terms-conditions-page header {
-    margin-bottom: 35px;
-  }
-
-  .terms-conditions-page h1 {
-    font-size: 34px;
-  }
-
-  .terms-conditions-page header p {
-    font-size: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 22px;
   }
 
   .terms-conditions-page section {
     margin-top: 30px;
   }
-
-  .terms-conditions-page section h2 {
-    font-size: 22px;
-  }
-
-  .terms-conditions-page section p {
-    font-size: 15px;
-  }
 }
 
 /* =========================================
-   MOBILE RESPONSIVE
+   MOBILE
 ========================================= */
 
 @media (max-width: 480px) {
   .terms-conditions-page {
-    padding: 65px 18px 40px;
+    --tc-nav-space: 96px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-bottom: 44px;
   }
 
   .terms-conditions-page header {
-    margin-bottom: 28px;
-  }
-
-  .terms-conditions-page h1 {
-    font-size: 29px;
-    letter-spacing: -0.5px;
-    margin-bottom: 12px;
-  }
-
-  .terms-conditions-page header p {
-    font-size: 14px;
-    line-height: 1.8;
+    margin-bottom: 26px;
+    padding-bottom: 18px;
   }
 
   .terms-conditions-page section {
-    margin-top: 25px;
+    margin-top: 26px;
   }
 
-  .terms-conditions-page section h2 {
-    font-size: 20px;
-    margin-bottom: 9px;
+  .terms-conditions-page ul {
+    padding-left: 18px;
   }
 
-  .terms-conditions-page section p {
-    font-size: 14px;
+  .terms-conditions-page p,
+  .terms-conditions-page li {
     line-height: 1.8;
   }
 }
 
-/* SMALL MOBILE */
+/* =========================================
+   SMALL MOBILE
+========================================= */
 
 @media (max-width: 360px) {
   .terms-conditions-page {
+    --tc-nav-space: 92px;
     padding-left: 15px;
     padding-right: 15px;
   }
+}
 
-  .terms-conditions-page h1 {
-    font-size: 26px;
-  }
+/* =========================================
+   LANDSCAPE PHONES
+========================================= */
 
-  .terms-conditions-page section h2 {
-    font-size: 18px;
+@media (max-height: 480px) and (orientation: landscape) {
+  .terms-conditions-page {
+    --tc-nav-space: 90px;
   }
 }

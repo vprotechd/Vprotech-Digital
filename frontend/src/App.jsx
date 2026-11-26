@@ -59,10 +59,13 @@ import AdmissionForm from "./pages/AdmissionForm";
 
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
-
+import Verification from "./pages/Verification";
 
 import Portfolio from "./pages/Portfolio";
 import PortfolioCard from "./components/PortfolioCard";
+import StudentVerification from "./pages/verification/StudentVerification";
+import EmployeeVerification from "./pages/verification/EmployeeVerification";
+
 
 
 function App() {
@@ -146,6 +149,11 @@ function App() {
           <Route path="/interior-designing" element={<InteriorDesigning />} />
           <Route path="/apply/:id" element={<ApplyJob />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/studentverification" element={<StudentVerification />} />
+          <Route path="/employeeverification" element={<EmployeeVerification />} />
+          <Route path="/verification" element={<Verification />} />
+
+
 
           <Route path="/internship" element={<InternshipPrograms />} />
           <Route path="/internship/:id" element={<InternshipDetails />} />

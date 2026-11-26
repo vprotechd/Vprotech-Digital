@@ -70,7 +70,7 @@ body.menu-open {
 }
 
 /* =========================================================
-   LOGO
+   LOGO  (UPDATED: bigger + responsive on web and mobile)
    ========================================================= */
 
 .navbar-logo {
@@ -82,9 +82,10 @@ body.menu-open {
 
 .navbar-logo img {
   display: block;
-  width: 100px;
-  height: auto;
-  max-height: 54px;
+  width: auto;
+  height: 70px;          /* fixed height so the logo really scales UP */
+  max-width: 190px;
+  margin: -6px 0;
   object-fit: contain;
 }
 
@@ -359,6 +360,12 @@ body.menu-open {
     padding-left: 20px;
   }
 
+  /* LOGO (UPDATED) */
+  .navbar-logo img {
+    height: 64px;
+    max-width: 165px;
+  }
+
   .nav-links {
     margin: 0 8px;
   }
@@ -393,9 +400,11 @@ body.menu-open {
     padding: 6px 6px 6px 18px;
   }
 
+  /* LOGO (UPDATED) */
   .navbar-logo img {
-    width: 92px;
-    max-height: 50px;
+    height: 66px;
+    max-width: 170px;
+    margin: -5px 0;
   }
 
   .nav-links {
@@ -548,9 +557,11 @@ body.menu-open {
     padding-left: 14px;
   }
 
+  /* LOGO (UPDATED) */
   .navbar-logo img {
-    width: 84px;
-    max-height: 47px;
+    height: 62px;
+    max-width: 150px;
+    margin: -4px 0;
   }
 
   /* CTA shrinks to a round, still-highlighted icon button */
@@ -591,8 +602,10 @@ body.menu-open {
     padding-left: 11px;
   }
 
+  /* LOGO (UPDATED) */
   .navbar-logo img {
-    width: 76px;
+    height: 54px;
+    max-width: 130px;
   }
 }
 
@@ -714,21 +727,6 @@ body.menu-open {
   visibility: visible;
   pointer-events: auto;
   transform: translate(-50%, 0);
-}
-
-/* open on hover for mouse users (desktop only) */
-@media (min-width: 1041px) and (hover: hover) {
-  .nav-dropdown:hover .nav-dropdown-menu,
-  .nav-dropdown:focus-within .nav-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translate(-50%, 0);
-  }
-
-  .nav-dropdown:hover .nav-chevron {
-    transform: rotate(180deg);
-  }
 }
 
 /* ---------- Mobile / tablet: accordion inside the drawer ---------- */

@@ -52,6 +52,8 @@ const EXPLORE_LINKS = [
     { to: "/careers", label: "Careers", icon: FiBriefcase },
   { to: "/admission-form", label: "Admission Form", icon: FiFileText },
   { to: "/internship", label: "Start Assessment", icon: FiClipboard },
+  { to: "/verification", label: "Verification", icon: FiClipboard },
+
 ];
 
 export default function Navbar() {
@@ -210,6 +212,12 @@ export default function Navbar() {
             <li
               ref={exploreRef}
               className={`nav-dropdown ${exploreOpen ? "open" : ""}`}
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") setExploreOpen(true);
+              }}
+              onPointerLeave={(event) => {
+                if (event.pointerType === "mouse") setExploreOpen(false);
+              }}
             >
               <button
                 type="button"

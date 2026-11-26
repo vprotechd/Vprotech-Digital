@@ -115,7 +115,7 @@ export default function TeamSection() {
           viewport={{ once: true }}
         >
          
-          <h2>The People <span className="gradient-text">Powering</span> VProTech Digital</h2>
+          <h2>The People <span className="gradient-text">Powering</span> VproTech Digital</h2>
           <p>Meet the talented individuals behind our success</p>
           
           {isAdmin && (

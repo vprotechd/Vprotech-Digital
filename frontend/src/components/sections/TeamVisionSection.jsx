@@ -43,14 +43,14 @@ export default function TeamVisionSection() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <img 
-            src={teamImg} 
-            alt="Our Team" 
-            className="team-image"
-            loading="lazy"
-            width="560"
-            height="450"
-          />
+         <img
+  src={teamImg}
+  alt="Our Team"
+  className="team-image"
+  loading="lazy"
+  width="640"
+  height="514"
+/>
         </motion.div>
 
         <motion.div

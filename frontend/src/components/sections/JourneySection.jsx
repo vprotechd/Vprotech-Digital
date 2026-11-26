@@ -6,20 +6,20 @@ import journey1 from "../../assets/img1.jpg";
 import journey2 from "../../assets/img2.jpg";
 import journey3 from "../../assets/img3.jpg";
 import journey4 from "../../assets/img4.jpg";
-import journey5 from "../../assets/img5.jpg";
+
 import journey6 from "../../assets/img6.jpg"; // NOTE: your gallery used img6.jpeg, check the extension
 import journey7 from "../../assets/img7.jpg";
-import journey8 from "../../assets/img8.jpg";
+
 
 const journeyImages = [
-  journey1,
+journey1, 
   journey2,
   journey3,
   journey4,
-  journey5,
+
   journey6,
   journey7,
-  journey8,
+
 ];
 
 const N = journeyImages.length;
