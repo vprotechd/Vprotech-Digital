@@ -16,7 +16,6 @@ journey1,
   journey2,
   journey3,
   journey4,
-
   journey6,
   journey7,
 
