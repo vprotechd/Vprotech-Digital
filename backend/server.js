@@ -20,6 +20,9 @@ import questionRoutes from "./routes/questionRoutes.js";
 import testAttemptRoutes from "./routes/testAttemptRoutes.js";
 import admissionRoutes from "./routes/admissionRoutes.js";
 import mediaRoutes from "./routes/mediaRoutes.js";
+import studentRoutes from "./routes/studentRoutes.js";
+import employeeRoutes from "./routes/employeeRoutes.js";
+import Employee from "./models/Employee.js";
 
 dotenv.config();
 
@@ -70,6 +73,9 @@ app.use("/api", questionRoutes);
 app.use("/api/test-attempts", testAttemptRoutes);
 app.use("/api/admissions", admissionRoutes);
 app.use("/api/media", mediaRoutes);
+app.use("/api/students", studentRoutes);
+app.use("/api/employees", employeeRoutes);
+
 
 // Test route
 app.get("/api/test", (req, res) => {
@@ -109,6 +115,33 @@ const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("✅ Connected to MongoDB");
+
+    const indexes = await Employee.collection.indexes();
+    const referenceIndex = indexes.find(
+      (index) =>
+        Object.keys(index.key).length === 1 &&
+        index.key.referenceNumber === 1
+    );
+
+    if (referenceIndex && (!referenceIndex.unique || !referenceIndex.sparse)) {
+      await Employee.collection.dropIndex(referenceIndex.name);
+    }
+
+    const currentIndexes = await Employee.collection.indexes();
+    const hasSparseUniqueReferenceIndex = currentIndexes.some(
+      (index) =>
+        Object.keys(index.key).length === 1 &&
+        index.key.referenceNumber === 1 &&
+        index.unique &&
+        index.sparse
+    );
+
+    if (!hasSparseUniqueReferenceIndex) {
+      await Employee.collection.createIndex(
+        { referenceNumber: 1 },
+        { unique: true, sparse: true }
+      );
+    }
     
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);

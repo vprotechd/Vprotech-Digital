@@ -10,6 +10,12 @@ import ConfirmDialog from "../components/common/ConfirmDialog";
 import AdminOffers from "./admin/AdminOffers";
 import AdmissionManagement from "./admin/AdmissionManagement";
 import MediaManager from "./admin/MediaManager";
+import {
+  studentService,
+  employeeService,
+} from "../services/api";
+
+import RecordManagement from "./admin/RecordManagement";
 
 import {
   getAdminInternshipPrograms,
@@ -81,6 +87,7 @@ const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [selectedContact, setSelectedContact] = useState(null);
+  const [contactToDelete, setContactToDelete] = useState(null);
   const [replyText, setReplyText] = useState("");
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [contactFilter, setContactFilter] = useState("all");
@@ -92,6 +99,7 @@ const location = useLocation();
   const [teamFilterDepartment, setTeamFilterDepartment] = useState('all');
   const [teamFilterStatus, setTeamFilterStatus] = useState('all');
   const [showDeleteDialog, setShowDeleteDialog] = useState({ open: false, id: null });
+  const [userToDelete, setUserToDelete] = useState(null);
   const [showToggleDialog, setShowToggleDialog] = useState({ open: false, id: null });
   const [teamStats, setTeamStats] = useState(null);
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -123,6 +131,7 @@ const [internshipPrograms, setInternshipPrograms] = useState([]);
 const [internshipLoading, setInternshipLoading] = useState(false);
 const [showInternshipForm, setShowInternshipForm] = useState(false);
 const [editingInternship, setEditingInternship] = useState(null);
+const [internshipToDelete, setInternshipToDelete] = useState(null);
 const [internshipApplications, setInternshipApplications] = useState([]);
 
 
@@ -362,25 +371,27 @@ const handleUpdateInternship = async (e) => {
   }
 };
 
-const handleDeleteInternship = async (id) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this internship program?"
-  );
-
-  if (!confirmed) return;
+const handleDeleteInternship = async () => {
+  if (!internshipToDelete) return;
 
   try {
-    const data = await deleteInternshipProgram(id);
+    const data = await deleteInternshipProgram(internshipToDelete._id);
 
-    if (data.success) {
-      toast.success("Internship program deleted successfully");
-      fetchInternshipPrograms();
+    if (!data?.success) {
+      throw new Error(data?.message || "Failed to delete internship program");
     }
+
+    toast.success(
+      `${internshipToDelete.title || "Internship program"} deleted successfully`
+    );
+    setInternshipToDelete(null);
+    await fetchInternshipPrograms();
   } catch (error) {
     console.error("Delete internship error:", error);
 
     toast.error(
       error?.response?.data?.message ||
+      error?.message ||
       "Failed to delete internship program"
     );
   }
@@ -709,25 +720,31 @@ const filteredApplications = applications.filter(app => {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+  const handleDeleteUser = async () => {
+    if (!userToDelete) return;
+
     try {
-      await userService.deleteUser(userId);
-      toast.success("User deleted successfully");
-      fetchData();
+      await userService.deleteUser(userToDelete._id);
+      toast.success(`${userToDelete.name || "User"} deleted successfully`);
+      setUserToDelete(null);
+      await fetchData();
     } catch (error) {
-      toast.error("Failed to delete user");
+      toast.error(error.response?.data?.message || "Failed to delete user");
     }
   };
 
-  const handleDeleteContact = async (contactId) => {
-    if (!window.confirm("Are you sure you want to delete this message?")) return;
+  const handleDeleteContact = async () => {
+    if (!contactToDelete) return;
+
     try {
-      await contactAdminService.deleteMessage(contactId);
-      toast.success("Message deleted successfully");
-      fetchData();
+      await contactAdminService.deleteMessage(contactToDelete._id);
+      toast.success(
+        `Message from ${contactToDelete.fullname || "contact"} deleted successfully`
+      );
+      setContactToDelete(null);
+      await fetchData();
     } catch (error) {
-      toast.error("Failed to delete message");
+      toast.error(error.response?.data?.message || "Failed to delete message");
     }
   };
 
@@ -815,6 +832,39 @@ const filteredApplications = applications.filter(app => {
         onConfirm={handleDeleteTeamMember}
         title="Delete Team Member"
         message="Are you sure you want to delete this team member? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        confirmColor="red"
+      />
+
+      <ConfirmDialog
+        isOpen={Boolean(userToDelete)}
+        onClose={() => setUserToDelete(null)}
+        onConfirm={handleDeleteUser}
+        title="Delete User"
+        message={`Are you sure you want to delete ${userToDelete?.name || "this user"}? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        confirmColor="red"
+      />
+
+      <ConfirmDialog
+        isOpen={Boolean(contactToDelete)}
+        onClose={() => setContactToDelete(null)}
+        onConfirm={handleDeleteContact}
+        title="Delete Message"
+        message={`Are you sure you want to delete this message${contactToDelete?.fullname ? ` from ${contactToDelete.fullname}` : ""}? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        confirmColor="red"
+      />
+
+      <ConfirmDialog
+        isOpen={Boolean(internshipToDelete)}
+        onClose={() => setInternshipToDelete(null)}
+        onConfirm={handleDeleteInternship}
+        title="Delete Internship Program"
+        message={`Are you sure you want to delete "${internshipToDelete?.title || "this internship program"}"? This action cannot be undone.`}
         confirmText="Delete"
         cancelText="Cancel"
         confirmColor="red"
@@ -919,6 +969,23 @@ const filteredApplications = applications.filter(app => {
 
 
 
+<button
+  className={`nav-item ${activeTab === "students" ? "active" : ""}`}
+  onClick={() => setActiveTab("students")}
+>
+  <GraduationCap size={20} />
+  <span>Students</span>
+</button>
+
+<button
+  className={`nav-item ${activeTab === "employees" ? "active" : ""}`}
+  onClick={() => setActiveTab("employees")}
+>
+  <Users size={20} />
+  <span>Employees</span>
+</button>
+
+
           <button
   className={`nav-item ${activeTab === "media" ? "active" : ""}`}
   onClick={() => setActiveTab("media")}
@@ -939,9 +1006,11 @@ const filteredApplications = applications.filter(app => {
 </button>
 
 
+
+
 <button
   onClick={() => navigate("/admin/offers")}
-  className={location.pathname === "/admin/offers" ? "active" : ""}
+  className={`nav-item ${location.pathname === "/admin/offers" ? "active" : ""}`}
 >
   <Tag size={20} />
   <span>Offers</span>
@@ -995,8 +1064,8 @@ const filteredApplications = applications.filter(app => {
           </div>
         </div>
 
-        {/* Stats Cards - Only ONE set */}
-<div className="stats-grid">
+        {/* Dashboard Stats */}
+{/* <div className="stats-grid">
   <div className="stat-card">
     <div className="stat-icon blue">
       <Users size={24} />
@@ -1033,7 +1102,7 @@ const filteredApplications = applications.filter(app => {
       <p>Total Messages</p>
     </div>
   </div>
-</div>
+</div> */}
         {/* Quick Actions - Only ONE set */}
         <div className="quick-actions">
           <h2>Quick Actions</h2>
@@ -1303,7 +1372,7 @@ const filteredApplications = applications.filter(app => {
                               )}
                             </button>
                             <button
-                              onClick={() => handleDeleteUser(u._id)}
+                              onClick={() => setUserToDelete(u)}
                               className="action-btn delete"
                               title="Delete"
                             >
@@ -1830,9 +1899,7 @@ const filteredApplications = applications.filter(app => {
               <button
                 type="button"
                 className="delete-btn"
-                onClick={() =>
-                  handleDeleteInternship(program._id)
-                }
+                onClick={() => setInternshipToDelete(program)}
               >
                 <Trash2 size={16} />
                 Delete
@@ -2373,7 +2440,7 @@ const filteredApplications = applications.filter(app => {
                       )}
                       <button
                         className="action-btn delete"
-                        onClick={() => handleDeleteContact(contact._id)}
+                        onClick={() => setContactToDelete(contact)}
                       >
                         <Trash2 size={16} />
                         Delete
@@ -2644,6 +2711,17 @@ const filteredApplications = applications.filter(app => {
 {/* ===== MEDIA MANAGER TAB ===== */}
 {activeTab === "media" && (
   <MediaManager />
+)}
+
+
+{/* ===== STUDENT MANAGEMENT TAB ===== */}
+{activeTab === "students" && (
+  <RecordManagement type="students" />
+)}
+
+{/* ===== EMPLOYEE MANAGEMENT TAB ===== */}
+{activeTab === "employees" && (
+  <RecordManagement type="employees" />
 )}
 
 

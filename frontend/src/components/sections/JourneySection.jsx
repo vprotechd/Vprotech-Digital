@@ -3,12 +3,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./JourneySection.css";
 
 import journey1 from "../../assets/img1.jpg";
-import journey2 from "../../assets/img2.jpg";
-import journey3 from "../../assets/img3.jpg";
-import journey4 from "../../assets/img4.jpg";
-
-import journey6 from "../../assets/img6.jpg"; // NOTE: your gallery used img6.jpeg, check the extension
+import journey2 from "../../assets/i2.jpg";
+import journey3 from "../../assets/i3.jpg";
+import journey4 from "../../assets/i4.jpg";
+import journey5 from "../../assets/i5.jpg"; 
+import journey6 from "../../assets/i6.jpg"; // NOTE: your gallery used img6.jpeg, check the extension
 import journey7 from "../../assets/img7.jpg";
+import journey8 from "../../assets/i8.jpg"; // NOTE: your gallery used img8.jpeg, check the extension
+import journey9 from "../../assets/i9.jpg"; // NOTE: your gallery used img9.jpeg, check the extension
+import journey10 from "../../assets/i10.jpg"; // NOTE: your gallery used img10.jpeg, check the extension
+import journey11 from "../../assets/i11.jpg"; // NOTE: your gallery used img11.jpeg, check the extension
+import journey12 from "../../assets/i12.jpg"; // NOTE: your gallery used img12.jpeg, check the extension
 
 
 const journeyImages = [
@@ -16,18 +21,31 @@ journey1,
   journey2,
   journey3,
   journey4,
+  journey5,
   journey6,
   journey7,
+  journey8,
+  journey9,
+  journey10,
+  journey11,
+  journey12
 
 ];
 
 const N = journeyImages.length;
 
 /* ---- tweak these to change the feel ---- */
-const SPEED = 0.35;      // images per second (higher = faster glide)
-const TILT = 13;         // degrees of curve per card from the centre
-const DEPTH = 40;        // px each card steps back from the centre
-const SHRINK = 0.04;     // scale lost per card from the centre
+const SPEED = 0.3;       // images per second (higher = faster glide)
+const TILT = 10;         // degrees of curve per card from the centre
+const DEPTH = 70;        // px each card steps back from the centre
+const SHRINK = 0.07;     // scale lost per card from the centre
+
+/* ---- card size (big horizontal cards), as a share of the stage width ---- */
+const CARD_RATIO = 2 / 3;      // height / width  (3:2 landscape, taller than 16:9)
+const CARD_W_PHONE = 0.86;     // below 700px   -> one big card, neighbours peek in
+const CARD_W_TABLET = 0.66;    // 700 - 1100px
+const CARD_W_DESKTOP = 0.46;   // above 1100px  -> big centre card + two partial sides
+const CARD_MAX = 820;          // never wider than this, in px
 
 export default function JourneySection() {
   const stageRef = useRef(null);
@@ -49,11 +67,20 @@ export default function JourneySection() {
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    /* card size + spacing follow the stage width */
+    /* card size, spacing and stage height all follow the stage width */
     const layout = () => {
       const w = stage.clientWidth;
-      const cardW = w < 700 ? w * 0.5 : w * 0.2;
-      s.spacing = cardW * 1.08;
+      const phone = w < 700;
+
+      const share = phone ? CARD_W_PHONE : w < 1100 ? CARD_W_TABLET : CARD_W_DESKTOP;
+      const cardW = Math.min(w * share, CARD_MAX);
+      const cardH = cardW * CARD_RATIO;
+
+      s.spacing = cardW * (phone ? 1.03 : 1.06);
+
+      /* stage is as tall as the card plus room for the tilt and shadow */
+      stage.style.height = `${Math.round(cardH + (phone ? 48 : 110))}px`;
+
       cardRefs.current.forEach((c) => {
         if (c) c.style.width = `${cardW}px`;
       });
@@ -97,7 +124,7 @@ export default function JourneySection() {
         const rot = Math.max(-45, Math.min(45, -off * TILT));
         const z = -abs * DEPTH;
         const scale = 1 - Math.min(abs, 3) * SHRINK;
-        const opacity = abs > 3 ? 0 : abs > 2.5 ? (3 - abs) / 0.5 : 1;
+        const opacity = abs > 2 ? 0 : abs > 1.5 ? (2 - abs) / 0.5 : 1;
 
         card.style.transform =
           `translate3d(calc(-50% + ${x.toFixed(1)}px), -50%, ${z.toFixed(1)}px) ` +

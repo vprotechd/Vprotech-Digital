@@ -57,6 +57,8 @@ import AdminTestAttemptDetails from "./pages/admin/AdminTestAttemptDetails";
 import AdmissionManagement from "./pages/admin/AdmissionManagement";
 import AdmissionForm from "./pages/AdmissionForm";
 
+import RecordManagement from "./pages/admin/RecordManagement";
+
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import Verification from "./pages/Verification";
@@ -236,6 +238,67 @@ function App() {
   path="/admission-form"
   element={<AdmissionForm />}
 />
+
+
+{/* STUDENT MANAGEMENT */}
+
+<Route
+  path="/admin/students"
+  element={
+    <ProtectedRoute adminOnly>
+      <RecordManagement type="students" />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/students/add"
+  element={
+    <ProtectedRoute adminOnly>
+      <RecordManagement type="students" />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/students/edit/:id"
+  element={
+    <ProtectedRoute adminOnly>
+      <RecordManagement type="students" />
+    </ProtectedRoute>
+  }
+/>
+
+{/* EMPLOYEE MANAGEMENT */}
+
+<Route
+  path="/admin/employees"
+  element={
+    <ProtectedRoute adminOnly>
+      <RecordManagement type="employees" />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/employees/add"
+  element={
+    <ProtectedRoute adminOnly>
+      <RecordManagement type="employees" />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/employees/edit/:id"
+  element={
+    <ProtectedRoute adminOnly>
+      <RecordManagement type="employees" />
+    </ProtectedRoute>
+  }
+/>
+
+
 
                     <Route
   path="/digital-growth"

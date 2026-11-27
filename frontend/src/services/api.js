@@ -576,4 +576,120 @@ export const mediaService = {
 
 
 
+
+
+// ============ STUDENT SERVICES ============
+export const studentService = {
+  // Public student verification
+  verifyStudent: async (data) => {
+    const response = await api.post("/students/verify", data);
+    return response.data;
+  },
+
+  // Admin: Get all students
+  getAllStudents: async () => {
+    const response = await api.get("/students");
+    return response.data;
+  },
+
+  // Admin: Get student by ID
+  getStudentById: async (id) => {
+    const response = await api.get(`/students/${id}`);
+    return response.data;
+  },
+
+  // Admin: Add student
+  createStudent: async (data) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+
+    const response = await api.post("/students", formData);
+    return response.data;
+  },
+
+  // Admin: Update student
+  updateStudent: async (id, data) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+
+    const response = await api.put(`/students/${id}`, formData);
+    return response.data;
+  },
+
+  // Admin: Delete student
+  deleteStudent: async (id) => {
+    const response = await api.delete(`/students/${id}`);
+    return response.data;
+  },
+};
+
+
+// ============ EMPLOYEE SERVICES ============
+export const employeeService = {
+  // Public employee verification
+  verifyEmployee: async (data) => {
+    const response = await api.post("/employees/verify", data);
+    return response.data;
+  },
+
+  // Admin: Get all employees
+  getAllEmployees: async () => {
+    const response = await api.get("/employees");
+    return response.data;
+  },
+
+  // Admin: Get employee by ID
+  getEmployeeById: async (id) => {
+    const response = await api.get(`/employees/${id}`);
+    return response.data;
+  },
+
+  // Admin: Add employee
+  createEmployee: async (data) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+
+    const response = await api.post("/employees", formData);
+    return response.data;
+  },
+
+  // Admin: Update employee
+  updateEmployee: async (id, data) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+
+    const response = await api.put(`/employees/${id}`, formData);
+    return response.data;
+  },
+
+  // Admin: Delete employee
+  deleteEmployee: async (id) => {
+    const response = await api.delete(`/employees/${id}`);
+    return response.data;
+  },
+};
+
+
+
+
 export default api;

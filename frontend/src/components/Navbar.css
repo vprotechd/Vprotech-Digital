@@ -83,7 +83,7 @@ body.menu-open {
 .navbar-logo img {
   display: block;
   width: auto;
-  height: 70px;          /* fixed height so the logo really scales UP */
+  height: 60px;          /* fixed height so the logo really scales UP */
   max-width: 190px;
   margin: -6px 0;
   object-fit: contain;

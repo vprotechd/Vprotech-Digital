@@ -46,29 +46,37 @@
 }
 
 /* ---------- Curved sliding strip ---------- */
+/* The height is set by JavaScript from the card size, so it always fits.
+   The value below is only a fallback before the script runs. */
 .journey-stage {
   position: relative;
   width: 100%;
-  height: clamp(300px, 38vw, 480px);
-  perspective: 1400px;
+  height: clamp(300px, 40vw, 640px);
+  margin-top: 8px;
+  perspective: 1600px;
   perspective-origin: 50% 50%;
   overflow: hidden;
   cursor: grab;
   touch-action: pan-y;      /* vertical scroll still works on touch */
   user-select: none;
+  -webkit-user-select: none;
 }
 .journey-stage:active { cursor: grabbing; }
 
+/* Big horizontal (3:2) cards. Their width is set by JavaScript. */
 .journey-card {
   position: absolute;
   top: 50%;
   left: 50%;
   margin: 0;
-  aspect-ratio: 3 / 4;       /* portrait cards, like the reference */
-  border-radius: 10px;
+  aspect-ratio: 3 / 2;
+  border-radius: 16px;
   overflow: hidden;
   background: #0d2e7a;
-  box-shadow: 0 24px 50px -18px rgba(3, 12, 40, .7);
+  border: 1px solid rgba(255, 255, 255, .22);
+  box-shadow:
+    0 34px 70px -24px rgba(3, 12, 40, .8),
+    0 0 0 1px rgba(255, 255, 255, .04);
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
@@ -76,7 +84,8 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;         /* image fills the whole card, no empty bars */
+  object-position: center 30%; /* keeps faces in frame when a photo is cropped */
   pointer-events: none;
 }
 
@@ -104,7 +113,23 @@
   transform: translateY(-2px);
 }
 
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .journey-stage { perspective: 1300px; }
+}
+
 @media (max-width: 700px) {
   .journey-section { padding: 64px 0 50px; }
-  .journey-stage { height: 340px; perspective: 1000px; }
+  .journey-stage { perspective: 1000px; }
+  .journey-card { border-radius: 14px; }
+  .journey-heading p { font-size: .9rem; padding: 0 20px; }
+}
+
+@media (max-width: 400px) {
+  .journey-section { padding: 52px 0 40px; }
+  .journey-card { border-radius: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-controls button { transition: none; }
 }

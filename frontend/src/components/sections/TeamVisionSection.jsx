@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import teamImg from '../../assets/ourteam.jpg';
+import teamImg from '../../assets/22.jpg';
 import visionImg from '../../assets/ourvalues.jpg';
 import bottomImg from '../../assets/photo.jpg';
 
