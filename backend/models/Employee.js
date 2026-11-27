@@ -53,6 +53,11 @@ const employeeSchema = new mongoose.Schema(
       default: "",
     },
 
+    photoPublicId: {
+      type: String,
+      select: false,
+    },
+
     designation: {
       type: String,
       required: true,

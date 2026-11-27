@@ -1,5 +1,6 @@
 
 import Employee from "../models/Employee.js";
+import cloudinary from "../config/cloudinary.js";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -15,8 +16,20 @@ const uploadDirectory = path.join(
 );
 
 // Safely delete employee photo
-const deletePhoto = async (photoPath) => {
+const deletePhoto = async (photoPath, photoPublicId) => {
+  if (photoPublicId) {
+    const result = await cloudinary.uploader.destroy(photoPublicId, {
+      resource_type: "image",
+    });
+
+    if (result.result !== "ok" && result.result !== "not found") {
+      throw new Error(`Cloudinary did not delete employee photo: ${result.result}`);
+    }
+    return;
+  }
+
   if (!photoPath) return;
+  if (/^https?:\/\//i.test(photoPath)) return;
 
   try {
     const filename = path.basename(photoPath);
@@ -62,7 +75,8 @@ export const addEmployee = async (req, res) => {
     const employeeData = normalizeOptionalFields({ ...req.body });
 
     if (req.file) {
-      employeeData.photo = `/uploads/employee-photos/${req.file.filename}`;
+      employeeData.photo = req.file.path;
+      employeeData.photoPublicId = req.file.filename;
     }
 
     const employee = await Employee.create(employeeData);
@@ -77,8 +91,12 @@ export const addEmployee = async (req, res) => {
       employee: employeeResult,
     });
   } catch (error) {
-    if (req.file) {
-      await deletePhoto(`/uploads/employee-photos/${req.file.filename}`);
+    if (req.file?.filename) {
+      try {
+        await deletePhoto(req.file.path, req.file.filename);
+      } catch (cleanupError) {
+        console.error("Failed to clean up employee photo upload:", cleanupError);
+      }
     }
 
     res.status(error.code === 11000 ? 409 : 400).json({
@@ -161,14 +179,19 @@ export const getEmployeeById = async (req, res) => {
 // UPDATE EMPLOYEE
 export const updateEmployee = async (req, res) => {
   let newPhotoPath = null;
+  let newPhotoPublicId = null;
 
   try {
     const employee = await Employee.findById(req.params.id)
-      .select("+salary");
+      .select("+salary +photoPublicId");
 
     if (!employee) {
-      if (req.file) {
-        await deletePhoto(`/uploads/employee-photos/${req.file.filename}`);
+      if (req.file?.filename) {
+        try {
+          await deletePhoto(req.file.path, req.file.filename);
+        } catch (cleanupError) {
+          console.error("Failed to clean up employee photo upload:", cleanupError);
+        }
       }
 
       return res.status(404).json({
@@ -180,8 +203,10 @@ export const updateEmployee = async (req, res) => {
     const updateData = normalizeOptionalFields({ ...req.body });
 
     if (req.file) {
-      newPhotoPath = `/uploads/employee-photos/${req.file.filename}`;
+      newPhotoPath = req.file.path;
+      newPhotoPublicId = req.file.filename;
       updateData.photo = newPhotoPath;
+      updateData.photoPublicId = newPhotoPublicId;
     }
 
     const updatedEmployee = await Employee.findByIdAndUpdate(
@@ -195,7 +220,11 @@ export const updateEmployee = async (req, res) => {
 
     // Delete old photo after successful update
     if (req.file && employee.photo) {
-      await deletePhoto(employee.photo);
+      try {
+        await deletePhoto(employee.photo, employee.photoPublicId);
+      } catch (cleanupError) {
+        console.error("Failed to remove replaced employee photo:", cleanupError);
+      }
     }
 
     res.status(200).json({
@@ -205,8 +234,12 @@ export const updateEmployee = async (req, res) => {
     });
   } catch (error) {
     // Clean up newly uploaded photo if update fails
-    if (newPhotoPath) {
-      await deletePhoto(newPhotoPath);
+    if (newPhotoPath && newPhotoPublicId) {
+      try {
+        await deletePhoto(newPhotoPath, newPhotoPublicId);
+      } catch (cleanupError) {
+        console.error("Failed to clean up employee photo upload:", cleanupError);
+      }
     }
 
     res.status(error.code === 11000 ? 409 : 400).json({
@@ -222,7 +255,8 @@ export const updateEmployee = async (req, res) => {
 // DELETE EMPLOYEE
 export const deleteEmployee = async (req, res) => {
   try {
-    const employee = await Employee.findById(req.params.id);
+    const employee = await Employee.findById(req.params.id)
+      .select("+photoPublicId");
 
     if (!employee) {
       return res.status(404).json({
@@ -234,7 +268,11 @@ export const deleteEmployee = async (req, res) => {
     await employee.deleteOne();
 
     if (employee.photo) {
-      await deletePhoto(employee.photo);
+      try {
+        await deletePhoto(employee.photo, employee.photoPublicId);
+      } catch (cleanupError) {
+        console.error("Failed to remove deleted employee photo:", cleanupError);
+      }
     }
 
     res.status(200).json({

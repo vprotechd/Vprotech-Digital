@@ -2,6 +2,8 @@ import fs from "fs";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
 const uploadsDirectory = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -37,4 +39,24 @@ const createPhotoUpload = (folder) => {
 };
 
 export const uploadStudentPhoto = createPhotoUpload("student-photos");
-export const uploadEmployeePhoto = createPhotoUpload("employee-photos");
+
+const employeePhotoStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "vprotech/employees",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+  },
+});
+
+export const uploadEmployeePhoto = multer({
+  storage: employeePhotoStorage,
+  limits: { fileSize: 5 * 1024 * 1024, files: 1 },
+  fileFilter: (_req, file, callback) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (allowedTypes.includes(file.mimetype)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Only JPG, PNG and WEBP images are allowed."));
+    }
+  },
+}).single("photo");
