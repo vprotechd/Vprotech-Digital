@@ -7,16 +7,23 @@ import designBg from "../../assets/designn.jpg";
  * EmployeeVerification
  * Usage: <EmployeeVerification />
  *
+ * Flow: only the Employee ID box is shown at first. After the employee ID is entered
+ * and "Look up" is clicked (or Enter is pressed), all the other details appear, filled in.
+ *
  * Props
  *  - navOffset        space kept free for your fixed navbar (number = px, or any CSS value). Default 80px.
  *  - backgroundImage  override the background picture (defaults to ../assets/designn.jpg)
  *
+ * Employee photo: the box shows the photo returned by `fetchEmployee` (`photo` = image URL),
+ * and the person can also upload / replace / remove it manually (JPG, PNG or WebP, max 2 MB).
+ *
  * No dependencies besides React. Styles are scoped under .sv-root.
- * Replace `fetchEmployee` with your real API call.
+ * Replace `fetchEmployee` with your real API call (return null when nothing is found).
  */
 
 const EMPTY = {
   employeeId: "",
+  photo: "", // image URL or data URL (optional)
   firstName: "",
   lastName: "",
   gender: "",
@@ -28,14 +35,35 @@ const EMPTY = {
   address: "",
 };
 
-const REQUIRED = Object.keys(EMPTY);
+// photo is optional, so it does not count towards progress
+const REQUIRED = Object.keys(EMPTY).filter((k) => k !== "photo");
 
-// --- Demo lookup. Swap for a real request, e.g. fetch(`/api/employees/${ref}`) ---
+const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
+const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+// Demo avatar (inline SVG). In your API, return a real URL such as "https://.../emp-0042.jpg"
+const demoPhoto = () =>
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 288">
+      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1769e0"/><stop offset="1" stop-color="#3fa4f9"/></linearGradient></defs>
+      <rect width="240" height="288" fill="url(#g)"/>
+      <circle cx="120" cy="104" r="48" fill="#ffd9b8"/>
+      <path d="M72 96c0-34 20-52 50-52s46 20 46 50c-10-16-26-24-48-24s-36 8-48 26Z" fill="#2b2118"/>
+      <path d="M28 288c4-62 40-96 92-96s88 34 92 96Z" fill="#0d1b2e"/>
+      <path d="M96 196l24 30 24-30" fill="#fff"/>
+    </svg>`
+  );
+
+// --- Demo lookup. Swap for a real request, e.g. fetch(`/api/employees/${id}`) ---
+// Return null/undefined when the employee ID does not exist.
 const fetchEmployee = (employeeId) =>
   new Promise((resolve) =>
     setTimeout(
       () =>
         resolve({
+          photo: demoPhoto(),
           firstName: "Rohit",
           lastName: "Verma",
           gender: "Male",
@@ -126,6 +154,23 @@ const ICONS = {
       <path d="m21 21-4.3-4.3" />
     </>
   ),
+  camera: (
+    <>
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+      <circle cx="12" cy="13" r="4" />
+    </>
+  ),
+  upload: (
+    <>
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <path d="m17 8-5-5-5 5M12 3v12" />
+    </>
+  ),
+  trash: (
+    <>
+      <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+    </>
+  ),
   close: <path d="M18 6 6 18M6 6l12 12" />,
 };
 
@@ -169,9 +214,12 @@ export default function EmployeeVerification({
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [found, setFound] = useState(false); // details stay hidden until a lookup succeeds
   const [verified, setVerified] = useState(false);
   const [fillWave, setFillWave] = useState(0); // bumps to replay the fill animation
+  const [photoBroken, setPhotoBroken] = useState(false); // image URL failed to load
   const refInput = useRef(null);
+  const fileRef = useRef(null);
 
   const progress = useMemo(() => {
     const done = REQUIRED.filter((k) => String(values[k]).trim() !== "").length;
@@ -192,21 +240,64 @@ export default function EmployeeVerification({
   };
 
   const handleShow = async () => {
+    if (loading) return;
     if (!values.employeeId.trim()) {
       setErrors((er) => ({ ...er, employeeId: "Enter the employee ID" }));
       refInput.current?.focus();
       return;
     }
     setLoading(true);
-    const data = await fetchEmployee(values.employeeId.trim());
-    setValues((v) => ({ ...v, ...data }));
-    setErrors({});
-    setFillWave((n) => n + 1);
-    setLoading(false);
+    try {
+      const data = await fetchEmployee(values.employeeId.trim());
+      if (!data) {
+        setFound(false);
+        setErrors({ employeeId: "No employee found with this ID" });
+        return;
+      }
+      setValues((v) => ({ ...v, ...data }));
+      setPhotoBroken(false);
+      setErrors({});
+      setFound(true);
+      setFillWave((n) => n + 1);
+    } catch {
+      setErrors({ employeeId: "Could not look this up. Please try again." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* ---------- photo handling ---------- */
+  const handlePhoto = (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow choosing the same file again
+    if (!file) return;
+    if (!PHOTO_TYPES.includes(file.type)) {
+      setErrors((er) => ({ ...er, photo: "Use a JPG, PNG or WebP image" }));
+      return;
+    }
+    if (file.size > MAX_PHOTO_BYTES) {
+      setErrors((er) => ({ ...er, photo: "Image must be under 2 MB" }));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setValues((v) => ({ ...v, photo: String(reader.result) }));
+      setPhotoBroken(false);
+      setErrors((er) => ({ ...er, photo: undefined }));
+    };
+    reader.onerror = () => setErrors((er) => ({ ...er, photo: "Could not read that image" }));
+    reader.readAsDataURL(file);
+  };
+
+  const removePhoto = () => {
+    setValues((v) => ({ ...v, photo: "" }));
+    setPhotoBroken(false);
+    setErrors((er) => ({ ...er, photo: undefined }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!found) return handleShow(); // Enter key before lookup = look up
     const er = validate(values);
     setErrors(er);
     if (Object.keys(er).length === 0) setVerified(true);
@@ -216,7 +307,10 @@ export default function EmployeeVerification({
     setValues(EMPTY);
     setErrors({});
     setVerified(false);
+    setFound(false);
     setFillWave(0);
+    setPhotoBroken(false);
+    setTimeout(() => refInput.current?.focus(), 0);
   };
 
   // Row-by-row stagger so looked-up data fills in one after another
@@ -232,6 +326,9 @@ export default function EmployeeVerification({
     style: fillStyle(i),
     ...extra,
   });
+
+  const hasPhoto = Boolean(values.photo) && !photoBroken;
+  const initials = `${values.firstName.trim()[0] || ""}${values.lastName.trim()[0] || ""}`.toUpperCase();
 
   return (
     <div className="sv-root" style={{ "--sv-nav": navValue }}>
@@ -275,7 +372,7 @@ export default function EmployeeVerification({
               <b>2</b>
               <div>
                 <strong>Review the details</strong>
-                <span>Name, designation, contact and joining date.</span>
+                <span>Photo, name, designation, contact and joining date.</span>
               </div>
             </li>
             <li>
@@ -290,20 +387,24 @@ export default function EmployeeVerification({
 
         {/* ---------------- right: form card ---------------- */}
         <main className={`sv-card ${loading ? "is-loading" : ""}`}>
-          <div className="sv-bar" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
-            <i style={{ width: `${progress}%` }} />
+          <div className="sv-bar" role="progressbar" aria-valuenow={found ? progress : 0} aria-valuemin={0} aria-valuemax={100}>
+            <i style={{ width: `${found ? progress : 0}%` }} />
           </div>
 
           <header className="sv-card-head">
             <div>
-              <h2>Employee details</h2>
-              <p>Details fill in automatically after lookup.</p>
+              <h2>{found ? "Employee details" : "Find an employee"}</h2>
+              <p>
+                {found
+                  ? "Review the details below, then confirm."
+                  : "Enter the employee ID to see their details."}
+              </p>
             </div>
-            <span className="sv-pill">{progress}% complete</span>
+            {found && <span className="sv-pill">{progress}% complete</span>}
           </header>
 
           <form className="sv-form" onSubmit={handleSubmit} noValidate>
-            {/* lookup */}
+            {/* lookup (always visible) */}
             <div className="sv-lookup">
               <label className="sv-label" htmlFor="employeeId">
                 Employee ID
@@ -319,6 +420,7 @@ export default function EmployeeVerification({
                     onChange={set("employeeId")}
                     placeholder="e.g. EMP-2023-0042"
                     autoComplete="off"
+                    autoFocus
                   />
                 </div>
                 <button
@@ -338,93 +440,155 @@ export default function EmployeeVerification({
               </span>
             </div>
 
-            {/* employee */}
-            <Section icon="user" title="Employee" />
-            <div className="sv-grid">
-              <Field label="First name" id="firstName" error={errors.firstName} icon="user">
-                <input {...bind("firstName", 0, { autoComplete: "given-name" })} />
-              </Field>
-              <Field label="Last name" id="lastName" error={errors.lastName} icon="user">
-                <input {...bind("lastName", 1, { autoComplete: "family-name" })} />
-              </Field>
-              <Field label="Father’s name" id="fatherName" error={errors.fatherName} icon="user">
-                <input {...bind("fatherName", 2)} />
-              </Field>
-              <Field label="Gender" id="gender-Male" error={errors.gender}>
-                <div
-                  className={`sv-segment ${fillClass}`}
-                  style={fillStyle(3)}
-                  role="radiogroup"
-                  aria-label="Gender"
-                >
-                  {["Male", "Female", "Other"].map((g) => (
-                    <button
-                      key={g}
-                      id={`gender-${g}`}
-                      type="button"
-                      role="radio"
-                      aria-checked={values.gender === g}
-                      className={values.gender === g ? "is-active" : ""}
-                      onClick={() => {
-                        setValues((v) => ({ ...v, gender: g }));
-                        setErrors((er) => ({ ...er, gender: undefined }));
-                      }}
-                    >
-                      {g}
-                    </button>
-                  ))}
+            {/* everything below appears only after a successful lookup */}
+            {found && (
+              <div className="sv-details">
+                {/* employee */}
+                <Section icon="user" title="Employee" />
+
+                {/* photo box */}
+                <div className="sv-photo-row">
+                  <button
+                    type="button"
+                    className={`sv-photo ${hasPhoto ? "has-photo" : ""} ${errors.photo ? "has-error" : ""}`}
+                    onClick={() => fileRef.current?.click()}
+                    aria-label={hasPhoto ? "Change employee photo" : "Upload employee photo"}
+                  >
+                    {hasPhoto ? (
+                      <img
+                        key={fillWave + values.photo.length}
+                        className={`sv-photo-img ${fillWave ? "is-new" : ""}`}
+                        src={values.photo}
+                        alt={`${values.firstName} ${values.lastName}`.trim() || "Employee photo"}
+                        onError={() => setPhotoBroken(true)}
+                      />
+                    ) : (
+                      <span className="sv-photo-empty">
+                        {initials ? <b>{initials}</b> : <Icon name="camera" className="sv-ico sv-ico-lg" />}
+                        <small>{initials ? "No photo" : "Photo"}</small>
+                      </span>
+                    )}
+                    <span className="sv-photo-badge" aria-hidden="true">
+                      <Icon name="camera" />
+                    </span>
+                  </button>
+
+                  <div className="sv-photo-side">
+                    <strong>Employee photo</strong>
+                    <p>Loaded from the employee record, or add one yourself. JPG, PNG or WebP, up to 2 MB.</p>
+                    <div className="sv-photo-btns">
+                      <button type="button" className="sv-chip" onClick={() => fileRef.current?.click()}>
+                        <Icon name="upload" /> {hasPhoto ? "Replace" : "Upload"}
+                      </button>
+                      {values.photo && (
+                        <button type="button" className="sv-chip is-danger" onClick={removePhoto}>
+                          <Icon name="trash" /> Remove
+                        </button>
+                      )}
+                    </div>
+                    <span className={`sv-error ${errors.photo ? "is-on" : ""}`} role="alert">
+                      {errors.photo || "\u00A0"}
+                    </span>
+                  </div>
+
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="sv-file"
+                    onChange={handlePhoto}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
                 </div>
-              </Field>
-            </div>
 
-            {/* contact */}
-            <Section icon="mail" title="Contact" />
-            <div className="sv-grid">
-              <Field label="Email" id="email" error={errors.email} icon="mail">
-                <input {...bind("email", 4, { type: "email", autoComplete: "email" })} />
-              </Field>
-              <Field label="Phone" id="phone" error={errors.phone} icon="phone">
-                <input
-                  {...bind("phone", 5, {
-                    type: "tel",
-                    inputMode: "numeric",
-                    maxLength: 10,
-                    autoComplete: "tel",
-                  })}
-                />
-              </Field>
-            </div>
+                <div className="sv-grid">
+                  <Field label="First name" id="firstName" error={errors.firstName} icon="user">
+                    <input {...bind("firstName", 0, { autoComplete: "given-name" })} />
+                  </Field>
+                  <Field label="Last name" id="lastName" error={errors.lastName} icon="user">
+                    <input {...bind("lastName", 1, { autoComplete: "family-name" })} />
+                  </Field>
+                  <Field label="Father’s name" id="fatherName" error={errors.fatherName} icon="user">
+                    <input {...bind("fatherName", 2)} />
+                  </Field>
+                  <Field label="Gender" id="gender-Male" error={errors.gender}>
+                    <div
+                      className={`sv-segment ${fillClass}`}
+                      style={fillStyle(3)}
+                      role="radiogroup"
+                      aria-label="Gender"
+                    >
+                      {["Male", "Female", "Other"].map((g) => (
+                        <button
+                          key={g}
+                          id={`gender-${g}`}
+                          type="button"
+                          role="radio"
+                          aria-checked={values.gender === g}
+                          className={values.gender === g ? "is-active" : ""}
+                          onClick={() => {
+                            setValues((v) => ({ ...v, gender: g }));
+                            setErrors((er) => ({ ...er, gender: undefined }));
+                          }}
+                        >
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                  </Field>
+                </div>
 
-            {/* work */}
-            <Section icon="briefcase" title="Work" />
-            <div className="sv-grid">
-              <Field label="Designation" id="designation" error={errors.designation} icon="briefcase">
-                <input {...bind("designation", 6)} />
-              </Field>
-              <Field label="Joining date" id="joiningDate" error={errors.joiningDate} icon="calendar">
-                <input {...bind("joiningDate", 7, { type: "date" })} />
-              </Field>
-            </div>
+                {/* contact */}
+                <Section icon="mail" title="Contact" />
+                <div className="sv-grid">
+                  <Field label="Email" id="email" error={errors.email} icon="mail">
+                    <input {...bind("email", 4, { type: "email", autoComplete: "email" })} />
+                  </Field>
+                  <Field label="Phone" id="phone" error={errors.phone} icon="phone">
+                    <input
+                      {...bind("phone", 5, {
+                        type: "tel",
+                        inputMode: "numeric",
+                        maxLength: 10,
+                        autoComplete: "tel",
+                      })}
+                    />
+                  </Field>
+                </div>
 
-            {/* address */}
-            <Section icon="pin" title="Address" />
-            <div className="sv-grid">
-              <Field label="Full address" id="address" span error={errors.address}>
-                <textarea
-                  {...bind("address", 8, { rows: 3 })}
-                  className={`sv-input sv-textarea ${fillClass} ${errors.address ? "has-error" : ""}`}
-                />
-              </Field>
-            </div>
+                {/* work */}
+                <Section icon="briefcase" title="Work" />
+                <div className="sv-grid">
+                  <Field label="Designation" id="designation" error={errors.designation} icon="briefcase">
+                    <input {...bind("designation", 6)} />
+                  </Field>
+                  <Field label="Joining date" id="joiningDate" error={errors.joiningDate} icon="calendar">
+                    <input {...bind("joiningDate", 7, { type: "date" })} />
+                  </Field>
+                </div>
 
-            <div className="sv-actions">
-              <button type="button" className="sv-ghost" onClick={reset}>
-                Clear form
-              </button>
-              <button type="submit" className="sv-submit">
-                Verify employee
-              </button>
-            </div>
+                {/* address */}
+                <Section icon="pin" title="Address" />
+                <div className="sv-grid">
+                  <Field label="Full address" id="address" span error={errors.address}>
+                    <textarea
+                      {...bind("address", 8, { rows: 3 })}
+                      className={`sv-input sv-textarea ${fillClass} ${errors.address ? "has-error" : ""}`}
+                    />
+                  </Field>
+                </div>
+
+                <div className="sv-actions">
+                  <button type="button" className="sv-ghost" onClick={reset}>
+                    Clear form
+                  </button>
+                  <button type="submit" className="sv-submit">
+                    Verify employee
+                  </button>
+                </div>
+              </div>
+            )}
           </form>
         </main>
       </div>
@@ -443,10 +607,19 @@ export default function EmployeeVerification({
               <Icon name="close" />
             </button>
 
-            <svg className="sv-seal" viewBox="0 0 120 120" aria-hidden="true">
-              <circle className="sv-seal-ring" cx="60" cy="60" r="52" />
-              <path className="sv-seal-check" d="M36 62l16 16 32-34" />
-            </svg>
+            <div className="sv-ticket-top">
+              {hasPhoto && (
+                <img
+                  className="sv-ticket-photo"
+                  src={values.photo}
+                  alt={`${values.firstName} ${values.lastName}`}
+                />
+              )}
+              <svg className={`sv-seal ${hasPhoto ? "is-small" : ""}`} viewBox="0 0 120 120" aria-hidden="true">
+                <circle className="sv-seal-ring" cx="60" cy="60" r="52" />
+                <path className="sv-seal-check" d="M36 62l16 16 32-34" />
+              </svg>
+            </div>
             <h2>Verified</h2>
             <p className="sv-ticket-name">
               {values.firstName} {values.lastName}
@@ -560,7 +733,7 @@ const css = `
 .sv-card-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px clamp(18px,4vw,34px) 6px}
 .sv-card-head h2{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(21px,3vw,26px);font-weight:800;letter-spacing:-.01em}
 .sv-card-head p{margin:3px 0 0;font-size:13.5px;color:var(--ink-soft)}
-.sv-pill{flex:none;padding:6px 12px;border-radius:999px;background:#e8f1ff;color:var(--blue-dark);font-size:12.5px;font-weight:700}
+.sv-pill{flex:none;padding:6px 12px;border-radius:999px;background:#e8f1ff;color:var(--blue-dark);font-size:12.5px;font-weight:700;animation:sv-rise .5s both}
 
 .sv-form{padding:10px clamp(18px,4vw,34px) clamp(22px,4vw,32px)}
 
@@ -569,12 +742,56 @@ const css = `
 .sv-inline{display:flex;gap:10px}
 .sv-inline .sv-ctl{flex:1;min-width:0}
 
+/* details revealed after lookup */
+.sv-details{animation:sv-reveal .65s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sv-reveal{from{opacity:0;transform:translateY(18px)}}
+
 /* section headers */
 .sv-sec{display:flex;align-items:center;gap:10px;margin:22px 0 6px}
 .sv-sec::after{content:"";flex:1;height:1px;background:var(--line)}
 .sv-sec h3{margin:0;font-size:14px;font-weight:700;color:var(--ink)}
 .sv-sec-ico{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:#e8f1ff;color:var(--blue)}
 .sv-sec-ico .sv-ico{width:15px;height:15px}
+
+/* ---------- employee photo box ---------- */
+.sv-photo-row{display:flex;gap:20px;align-items:center;margin:8px 0 6px}
+.sv-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+.sv-photo{
+  position:relative;flex:none;width:118px;height:142px;padding:0;cursor:pointer;
+  border-radius:18px;border:2px dashed #a9c8f5;background:linear-gradient(160deg,#eef5ff,#f7fbff);
+  color:var(--blue);display:grid;place-items:center;overflow:visible;
+  transition:border-color .2s, box-shadow .2s, transform .15s;
+}
+.sv-photo.has-photo{border-style:solid;border-color:#fff;background:#dfeaf8;
+  box-shadow:0 12px 26px -10px rgba(13,27,46,.5), 0 0 0 2px var(--line)}
+.sv-photo.has-error{border-color:var(--rose)}
+.sv-photo:active{transform:scale(.98)}
+.sv-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px;display:block}
+.sv-photo-img.is-new{animation:sv-photo-in .7s cubic-bezier(.2,.9,.3,1) both}
+@keyframes sv-photo-in{from{opacity:0;transform:scale(1.12);filter:blur(6px)}}
+.sv-photo-empty{display:grid;justify-items:center;gap:6px;color:#7f9bc2}
+.sv-photo-empty b{font-family:'Bricolage Grotesque',sans-serif;font-size:34px;font-weight:800;color:var(--blue);letter-spacing:.02em}
+.sv-photo-empty small{font-size:12px;font-weight:600}
+.sv-ico-lg{width:34px;height:34px}
+.sv-photo-badge{
+  position:absolute;right:-10px;bottom:-10px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  color:#fff;background:linear-gradient(135deg,var(--blue-dark),var(--sky));
+  border:3px solid #fff;box-shadow:0 6px 14px -4px rgba(23,105,224,.7);transition:transform .2s;
+}
+.sv-photo-badge .sv-ico{width:15px;height:15px}
+.sv-photo-side{min-width:0;flex:1}
+.sv-photo-side strong{display:block;font-size:14.5px}
+.sv-photo-side p{margin:3px 0 10px;font-size:12.5px;line-height:1.5;color:var(--ink-soft)}
+.sv-photo-btns{display:flex;flex-wrap:wrap;gap:8px}
+.sv-chip{
+  display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 14px;border:0;border-radius:10px;cursor:pointer;
+  font:inherit;font-size:13.5px;font-weight:600;color:var(--blue-dark);background:#e8f1ff;transition:background .2s, transform .15s;
+}
+.sv-chip .sv-ico{width:16px;height:16px}
+.sv-chip.is-danger{color:var(--rose);background:#fdecef}
+.sv-chip:active{transform:scale(.97)}
+.sv-photo:focus-visible,.sv-chip:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
 
 /* fields */
 .sv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
@@ -612,8 +829,8 @@ input[type=date].sv-input{display:block;text-align:left}
 @keyframes sv-flash{0%{background:#c7e0ff;transform:scale(1.012)}100%{background:var(--field);transform:none}}
 @keyframes sv-flash-b{0%{background:#c7e0ff;transform:scale(1.012)}100%{background:var(--field);transform:none}}
 
-/* shimmer while the lookup runs */
-.sv-card.is-loading .sv-input,.sv-card.is-loading .sv-segment{
+/* shimmer on the lookup box while the lookup runs */
+.sv-card.is-loading .sv-lookup .sv-input{
   background-image:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.85) 50%,transparent 100%);
   background-size:220% 100%; animation:sv-shimmer 1.1s linear infinite;
 }
@@ -660,6 +877,10 @@ input[type=date].sv-input{display:block;text-align:left}
   .sv-show:hover{transform:translateY(-2px);box-shadow:0 14px 26px -8px rgba(23,105,224,.8)}
   .sv-submit:hover{transform:translateY(-2px);box-shadow:0 18px 32px -10px rgba(23,105,224,.9)}
   .sv-segment button:hover{color:var(--ink)}
+  .sv-photo:hover{border-color:var(--blue)}
+  .sv-photo:hover .sv-photo-badge{transform:scale(1.1) rotate(-8deg)}
+  .sv-chip:hover{background:#d7e7ff}
+  .sv-chip.is-danger:hover{background:#fbdce1}
 }
 .sv-segment button:focus-visible,.sv-show:focus-visible,.sv-submit:focus-visible,.sv-ghost:focus-visible,.sv-x:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 
@@ -676,12 +897,20 @@ input[type=date].sv-input{display:block;text-align:left}
 }
 @keyframes sv-pop{from{opacity:0;transform:translateY(24px) scale(.94)}}
 .sv-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border:0;border-radius:50%;display:grid;place-items:center;background:var(--field);color:var(--ink-soft);cursor:pointer}
+
+.sv-ticket-top{position:relative;display:inline-block;line-height:0}
+.sv-ticket-photo{
+  width:112px;height:112px;border-radius:50%;object-fit:cover;display:block;
+  border:4px solid #fff;box-shadow:0 10px 26px -8px rgba(13,27,46,.55), 0 0 0 3px var(--green);
+  animation:sv-stamp .6s .2s cubic-bezier(.3,1.6,.5,1) both;
+}
 .sv-seal{width:112px;height:112px;animation:sv-stamp .6s .45s cubic-bezier(.3,1.6,.5,1) both}
+.sv-seal.is-small{position:absolute;right:-14px;bottom:-12px;width:50px;height:50px;border-radius:50%;background:#fff;box-shadow:0 6px 14px -4px rgba(0,0,0,.35)}
 .sv-seal-ring{fill:rgba(22,163,127,.1);stroke:var(--green);stroke-width:5;stroke-dasharray:330;stroke-dashoffset:330;animation:sv-draw .7s .1s ease forwards}
 .sv-seal-check{fill:none;stroke:var(--green);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:90;stroke-dashoffset:90;animation:sv-draw .45s .55s ease forwards}
 @keyframes sv-draw{to{stroke-dashoffset:0}}
 @keyframes sv-stamp{from{transform:scale(1.35) rotate(-10deg)}to{transform:none}}
-.sv-ticket h2{margin:6px 0 2px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,7vw,34px);color:var(--green);animation:sv-rise .5s .8s both}
+.sv-ticket h2{margin:10px 0 2px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,7vw,34px);color:var(--green);animation:sv-rise .5s .8s both}
 .sv-ticket-name{margin:0 0 18px;font-size:18px;font-weight:700;animation:sv-rise .5s .9s both}
 .sv-facts{margin:0 0 22px;padding:6px 16px;text-align:left;border-radius:16px;background:var(--field);animation:sv-rise .5s 1s both}
 .sv-facts div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px dashed #cdd8e6}
@@ -718,6 +947,9 @@ input[type=date].sv-input{display:block;text-align:left}
   .sv-actions{flex-direction:column-reverse;align-items:stretch;gap:8px}
   .sv-submit,.sv-ghost{width:100%}
   .sv-lookup{padding:14px}
+  .sv-photo-row{flex-direction:column;text-align:center;gap:16px}
+  .sv-photo{width:132px;height:158px}
+  .sv-photo-btns{justify-content:center}
   .sv-ticket{padding:26px 18px 20px;border-radius:22px}
 }
 

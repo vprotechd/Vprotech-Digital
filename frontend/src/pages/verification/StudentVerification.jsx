@@ -7,12 +7,15 @@ import designBg from "../../assets/designn.jpg";
  * StudentVerification
  * Usage: <StudentVerification />
  *
+ * Flow: only the Reference number box is shown at first. After the student enters it
+ * and clicks "Look up" (or presses Enter), all the other details appear, filled in.
+ *
  * Props
  *  - navOffset        space kept free for your fixed navbar (number = px, or any CSS value). Default 80px.
  *  - backgroundImage  override the background picture (defaults to ../assets/designn.jpg)
  *
  * No dependencies besides React. Styles are scoped under .sv-root.
- * Replace `fetchStudent` with your real API call.
+ * Replace `fetchStudent` with your real API call (return null when nothing is found).
  */
 
 const EMPTY = {
@@ -33,6 +36,7 @@ const EMPTY = {
 const REQUIRED = Object.keys(EMPTY);
 
 // --- Demo lookup. Swap for a real request, e.g. fetch(`/api/students/${ref}`) ---
+// Return null/undefined when the reference number does not exist.
 const fetchStudent = (reference) =>
   new Promise((resolve) =>
     setTimeout(
@@ -176,6 +180,7 @@ export default function StudentVerification({
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [found, setFound] = useState(false); // details stay hidden until a lookup succeeds
   const [verified, setVerified] = useState(false);
   const [fillWave, setFillWave] = useState(0); // bumps to replay the fill animation
   const refInput = useRef(null);
@@ -199,21 +204,34 @@ export default function StudentVerification({
   };
 
   const handleShow = async () => {
+    if (loading) return;
     if (!values.reference.trim()) {
       setErrors((er) => ({ ...er, reference: "Enter the reference number" }));
       refInput.current?.focus();
       return;
     }
     setLoading(true);
-    const data = await fetchStudent(values.reference.trim());
-    setValues((v) => ({ ...v, ...data }));
-    setErrors({});
-    setFillWave((n) => n + 1);
-    setLoading(false);
+    try {
+      const data = await fetchStudent(values.reference.trim());
+      if (!data) {
+        setFound(false);
+        setErrors({ reference: "No student found with this reference number" });
+        return;
+      }
+      setValues((v) => ({ ...v, ...data }));
+      setErrors({});
+      setFound(true);
+      setFillWave((n) => n + 1);
+    } catch {
+      setErrors({ reference: "Could not look this up. Please try again." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!found) return handleShow(); // Enter key before lookup = look up
     const er = validate(values);
     setErrors(er);
     if (Object.keys(er).length === 0) setVerified(true);
@@ -223,7 +241,9 @@ export default function StudentVerification({
     setValues(EMPTY);
     setErrors({});
     setVerified(false);
+    setFound(false);
     setFillWave(0);
+    setTimeout(() => refInput.current?.focus(), 0);
   };
 
   // Row-by-row stagger so looked-up data fills in one after another
@@ -297,20 +317,24 @@ export default function StudentVerification({
 
         {/* ---------------- right: form card ---------------- */}
         <main className={`sv-card ${loading ? "is-loading" : ""}`}>
-          <div className="sv-bar" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
-            <i style={{ width: `${progress}%` }} />
+          <div className="sv-bar" role="progressbar" aria-valuenow={found ? progress : 0} aria-valuemin={0} aria-valuemax={100}>
+            <i style={{ width: `${found ? progress : 0}%` }} />
           </div>
 
           <header className="sv-card-head">
             <div>
-              <h2>Student details</h2>
-              <p>Details fill in automatically after lookup.</p>
+              <h2>{found ? "Student details" : "Find a student"}</h2>
+              <p>
+                {found
+                  ? "Review the details below, then confirm."
+                  : "Enter the reference number to see the student’s details."}
+              </p>
             </div>
-            <span className="sv-pill">{progress}% complete</span>
+            {found && <span className="sv-pill">{progress}% complete</span>}
           </header>
 
           <form className="sv-form" onSubmit={handleSubmit} noValidate>
-            {/* lookup */}
+            {/* lookup (always visible) */}
             <div className="sv-lookup">
               <label className="sv-label" htmlFor="reference">
                 Reference number
@@ -326,6 +350,7 @@ export default function StudentVerification({
                     onChange={set("reference")}
                     placeholder="e.g. STU-2024-0148"
                     autoComplete="off"
+                    autoFocus
                   />
                 </div>
                 <button
@@ -345,99 +370,104 @@ export default function StudentVerification({
               </span>
             </div>
 
-            {/* student */}
-            <Section icon="user" title="Student" />
-            <div className="sv-grid">
-              <Field label="First name" id="firstName" error={errors.firstName} icon="user">
-                <input {...bind("firstName", 0, { autoComplete: "given-name" })} />
-              </Field>
-              <Field label="Last name" id="lastName" error={errors.lastName} icon="user">
-                <input {...bind("lastName", 1, { autoComplete: "family-name" })} />
-              </Field>
-              <Field label="Father’s name" id="fatherName" error={errors.fatherName} icon="user">
-                <input {...bind("fatherName", 2)} />
-              </Field>
-              <Field label="Gender" id="gender-Male" error={errors.gender}>
-                <div
-                  className={`sv-segment ${fillClass}`}
-                  style={fillStyle(3)}
-                  role="radiogroup"
-                  aria-label="Gender"
-                >
-                  {["Male", "Female", "Other"].map((g) => (
-                    <button
-                      key={g}
-                      id={`gender-${g}`}
-                      type="button"
-                      role="radio"
-                      aria-checked={values.gender === g}
-                      className={values.gender === g ? "is-active" : ""}
-                      onClick={() => {
-                        setValues((v) => ({ ...v, gender: g }));
-                        setErrors((er) => ({ ...er, gender: undefined }));
-                      }}
+            {/* everything below appears only after a successful lookup */}
+            {found && (
+              <div className="sv-details">
+                {/* student */}
+                <Section icon="user" title="Student" />
+                <div className="sv-grid">
+                  <Field label="First name" id="firstName" error={errors.firstName} icon="user">
+                    <input {...bind("firstName", 0, { autoComplete: "given-name" })} />
+                  </Field>
+                  <Field label="Last name" id="lastName" error={errors.lastName} icon="user">
+                    <input {...bind("lastName", 1, { autoComplete: "family-name" })} />
+                  </Field>
+                  <Field label="Father’s name" id="fatherName" error={errors.fatherName} icon="user">
+                    <input {...bind("fatherName", 2)} />
+                  </Field>
+                  <Field label="Gender" id="gender-Male" error={errors.gender}>
+                    <div
+                      className={`sv-segment ${fillClass}`}
+                      style={fillStyle(3)}
+                      role="radiogroup"
+                      aria-label="Gender"
                     >
-                      {g}
-                    </button>
-                  ))}
+                      {["Male", "Female", "Other"].map((g) => (
+                        <button
+                          key={g}
+                          id={`gender-${g}`}
+                          type="button"
+                          role="radio"
+                          aria-checked={values.gender === g}
+                          className={values.gender === g ? "is-active" : ""}
+                          onClick={() => {
+                            setValues((v) => ({ ...v, gender: g }));
+                            setErrors((er) => ({ ...er, gender: undefined }));
+                          }}
+                        >
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                  </Field>
                 </div>
-              </Field>
-            </div>
 
-            {/* contact */}
-            <Section icon="mail" title="Contact" />
-            <div className="sv-grid">
-              <Field label="Email" id="email" error={errors.email} icon="mail">
-                <input {...bind("email", 4, { type: "email", autoComplete: "email" })} />
-              </Field>
-              <Field label="Phone" id="phone" error={errors.phone} icon="phone">
-                <input
-                  {...bind("phone", 5, {
-                    type: "tel",
-                    inputMode: "numeric",
-                    maxLength: 10,
-                    autoComplete: "tel",
-                  })}
-                />
-              </Field>
-            </div>
+                {/* contact */}
+                <Section icon="mail" title="Contact" />
+                <div className="sv-grid">
+                  <Field label="Email" id="email" error={errors.email} icon="mail">
+                    <input {...bind("email", 4, { type: "email", autoComplete: "email" })} />
+                  </Field>
+                  <Field label="Phone" id="phone" error={errors.phone} icon="phone">
+                    <input
+                      {...bind("phone", 5, {
+                        type: "tel",
+                        inputMode: "numeric",
+                        maxLength: 10,
+                        autoComplete: "tel",
+                      })}
+                    />
+                  </Field>
+                </div>
 
-            {/* training */}
-            <Section icon="book" title="Training" />
-            <div className="sv-grid">
-              <Field label="College name / address" id="college" span error={errors.college} icon="college">
-                <input {...bind("college", 6)} />
-              </Field>
-              <Field label="Course" id="course" span error={errors.course} icon="book">
-                <input {...bind("course", 7)} />
-              </Field>
-              <Field label="Duration" id="duration" error={errors.duration} icon="clock">
-                <input {...bind("duration", 8, { placeholder: "e.g. 6 months" })} />
-              </Field>
-              <Field label="Joining date" id="joiningDate" error={errors.joiningDate} icon="calendar">
-                <input {...bind("joiningDate", 9, { type: "date" })} />
-              </Field>
-            </div>
+                {/* training */}
+                <Section icon="book" title="Training" />
+                <div className="sv-grid">
+                  <Field label="College name / address" id="college" span error={errors.college} icon="college">
+                    <input {...bind("college", 6)} />
+                  </Field>
+                  <Field label="Course" id="course" span error={errors.course} icon="book">
+                    <input {...bind("course", 7)} />
+                  </Field>
+                  <Field label="Duration" id="duration" error={errors.duration} icon="clock">
+                    <input {...bind("duration", 8, { placeholder: "e.g. 6 months" })} />
+                  </Field>
+                  <Field label="Joining date" id="joiningDate" error={errors.joiningDate} icon="calendar">
+                    <input {...bind("joiningDate", 9, { type: "date" })} />
+                  </Field>
+                </div>
 
-            {/* address */}
-            <Section icon="pin" title="Address" />
-            <div className="sv-grid">
-              <Field label="Full address" id="address" span error={errors.address}>
-                <textarea
-                  {...bind("address", 10, { rows: 3 })}
-                  className={`sv-input sv-textarea ${fillClass} ${errors.address ? "has-error" : ""}`}
-                />
-              </Field>
-            </div>
+                {/* address */}
+                <Section icon="pin" title="Address" />
+                <div className="sv-grid">
+                  <Field label="Full address" id="address" span error={errors.address}>
+                    <textarea
+                      {...bind("address", 10, { rows: 3 })}
+                      className={`sv-input sv-textarea ${fillClass} ${errors.address ? "has-error" : ""}`}
+                    />
+                  </Field>
+                </div>
 
-            <div className="sv-actions">
-              <button type="button" className="sv-ghost" onClick={reset}>
-                Clear form
-              </button>
-              <button type="submit" className="sv-submit">
-                Verify student
-              </button>
-            </div>
+                <div className="sv-actions">
+                  <button type="button" className="sv-ghost" onClick={reset}>
+                    Clear form
+                  </button>
+                  <button type="submit" className="sv-submit">
+                    Verify student
+                  </button>
+                </div>
+              </div>
+            )}
           </form>
         </main>
       </div>
@@ -577,7 +607,7 @@ const css = `
 .sv-card-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px clamp(18px,4vw,34px) 6px}
 .sv-card-head h2{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(21px,3vw,26px);font-weight:800;letter-spacing:-.01em}
 .sv-card-head p{margin:3px 0 0;font-size:13.5px;color:var(--ink-soft)}
-.sv-pill{flex:none;padding:6px 12px;border-radius:999px;background:#e8f1ff;color:var(--blue-dark);font-size:12.5px;font-weight:700}
+.sv-pill{flex:none;padding:6px 12px;border-radius:999px;background:#e8f1ff;color:var(--blue-dark);font-size:12.5px;font-weight:700;animation:sv-rise .5s both}
 
 .sv-form{padding:10px clamp(18px,4vw,34px) clamp(22px,4vw,32px)}
 
@@ -585,6 +615,10 @@ const css = `
 .sv-lookup{margin-top:12px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#eaf3ff,#f4f9ff);border:1px dashed #a9c8f5}
 .sv-inline{display:flex;gap:10px}
 .sv-inline .sv-ctl{flex:1;min-width:0}
+
+/* details revealed after lookup */
+.sv-details{animation:sv-reveal .65s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sv-reveal{from{opacity:0;transform:translateY(18px)}}
 
 /* section headers */
 .sv-sec{display:flex;align-items:center;gap:10px;margin:22px 0 6px}
@@ -629,8 +663,8 @@ input[type=date].sv-input{display:block;text-align:left}
 @keyframes sv-flash{0%{background:#c7e0ff;transform:scale(1.012)}100%{background:var(--field);transform:none}}
 @keyframes sv-flash-b{0%{background:#c7e0ff;transform:scale(1.012)}100%{background:var(--field);transform:none}}
 
-/* shimmer while the lookup runs */
-.sv-card.is-loading .sv-input,.sv-card.is-loading .sv-segment{
+/* shimmer on the lookup box while the lookup runs */
+.sv-card.is-loading .sv-lookup .sv-input{
   background-image:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.85) 50%,transparent 100%);
   background-size:220% 100%; animation:sv-shimmer 1.1s linear infinite;
 }
